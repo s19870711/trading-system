@@ -1,0 +1,179 @@
+{
+  "schema_version": "1.0",
+  "description": "模型版本控制日誌 — 記錄所有Agent/策略參數變更、上線前後IC驗證對比",
+  "created_at": "2026-03-03T03:47:00Z",
+  "last_updated": "2026-03-03T03:47:00Z",
+  "agents": {
+    "strategy-performance-attribution-analyst": {
+      "current_version": "2.0",
+      "versions": [
+        {
+          "version": "1.0",
+          "deployed_at": "2026-01-01T00:00:00Z",
+          "description": "初始版本：Sharpe/勝率/最大回撤/期望值計算，Kelly倉位優化",
+          "changes": [],
+          "pre_deploy_ic": null,
+          "post_deploy_ic_20d": null,
+          "post_deploy_ic_60d": null,
+          "validation_status": "BASELINE"
+        },
+        {
+          "version": "2.0",
+          "deployed_at": "2026-03-03T03:47:00Z",
+          "description": "P1補強：新增Alpha Decay監控管道 — 滾動IC趨勢追蹤、IC t-stat計算、訊號衰減自動警報、model_version_log.json整合",
+          "changes": [
+            "新增每日IC_today計算",
+            "新增滾動IC_20d / IC_60d / IC_std",
+            "新增IC t-stat = IC_mean / (IC_std / sqrt(N))",
+            "新增IR = IC_mean / IC_std",
+            "新增Alpha Decay狀態機：HEALTHY / WATCH / DECAY_WARNING / DEAD_SIGNAL",
+            "新增DECAY_WARNING連續3日觸發Telegram警報",
+            "新增DEAD_SIGNAL強制紅色緊急Telegram",
+            "新增Kelly分數動態更新依最新IC/IR",
+            "新增每週六IC趨勢圖報告",
+            "新增P&L分解：市場Beta + 動量因子 + 殘差Alpha",
+            "新增model_version_log.json寫入機制"
+          ],
+          "pre_deploy_ic": null,
+          "post_deploy_ic_20d": null,
+          "post_deploy_ic_60d": null,
+          "validation_status": "PENDING_VALIDATION",
+          "notes": "需要20個交易日後計算post_deploy_ic_20d以驗證改版效果"
+        }
+      ]
+    },
+    "order-execution-engine": {
+      "current_version": "2.0",
+      "versions": [
+        {
+          "version": "1.0",
+          "deployed_at": "2026-01-01T00:00:00Z",
+          "description": "初始版本：風控檢查、低延遲執行、滑價追蹤、成交對帳",
+          "changes": [],
+          "pre_deploy_implementation_shortfall_bps": null,
+          "post_deploy_implementation_shortfall_bps": null,
+          "validation_status": "BASELINE"
+        },
+        {
+          "version": "2.0",
+          "deployed_at": "2026-03-03T03:47:00Z",
+          "description": "P2+P5補強：Pre-trade TCA整合 + 6層Compliance規則引擎",
+          "changes": [
+            "新增6層Compliance門禁：L1部位限額/L2集中度/L3黑名單/L4短沖驗證/L5信用額度/L6異常訂單",
+            "新增Pre-trade Kyle Lambda估算：λ = |ΔP| / √Volume（20日校準）",
+            "新增預估市場衝擊：Impact = λ × √委託量 × 波動率調整係數",
+            "新增大單自動TWAP拆單（預估滑價>0.3%觸發）",
+            "新增VWAP/TWAP基準追蹤",
+            "新增Post-trade TCA歸因：佣金+Spread+Kyle衝擊+Timing成本",
+            "新增Implementation Shortfall計算",
+            "新增每日執行品質報告：data/tca_daily_report_YYYYMMDD.json",
+            "新增委託稽核日誌：data/execution_audit_log.json"
+          ],
+          "pre_deploy_implementation_shortfall_bps": null,
+          "post_deploy_implementation_shortfall_bps": null,
+          "validation_status": "PENDING_VALIDATION",
+          "notes": "目標IS控制在20bps以內。需要10個交易日後計算實際IS均值"
+        }
+      ]
+    },
+    "m18-factor-decomposition-engine": {
+      "current_version": "1.0",
+      "versions": [
+        {
+          "version": "1.0",
+          "deployed_at": "2026-03-03T03:47:00Z",
+          "description": "P3全新建立：Barra式5因子分解引擎 — 市場Beta/動量/品質/規模/價值因子OLS回歸",
+          "changes": [
+            "全新Agent建立",
+            "5因子OLS回歸（statsmodels）",
+            "每日P&L = 因子貢獻 + 殘差Alpha",
+            "Alpha品質評級：S/A/B/C/D",
+            "True Skill Ratio計算",
+            "Information Ratio計算",
+            "每日m18_factor_decomposition_YYYYMMDD.json輸出",
+            "Telegram Alpha品質排行榜廣播"
+          ],
+          "pre_deploy_ic": null,
+          "post_deploy_alpha_ratio": null,
+          "validation_status": "NEW_DEPLOYMENT",
+          "notes": "台股因子使用US因子ETF代理（SPY/MTUM/QUAL/IWM/IVW），後續可替換為TWSE專屬因子序列"
+        }
+      ]
+    },
+    "options-market-structure-analyst": {
+      "current_version": "2.0",
+      "versions": [
+        {
+          "version": "1.0",
+          "deployed_at": "2026-01-01T00:00:00Z",
+          "description": "初始版本：PCR/IV Skew/GEX/Max Pain分析，方向性偏向報告",
+          "changes": [],
+          "validation_status": "BASELINE"
+        },
+        {
+          "version": "2.0",
+          "deployed_at": "2026-03-03T03:47:00Z",
+          "description": "P4補強：整合選擇權訊號至當沖選股評分 + 信用市場HY/IG裂口指標",
+          "changes": [
+            "新增Options_Signal_Score輸出（-100到+100）",
+            "新增PCR評分映射：PCR<0.7=+30分，PCR>1.3=-30分",
+            "新增GEX方向性整合至當沖評分",
+            "新增信用市場HY/IG裂口監控：FRED BAMLH0A0HYM2 vs BAMLC0A0CM",
+            "新增Credit_Spread_Gap懲罰機制：>350bps=-50分",
+            "新增data/options_signal_YYYYMMDD.json輸出",
+            "訊號整合至台股當沖選股系統"
+          ],
+          "validation_status": "PENDING_VALIDATION",
+          "notes": "首次整合信用市場指標，需監控與當沖勝率的相關性"
+        }
+      ]
+    },
+    "hedge-fund-risk-controller": {
+      "current_version": "2.0",
+      "versions": [
+        {
+          "version": "1.0",
+          "deployed_at": "2026-01-01T00:00:00Z",
+          "description": "初始版本：VaR/Sharpe/回撤/Beta計算，投資組合構建與動態再平衡，避險策略設計，流動性評估，黑天鵝情境壓力測試",
+          "changes": [],
+          "validation_status": "BASELINE"
+        },
+        {
+          "version": "2.0",
+          "deployed_at": "2026-03-03T03:47:00Z",
+          "description": "P6補強：Amihud Illiquidity Ratio日常追蹤 + 尾部流動性壓力測試 + 分層Kyle Lambda建模",
+          "changes": [
+            "新增Amihud ILLIQ_i = mean(|R_t| / Volume_t) 日常追蹤",
+            "新增z_ILLIQ標準化：z > 1.5 = ILLIQUID警告，z > 2.5 = CRITICAL立即告警",
+            "新增流動性調整VaR：VaR_adj = VaR_base × (1 + 0.5×z_ILLIQ)",
+            "新增Days_to_Exit快測：總倉位 / (0.2×日均量)",
+            "新增尾部流動性壓力測試3情境：正常/流動性壓力(量-50%)/崩潰(量-80%)",
+            "新增Kyle Lambda分層建模：小單/中單/大單三級衝擊係數分別建模",
+            "新增每日data/liquidity_risk_YYYYMMDD.json輸出",
+            "新增季度完整尾部流動性壓力測試報告"
+          ],
+          "validation_status": "PENDING_VALIDATION",
+          "notes": "Days_to_Exit > 5天應視為集中度風險紅燈"
+        }
+      ]
+    }
+  },
+  "validation_protocol": {
+    "description": "每次Agent版本更新的IC驗證流程",
+    "steps": [
+      "1. 記錄pre_deploy_ic（部署前最近20日IC均值）",
+      "2. 部署新版本，設validation_status=PENDING_VALIDATION",
+      "3. 等待20個交易日，由Strategy Attribution Agent自動計算post_deploy_ic_20d",
+      "4. 若post_deploy_ic_20d >= pre_deploy_ic × 0.9，設validation_status=VALIDATED",
+      "5. 若post_deploy_ic_20d < pre_deploy_ic × 0.9，設validation_status=REGRESSION，觸發回滾評估",
+      "6. 等待60個交易日，計算post_deploy_ic_60d完成長期驗證"
+    ],
+    "auto_rollback_threshold": "post_deploy_ic_20d < pre_deploy_ic × 0.7（IC下滑超過30%自動建議回滾）",
+    "notification": "所有版本狀態變更推送Telegram chat_id=6904817875"
+  },
+  "ic_validation_schedule": {
+    "t_plus_20_check": "2026-04-02",
+    "t_plus_60_check": "2026-05-29",
+    "responsible_agent": "strategy-performance-attribution-analyst"
+  }
+}
