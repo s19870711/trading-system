@@ -1,0 +1,352 @@
+{
+  "schema_version": "v11",
+  "generated_by": "Portfolio Strategy Commander",
+  "generated_at_utc": "2026-03-05T01:44:00Z",
+  "generated_at_cst": "2026-03-05T09:44:00+08:00",
+  "date": "2026-03-05",
+  "session": "DAY_SESSION_0900_1330_CST",
+  "execution_id": "tsk_tr_0699d8a61d457ee9_1772672400000",
+
+  "gate_framework": {
+    "version": "v11",
+    "layer_1_rule": "4位角色投票一致性 >= 75% => VALID; < 75% => BELOW_THRESHOLD",
+    "layer_2_rule": "M11 RED/CRASH => 所有信心分數 x 0.7",
+    "layer_3_rule": "有效訊號率 = VALID筆數 / 總訊號數"
+  },
+
+  "m11_status": "RED",
+  "m11_confidence_multiplier": 0.7,
+  "kelly_multiplier": 0.5,
+  "circuit_breaker_active": false,
+  "vix_current": 21.15,
+  "vix_crisis_threshold": 25.0,
+  "vix_distance_to_crisis": 3.85,
+
+  "signals": [
+    {
+      "signal_id": "DT_2603_20260305_001",
+      "stock": "2603",
+      "name": "長榮",
+      "market": "TW_DAYTRADE",
+      "direction": "LONG",
+      "entry_zone": "216.0-217.2",
+      "stop_loss": 212.3,
+      "target_1": 220.9,
+      "target_2": 225.3,
+      "votes": {
+        "daytrade": "LONG",
+        "wave": "LONG_WATCH",
+        "futures": "NEUTRAL",
+        "intel": "LONG"
+      },
+      "vote_detail": {
+        "daytrade": "當沖指揮官：S1訊號，進場216-217.2，法人買超2674張，流動性充足",
+        "wave": "波段指揮官：LONG_WATCH，等待回測205-208，記為同向觀察",
+        "futures": "期貨指揮官：無直接股票指向，對航運類中性",
+        "intel": "情報官：S1評級85分，列preferred_operations首選，流動性充足"
+      },
+      "consistent_long_votes": 3,
+      "total_votes": 4,
+      "consistency": 0.75,
+      "gate_layer1": "PASS",
+      "gate_layer1_note": "3/4角色同向LONG或LONG_WATCH，一致性75%達門檻",
+      "confidence_raw": 85,
+      "historical_confidence_bonus": 0,
+      "historical_note": "2603無直接歷史勝率數據，航運板塊情報官評為OUTPERFORM",
+      "confidence_before_m11": 85,
+      "gate_layer2_m11_multiplier": 0.7,
+      "confidence_adjusted": 59.5,
+      "confidence_adjusted_rounded": 60,
+      "gate_layer2": "APPLIED",
+      "gate_layer2_note": "M11 RED => 85 x 0.7 = 59.5",
+      "gate_result": "VALID",
+      "training_valid": true,
+      "risk_reward_ratio": 2.1,
+      "rr_check": "PASS",
+      "notes": "長榮S1最高分訊號，法人買超強力支撐，M11 RED下Kelly×0.5建議倉位2張(約43萬TWD)"
+    },
+    {
+      "signal_id": "DT_2609_20260305_002",
+      "stock": "2609",
+      "name": "陽明",
+      "market": "TW_DAYTRADE",
+      "direction": "LONG",
+      "entry_zone": "65.6-66.0",
+      "stop_loss": 64.8,
+      "target_1": 67.1,
+      "target_2": 68.4,
+      "votes": {
+        "daytrade": "LONG",
+        "wave": "LONG_WATCH",
+        "futures": "NEUTRAL",
+        "intel": "LONG"
+      },
+      "vote_detail": {
+        "daytrade": "當沖指揮官：進場65.6-66，止盈67.1/68.4，法人買超極強48716張",
+        "wave": "波段指揮官：LONG_WATCH，等待回測VWAP 62-63.5，同向觀察",
+        "futures": "期貨指揮官：無直接股票指向，對航運類中性",
+        "intel": "情報官：S2評級73分，法人買超為今日監控清單最高，流動性最佳"
+      },
+      "consistent_long_votes": 3,
+      "total_votes": 4,
+      "consistency": 0.75,
+      "gate_layer1": "PASS",
+      "gate_layer1_note": "3/4角色同向LONG或LONG_WATCH，一致性75%達門檻",
+      "confidence_raw": 73,
+      "historical_confidence_bonus": 0,
+      "historical_note": "2609無直接歷史勝率數據，外資淨買48716張為全清單最強",
+      "confidence_before_m11": 73,
+      "gate_layer2_m11_multiplier": 0.7,
+      "confidence_adjusted": 51.1,
+      "confidence_adjusted_rounded": 51,
+      "gate_layer2": "APPLIED",
+      "gate_layer2_note": "M11 RED => 73 x 0.7 = 51.1",
+      "gate_result": "VALID",
+      "training_valid": true,
+      "risk_reward_ratio": 2.0,
+      "rr_check": "PASS",
+      "notes": "陽明法人買超為今日所有標的最強，流動性最佳，M11 RED下Kelly×0.5建議7-8張(約47萬TWD)"
+    },
+    {
+      "signal_id": "DT_2313_20260305_003",
+      "stock": "2313",
+      "name": "華通",
+      "market": "TW_DAYTRADE",
+      "direction": "LONG",
+      "entry_zone": "216.6-218.0",
+      "stop_loss": 214.0,
+      "target_1": 221.6,
+      "target_2": 226.0,
+      "votes": {
+        "daytrade": "LONG",
+        "wave": "LONG_WATCH",
+        "futures": "NEUTRAL",
+        "intel": "LONG"
+      },
+      "vote_detail": {
+        "daytrade": "當沖指揮官：進場216.6-218，止盈221.6/226，法人買超13331張",
+        "wave": "波段指揮官：LONG_WATCH，等待回測218-221缺口，同向觀察",
+        "futures": "期貨指揮官：無直接股票指向，PCB板塊中性",
+        "intel": "情報官：S2評級73分，跳空7.11%+法人同向，振幅12.32%需注意"
+      },
+      "consistent_long_votes": 3,
+      "total_votes": 4,
+      "consistency": 0.75,
+      "gate_layer1": "PASS",
+      "gate_layer1_note": "3/4角色同向LONG或LONG_WATCH，一致性75%達門檻",
+      "confidence_raw": 73,
+      "historical_confidence_bonus": 0,
+      "historical_note": "2313無直接歷史勝率數據，PCB板塊評WATCH，振幅偏高需注意",
+      "confidence_before_m11": 73,
+      "gate_layer2_m11_multiplier": 0.7,
+      "confidence_adjusted": 51.1,
+      "confidence_adjusted_rounded": 51,
+      "gate_layer2": "APPLIED",
+      "gate_layer2_note": "M11 RED => 73 x 0.7 = 51.1",
+      "gate_result": "VALID",
+      "training_valid": true,
+      "risk_reward_ratio": 2.0,
+      "rr_check": "PASS",
+      "notes": "華通跳空7.11%+法人強買，但振幅高達12.32%，M11 RED下止損1.5%更嚴格，需謹慎"
+    },
+    {
+      "signal_id": "DT_2382_20260305_004",
+      "stock": "2382",
+      "name": "廣達",
+      "market": "TW_DAYTRADE",
+      "direction": "LONG_CAUTION",
+      "entry_zone": "284.3-286.1",
+      "stop_loss": 279.5,
+      "target_1": 289.5,
+      "target_2": 293.8,
+      "votes": {
+        "daytrade": "LONG_CAUTION",
+        "wave": "CAUTION_OBSERVE",
+        "futures": "NEUTRAL_NEGATIVE",
+        "intel": "CAUTION"
+      },
+      "vote_detail": {
+        "daytrade": "當沖指揮官：LONG謹慎，標註US_TECH_RISK，進場284.3-286.1",
+        "wave": "波段指揮官：CAUTION_OBSERVE，action=BLOCKED_US_TECH_RISK，signal_quality=BELOW_THRESHOLD",
+        "futures": "期貨指揮官：AI伺服器類NVDA-6.4%重挫，對2382直接負面壓制，整體LEAN_SHORT",
+        "intel": "情報官：strategy_hint建議量縮反彈/VWAP確認，技術偏弱(跌破MA5/MA10)"
+      },
+      "consistent_long_votes": 1,
+      "total_votes": 4,
+      "consistency": 0.25,
+      "gate_layer1": "FAIL",
+      "gate_layer1_note": "一致性僅25%，遠低於75%門檻。波段/期貨/情報三角色均標記CAUTION或BLOCKED，與當沖LONG_CAUTION形成分歧",
+      "below_threshold_reasons": [
+        "波段指揮官明確標記BLOCKED_US_TECH_RISK，signal_quality=BELOW_THRESHOLD",
+        "期貨指揮官：NVDA -6.40% / TSM ADR -7.81%直接壓制AI伺服器族群",
+        "情報官：技術面跌破MA5/MA10，strategy_hint等待VWAP確認而非進場",
+        "M11 RED狀態下AI伺服器族群列forbidden_operations觀察範疇"
+      ],
+      "confidence_raw": 55,
+      "historical_confidence_bonus": 0,
+      "confidence_before_m11": 55,
+      "gate_layer2_m11_multiplier": 0.7,
+      "confidence_adjusted": 38.5,
+      "confidence_adjusted_rounded": 39,
+      "gate_layer2": "APPLIED",
+      "gate_layer2_note": "M11 RED => 55 x 0.7 = 38.5（即使通過Layer 1仍會被降到38.5分）",
+      "gate_result": "BELOW_THRESHOLD",
+      "training_valid": false,
+      "risk_reward_ratio": 1.4,
+      "rr_check": "FAIL",
+      "notes": "廣達一致性僅25%，美股科技壓制明確，不計入有效訓練筆數。風報比1.4亦未達2.0門檻。"
+    },
+    {
+      "signal_id": "FUT_TXFC6_20260305_001",
+      "stock": "TXFC6",
+      "name": "台指期近月",
+      "market": "TW_FUTURES",
+      "direction": "SHORT",
+      "entry_zone": "33800-33845",
+      "stop_loss": 33950,
+      "target_1": 33500,
+      "target_2": 33200,
+      "votes": {
+        "daytrade": "N/A",
+        "wave": "N/A",
+        "futures_technical": "SHORT",
+        "futures_gamma": "SHORT",
+        "futures_m11": "NEUTRAL_LEAN_SHORT",
+        "futures_crossmarket": "SHORT"
+      },
+      "vote_detail": {
+        "futures_technical": "期指技術分析：低於Gamma Flip 33951，做市商對沖傾向賣出",
+        "futures_gamma": "Gamma Exposure：BELOW_GAMMA_FLIP，下行壓力大",
+        "futures_m11": "M11方向限制：NEUTRAL_LEAN_SHORT，多頭需33951確認",
+        "futures_crossmarket": "跨市場：TSM ADR -7.81%、NVDA -6.40%、VIX +13.53%全面看空"
+      },
+      "consistent_short_votes": 3.5,
+      "total_votes": 4,
+      "consistency": 0.875,
+      "gate_layer1": "PASS",
+      "gate_layer1_note": "87.5%一致性（M11=LEAN_SHORT計0.5票），遠超75%門檻",
+      "confidence_raw": 80,
+      "historical_confidence_bonus": 0,
+      "confidence_before_m11": 80,
+      "gate_layer2_m11_multiplier": 0.7,
+      "confidence_adjusted": 56,
+      "confidence_adjusted_rounded": 56,
+      "gate_layer2": "APPLIED",
+      "gate_layer2_note": "M11 RED => 80 x 0.7 = 56",
+      "gate_result": "VALID",
+      "training_valid": true,
+      "lots_recommended": 1,
+      "margin_twd": 184000,
+      "risk_per_lot_twd": 6500,
+      "risk_reward_ratio": 4.9,
+      "rr_check": "PASS",
+      "notes": "台指期唯一有效空單訊號，87.5%高一致性，VIX升壓+Gamma Flip下方+ADR背離三重確認"
+    }
+  ],
+
+  "layer3_quality_summary": {
+    "total_signals": 5,
+    "valid_count": 4,
+    "below_threshold_count": 1,
+    "valid_rate": "4/5 = 80.0%",
+    "valid_signals": ["2603長榮", "2609陽明", "2313華通", "台指期SHORT"],
+    "below_threshold_signals": ["2382廣達"],
+    "quality_grade": "B+",
+    "quality_note": "80%有效訊號率，高於60%基準線，顯示今日各指揮官角色投票收斂度良好。唯一失格訊號（廣達）系因美股科技壓制導致跨角色分歧，屬合理拒絕。"
+  },
+
+  "m11_impact_summary": {
+    "m11_state": "RED",
+    "signals_before_penalty": [
+      {"stock": "2603", "confidence_raw": 85},
+      {"stock": "2609", "confidence_raw": 73},
+      {"stock": "2313", "confidence_raw": 73},
+      {"stock": "2382", "confidence_raw": 55},
+      {"stock": "TXFC6", "confidence_raw": 80}
+    ],
+    "signals_after_penalty": [
+      {"stock": "2603", "confidence_adjusted": 60},
+      {"stock": "2609", "confidence_adjusted": 51},
+      {"stock": "2313", "confidence_adjusted": 51},
+      {"stock": "2382", "confidence_adjusted": 39},
+      {"stock": "TXFC6", "confidence_adjusted": 56}
+    ],
+    "average_penalty_pct": -30.0,
+    "penalty_note": "M11 RED懲罰使平均信心從73.2降至51.2，降幅30%。有效提升風控保守度。",
+    "kelly_impact": "Kelly×0.5下，2603建議2張(原可4張)、2609建議7-8張(原可15張)、台指期1口維持"
+  },
+
+  "priority_ranking": [
+    {
+      "rank": 1,
+      "signal_id": "DT_2603_20260305_001",
+      "stock": "2603長榮",
+      "confidence_adjusted": 60,
+      "consistency": 0.75,
+      "rationale": "S1最高分、法人強買、流動性充足、當沖首選"
+    },
+    {
+      "rank": 2,
+      "signal_id": "FUT_TXFC6_20260305_001",
+      "stock": "台指期SHORT",
+      "confidence_adjusted": 56,
+      "consistency": 0.875,
+      "rationale": "一致性最高87.5%、風報比4.9最佳、跨市場全面支持"
+    },
+    {
+      "rank": 3,
+      "signal_id": "DT_2609_20260305_002",
+      "stock": "2609陽明",
+      "confidence_adjusted": 51,
+      "consistency": 0.75,
+      "rationale": "法人買超全清單最強48716張，流動性最佳"
+    },
+    {
+      "rank": 4,
+      "signal_id": "DT_2313_20260305_003",
+      "stock": "2313華通",
+      "confidence_adjusted": 51,
+      "consistency": 0.75,
+      "rationale": "PCB AI需求催化，但振幅偏高需謹慎"
+    }
+  ],
+
+  "daytrade_quota_status": {
+    "position_cap_twd": 1000000,
+    "turnover_cap_twd": 2000000,
+    "recommended_positions": {
+      "2603": {"lots": 2, "approx_twd": 434000, "note": "Kelly×0.5，2張@217"},
+      "2609": {"lots": 7, "approx_twd": 462000, "note": "Kelly×0.5，7張@66"},
+      "2313": {"lots": 2, "approx_twd": 434000, "note": "Kelly×0.5，2張@217，振幅高謹慎"}
+    },
+    "max_concurrent_position_twd": 1000000,
+    "turnover_used_estimate_twd": 0,
+    "cash_floor_pct": 70,
+    "warning": "M11 RED嚴格執行：最多同時2筆新進場，禁止盤中追價"
+  },
+
+  "tw_wave_quota_note": "TW_WAVE額度狀態 = CLEARED，所有波段LONG_WATCH為研究觀察訊號，不計入實際波段倉位",
+
+  "audit_log_entry": {
+    "timestamp": "2026-03-05T09:44:00+08:00",
+    "agent": "portfolio-strategy-commander",
+    "action": "SIGNAL_QUALITY_GATE_v11",
+    "signals_evaluated": 5,
+    "signals_passed": 4,
+    "signals_rejected": 1,
+    "rejected_signals": ["2382廣達 — 一致性25% < 75%門檻，US_TECH_RISK跨角色分歧"],
+    "m11_penalty_applied": true,
+    "m11_multiplier": 0.7,
+    "circuit_breaker_state": "NORMAL",
+    "quota_status_snapshot": {
+      "tw_wave": "CLEARED",
+      "us_wave": "未使用",
+      "futures": "未使用",
+      "daytrade": "未使用"
+    },
+    "ic_mean_snapshot": "N/A — IC tracker未讀取本場次",
+    "valid_rate": "4/5 = 80%"
+  },
+
+  "_integrity": "signal_quality_gate_v11_20260305_confirmed"
+}
