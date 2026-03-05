@@ -1,0 +1,353 @@
+{
+  "run_date": "2026-03-05",
+  "run_timestamp": "2026-03-05T06:03:00Z",
+  "engine": "M18 Factor Decomposition Engine v2.0",
+  "regime": "VOLATILE",
+  "regime_secondary": "BEAR_TREND",
+  "regime_confidence": 92.9,
+  "rating_threshold": "BEAR (applied for VOLATILE/BEAR_TREND)",
+  "data_note": "Strategy returns reconstructed from hypothesis_tracker signal outcomes + confirmed hypothesis P&L + market context. No live executed P&L available (all entries PENDING/WATCH).",
+  "strategies": [
+    {
+      "strategy_id": "ST001",
+      "strategy_name": "TX Bear Trend Short",
+      "period_days": 62,
+      "regime_applied": "VOLATILE/BEAR_TREND",
+      "total_pnl_pct_ann": -25.5661,
+      "factor_decomposition": {
+        "market": {
+          "beta": -0.8302,
+          "contribution_ann_pct": 22.2626,
+          "contribution_share_pct": 87.08,
+          "t_stat": -10.365,
+          "p_value": 0.0,
+          "significant": true
+        },
+        "momentum": {
+          "beta": 0.6222,
+          "contribution_ann_pct": -45.8098,
+          "contribution_share_pct": -179.18,
+          "t_stat": 5.435,
+          "p_value": 0.0,
+          "significant": true
+        },
+        "quality": {
+          "beta": -0.0424,
+          "contribution_ann_pct": 0.027,
+          "contribution_share_pct": 0.11,
+          "t_stat": -0.209,
+          "p_value": 0.8355,
+          "significant": false
+        },
+        "size": {
+          "beta": 0.6113,
+          "contribution_ann_pct": -54.4799,
+          "contribution_share_pct": -213.09,
+          "t_stat": 4.727,
+          "p_value": 0.0,
+          "significant": true
+        },
+        "value": {
+          "beta": 0.0561,
+          "contribution_ann_pct": -0.2115,
+          "contribution_share_pct": -0.83,
+          "t_stat": 0.363,
+          "p_value": 0.7176,
+          "significant": false
+        }
+      },
+      "alpha": {
+        "annualized_alpha_pct": 52.6455,
+        "daily_alpha_pct": 0.208911,
+        "alpha_t_stat": 1.517,
+        "alpha_p_value": 0.1349,
+        "alpha_significant": false
+      },
+      "model_quality": {
+        "r_squared": 0.7236,
+        "adj_r_squared": 0.6989,
+        "total_systematic_pct": 72.36,
+        "residual_idiosyncratic_pct": 27.64,
+        "information_ratio": -0.0,
+        "f_statistic": 29.316,
+        "f_p_value": 0.0
+      },
+      "dominant_factor": "size",
+      "true_skill_ratio": 2.0592,
+      "supplementary_flags": "",
+      "observations": 62,
+      "alpha_quality_rating": "C",
+      "alpha_quality_label": "WEAK ALPHA",
+      "alpha_quality_with_flags": "C",
+      "bear_regime_frozen": false,
+      "risk_alerts": {
+        "beta_surge": "False",
+        "ir_erosion": "True",
+        "high_systematic": "False"
+      }
+    },
+    {
+      "strategy_id": "ST002",
+      "strategy_name": "Crash Reversal Long",
+      "period_days": 62,
+      "regime_applied": "VOLATILE/BEAR_TREND",
+      "total_pnl_pct_ann": -45.0518,
+      "factor_decomposition": {
+        "market": {
+          "beta": 0.8727,
+          "contribution_ann_pct": -23.4008,
+          "contribution_share_pct": -51.94,
+          "t_stat": 11.029,
+          "p_value": 0.0,
+          "significant": true
+        },
+        "momentum": {
+          "beta": -0.5651,
+          "contribution_ann_pct": 41.6081,
+          "contribution_share_pct": 92.36,
+          "t_stat": -4.998,
+          "p_value": 0.0,
+          "significant": true
+        },
+        "quality": {
+          "beta": 0.0844,
+          "contribution_ann_pct": -0.0537,
+          "contribution_share_pct": -0.12,
+          "t_stat": 0.421,
+          "p_value": 0.6757,
+          "significant": false
+        },
+        "size": {
+          "beta": 0.0113,
+          "contribution_ann_pct": -1.0069,
+          "contribution_share_pct": -2.23,
+          "t_stat": 0.088,
+          "p_value": 0.9298,
+          "significant": false
+        },
+        "value": {
+          "beta": 0.2976,
+          "contribution_ann_pct": -1.1214,
+          "contribution_share_pct": -2.49,
+          "t_stat": 1.951,
+          "p_value": 0.056,
+          "significant": false
+        }
+      },
+      "alpha": {
+        "annualized_alpha_pct": -61.0771,
+        "daily_alpha_pct": -0.24237,
+        "alpha_t_stat": -1.782,
+        "alpha_p_value": 0.0802,
+        "alpha_significant": false
+      },
+      "model_quality": {
+        "r_squared": 0.7273,
+        "adj_r_squared": 0.7029,
+        "total_systematic_pct": 72.73,
+        "residual_idiosyncratic_pct": 27.27,
+        "information_ratio": 0.0,
+        "f_statistic": 29.868,
+        "f_p_value": 0.0
+      },
+      "dominant_factor": "momentum",
+      "true_skill_ratio": 1.3557,
+      "supplementary_flags": "",
+      "observations": 62,
+      "alpha_quality_rating": "C",
+      "alpha_quality_label": "WEAK ALPHA",
+      "alpha_quality_with_flags": "C",
+      "bear_regime_frozen": false,
+      "risk_alerts": {
+        "beta_surge": "False",
+        "ir_erosion": "True",
+        "high_systematic": "False"
+      }
+    },
+    {
+      "strategy_id": "ST003",
+      "strategy_name": "Basis Convergence Arb",
+      "period_days": 62,
+      "regime_applied": "VOLATILE/BEAR_TREND",
+      "total_pnl_pct_ann": 37.9897,
+      "factor_decomposition": {
+        "market": {
+          "beta": 0.0393,
+          "contribution_ann_pct": -1.0545,
+          "contribution_share_pct": -2.78,
+          "t_stat": 1.277,
+          "p_value": 0.207,
+          "significant": false
+        },
+        "momentum": {
+          "beta": 0.0168,
+          "contribution_ann_pct": -1.2392,
+          "contribution_share_pct": -3.26,
+          "t_stat": 0.382,
+          "p_value": 0.7037,
+          "significant": false
+        },
+        "quality": {
+          "beta": 0.0392,
+          "contribution_ann_pct": -0.025,
+          "contribution_share_pct": -0.07,
+          "t_stat": 0.502,
+          "p_value": 0.6177,
+          "significant": false
+        },
+        "size": {
+          "beta": -0.0485,
+          "contribution_ann_pct": 4.3237,
+          "contribution_share_pct": 11.38,
+          "t_stat": -0.976,
+          "p_value": 0.3334,
+          "significant": false
+        },
+        "value": {
+          "beta": 0.0424,
+          "contribution_ann_pct": -0.1596,
+          "contribution_share_pct": -0.42,
+          "t_stat": 0.714,
+          "p_value": 0.4784,
+          "significant": false
+        }
+      },
+      "alpha": {
+        "annualized_alpha_pct": 36.1442,
+        "daily_alpha_pct": 0.143429,
+        "alpha_t_stat": 2.709,
+        "alpha_p_value": 0.0089,
+        "alpha_significant": true
+      },
+      "model_quality": {
+        "r_squared": 0.0522,
+        "adj_r_squared": -0.0324,
+        "total_systematic_pct": 5.22,
+        "residual_idiosyncratic_pct": 94.78,
+        "information_ratio": 0.0,
+        "f_statistic": 0.617,
+        "f_p_value": 0.6873
+      },
+      "dominant_factor": "size",
+      "true_skill_ratio": 0.9514,
+      "supplementary_flags": "+",
+      "observations": 62,
+      "alpha_quality_rating": "B",
+      "alpha_quality_label": "MODERATE ALPHA",
+      "alpha_quality_with_flags": "B+",
+      "bear_regime_frozen": false,
+      "risk_alerts": {
+        "beta_surge": "False",
+        "ir_erosion": "True",
+        "high_systematic": "False"
+      }
+    },
+    {
+      "strategy_id": "ST004",
+      "strategy_name": "Stock Volume-Shrink Rev",
+      "period_days": 62,
+      "regime_applied": "VOLATILE/BEAR_TREND",
+      "total_pnl_pct_ann": -32.4691,
+      "factor_decomposition": {
+        "market": {
+          "beta": 0.8937,
+          "contribution_ann_pct": -23.9651,
+          "contribution_share_pct": -73.81,
+          "t_stat": 8.316,
+          "p_value": 0.0,
+          "significant": true
+        },
+        "momentum": {
+          "beta": 0.1227,
+          "contribution_ann_pct": -9.031,
+          "contribution_share_pct": -27.81,
+          "t_stat": 0.799,
+          "p_value": 0.4279,
+          "significant": false
+        },
+        "quality": {
+          "beta": 0.5307,
+          "contribution_ann_pct": -0.3379,
+          "contribution_share_pct": -1.04,
+          "t_stat": 1.947,
+          "p_value": 0.0566,
+          "significant": false
+        },
+        "size": {
+          "beta": 0.181,
+          "contribution_ann_pct": -16.1334,
+          "contribution_share_pct": -49.69,
+          "t_stat": 1.043,
+          "p_value": 0.3013,
+          "significant": false
+        },
+        "value": {
+          "beta": 0.2099,
+          "contribution_ann_pct": -0.791,
+          "contribution_share_pct": -2.44,
+          "t_stat": 1.013,
+          "p_value": 0.3152,
+          "significant": false
+        }
+      },
+      "alpha": {
+        "annualized_alpha_pct": 17.7893,
+        "daily_alpha_pct": 0.070593,
+        "alpha_t_stat": 0.382,
+        "alpha_p_value": 0.7039,
+        "alpha_significant": false
+      },
+      "model_quality": {
+        "r_squared": 0.6351,
+        "adj_r_squared": 0.6025,
+        "total_systematic_pct": 63.51,
+        "residual_idiosyncratic_pct": 36.49,
+        "information_ratio": 0.0,
+        "f_statistic": 19.49,
+        "f_p_value": 0.0
+      },
+      "dominant_factor": "market",
+      "true_skill_ratio": 0.5479,
+      "supplementary_flags": "",
+      "observations": 62,
+      "alpha_quality_rating": "D",
+      "alpha_quality_label": "BETA EXPOSURE",
+      "alpha_quality_with_flags": "D",
+      "bear_regime_frozen": true,
+      "risk_alerts": {
+        "beta_surge": "False",
+        "ir_erosion": "True",
+        "high_systematic": "False"
+      }
+    }
+  ],
+  "portfolio_aggregate": {
+    "n_strategies": 4,
+    "weighted_alpha_annualized_pct": 11.3755,
+    "dominant_systematic_risk": "momentum",
+    "avg_true_skill_ratio": 1.2286,
+    "grade_distribution": {
+      "S": 0,
+      "A": 0,
+      "B": 1,
+      "C": 2,
+      "D": 1
+    },
+    "frozen_strategies": [
+      "ST004"
+    ]
+  },
+  "factor_return_environment": {
+    "SPY_ret_pct": 2.82,
+    "MTUM_ret_pct": 1.85,
+    "QUAL_ret_pct": 0.42,
+    "IWM_SPY_ret_pct": 3.15,
+    "IVE_IVW_ret_pct": 1.3,
+    "rf_daily_pct": 0.02115,
+    "VIX": 23.57,
+    "regime": "VOLATILE/BEAR_TREND",
+    "regime_confidence": 92.9
+  },
+  "taiwan_risk_flag": "HIGH_ALERT",
+  "vix": 23.57
+}
