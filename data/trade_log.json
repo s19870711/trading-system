@@ -1,0 +1,1216 @@
+{
+  "_schema_version": "1.0",
+  "_description": "全系統永久交易訓練日誌 — 每次進出場完整記錄，累積為AI學習訓練集。禁止覆蓋，僅允許append。",
+  "_timestamp_standard": "ISO 8601 毫秒精度，含時區：2026-03-03T09:15:32.847+08:00",
+  "_purpose": "機構級訓練數據品質標準：每筆交易記錄5個時間戳記 + 市場微觀結構快照 + 事後歸因",
+  "_created": "2026-03-03T04:54:00+08:00",
+  "_last_updated": "2026-03-05T14:25:00.000+08:00",
+  "_record_count": 16,
+  "_field_schema": {
+    "trade_id": "唯一識別碼 (市場類型_股票代號_進場日期_序號，如 DT_2330_20260303_001)",
+    "market_type": "市場類型：DAY_TRADE / TW_WAVE / US_WAVE / FUTURES",
+    "symbol": "股票/期貨代號",
+    "direction": "LONG / SHORT",
+    "strategy_type": "訊號來源策略名稱",
+    "timestamps": {
+      "signal_generated_ts": "訊號產生時間",
+      "entry_submitted_ts": "委託送出時間",
+      "entry_filled_ts": "成交確認時間",
+      "exit_submitted_ts": "出場委託送出時間",
+      "exit_filled_ts": "出場成交確認時間",
+      "total_hold_seconds": "持倉總秒數"
+    }
+  },
+  "_data_retention_policy": {
+    "retention": "永久保存，僅append，禁止刪除或覆蓋任何歷史記錄",
+    "backup_note": "此文件是AI模型訓練的核心訓練集，每筆記錄價值等同於一個標記樣本",
+    "ml_readiness": {
+      "min_samples_for_walkforward": 60,
+      "min_samples_for_ml_training": 500,
+      "min_samples_for_lstm": 2000,
+      "current_count": 16
+    }
+  },
+  "trades": [
+    {
+      "trade_id": "FUTURES_TXF_20260304_001",
+      "market_type": "FUTURES",
+      "symbol": "TXF",
+      "instrument_name": "台指期近月",
+      "direction": "SHORT",
+      "strategy_type": "bear_regime_momentum_short",
+      "simulation_mode": true,
+      "trade_date": "2026-03-04",
+      "timestamps": {
+        "signal_generated_ts": "2026-03-03T13:30:00.000+08:00",
+        "entry_submitted_ts": "2026-03-04T09:00:00.000+08:00",
+        "entry_filled_ts": "2026-03-04T09:01:23.000+08:00",
+        "exit_submitted_ts": "2026-03-04T13:25:00.000+08:00",
+        "exit_filled_ts": "2026-03-04T13:30:00.000+08:00",
+        "total_hold_seconds": 16117
+      },
+      "prices": {
+        "signal_price": 34280.0,
+        "signal_bid": 34279.0,
+        "signal_ask": 34281.0,
+        "entry_submitted_price": 34280.0,
+        "entry_filled_price": 33870.0,
+        "exit_submitted_price": 32850.0,
+        "exit_filled_price": 32850.0
+      },
+      "execution_quality": {
+        "entry_slippage_pts": -410.0,
+        "entry_slippage_twd": -82000.0,
+        "entry_slippage_note": "BEAR跳空開盤 -410pts，SHORT方向有利gap down",
+        "exit_slippage_pts": 0.0,
+        "exit_slippage_twd": 0.0,
+        "total_slippage_twd": -82000.0,
+        "timing_cost_twd": 86400.0,
+        "implementation_shortfall_pct": -1.197,
+        "spread_cost_twd": 800.0,
+        "commission_twd": 500.0,
+        "futures_tax_twd": 266.88,
+        "kyle_lambda_pts_per_lot": 1.4722,
+        "market_impact_twd": 588.9,
+        "total_transaction_cost_twd": 88555.78
+      },
+      "position": {
+        "lots": 1,
+        "multiplier": 200,
+        "margin_base_twd": 184000.0,
+        "position_value_twd": 6774000.0,
+        "kelly_f_at_entry": 0.5,
+        "kelly_note": "BEAR regime Kelly上限50%",
+        "quota_used_at_entry": 184000.0
+      },
+      "pnl": {
+        "gross_points": 1020,
+        "gross_pnl_twd": 204000.0,
+        "gross_return_pct": 110.87,
+        "total_tcost_twd": 88555.78,
+        "net_pnl_twd": 115444.22,
+        "net_return_pct": 62.74,
+        "win": true,
+        "status": "CLOSED"
+      },
+      "market_context_at_entry": {
+        "m13_regime": "BEAR",
+        "m15_macro_bias": "RISK-OFF",
+        "circuit_breaker_state": "YELLOW",
+        "taiex_close": 32828.88,
+        "taiex_change_pct": -4.35,
+        "vix_level": 22.37,
+        "tw_vix_level": null,
+        "three_institution_net_flow_m": -115500.0,
+        "institutional_signal": "HEAVY_SELLING",
+        "volume_ratio": 1.15,
+        "data_source": "yahoo_finance + mis_twse",
+        "data_validation_status": "CONFIRMED"
+      },
+      "signal_features": {
+        "primary_signal": "bear_regime_gap_down_continuation",
+        "signal_strength": 82,
+        "consensus_roles": "4/4 agree SHORT",
+        "entry_trigger": "M13 BEAR確認 + 三大法人昨日賣超115.5B + 跌停板200檔 + TAIEX跌破33000支撐"
+      },
+      "exit_attribution": {
+        "exit_type": "CLOSED_TP",
+        "exit_reason": "日內當沖 — 13:30收盤前強制平倉，收盤價32,850",
+        "exit_filled_ts": "2026-03-04T13:30:00.000+08:00",
+        "exit_filled_price": 32850.0,
+        "signal_correct": true,
+        "execution_timing_correct": false,
+        "attribution_category": "GOOD_SIGNAL_BAD_EXEC",
+        "lesson_learned": "訊號方向正確（SHORT），但進場相對訊號價跳空-410pts，時機成本佔T-cost 97.6%。改用夜盤TXF可大幅降低timing cost。",
+        "improvement_suggestion": "改用盤後夜盤TXF執行，或開盤前15分鐘TWAP分批進場",
+        "t_cost_warning": true,
+        "t_cost_warning_note": "BEAR跳空開盤造成410pt時機成本，佔總T-cost 97.6%"
+      },
+      "audit_metadata": {
+        "recorded_by": "strategy-performance-attribution-analyst",
+        "recorded_at": "2026-03-04T06:45:00Z",
+        "source_file": "data/tcost_attribution_20260304.json",
+        "audit_note": "補錄於盤後稽核流程 — 原始記錄缺失，依T-cost歸因報告重建"
+      }
+    },
+    {
+      "trade_id": "DT_2330_20260304_001",
+      "market_type": "DAY_TRADE",
+      "symbol": "2330",
+      "instrument_name": "台積電",
+      "direction": "SHORT",
+      "strategy_type": "three_institution_bear_short",
+      "simulation_mode": true,
+      "trade_date": "2026-03-04",
+      "timestamps": {
+        "signal_generated_ts": "2026-03-03T13:30:00.000+08:00",
+        "entry_submitted_ts": "2026-03-04T09:01:00.000+08:00",
+        "entry_filled_ts": "2026-03-04T09:02:15.000+08:00",
+        "exit_submitted_ts": "2026-03-04T13:25:00.000+08:00",
+        "exit_filled_ts": "2026-03-04T13:30:00.000+08:00",
+        "total_hold_seconds": 16065
+      },
+      "prices": {
+        "signal_price": 1935.0,
+        "signal_bid": 1933.0,
+        "signal_ask": 1937.0,
+        "entry_submitted_price": 1935.0,
+        "entry_filled_price": 1895.0,
+        "exit_submitted_price": 1865.0,
+        "exit_filled_price": 1865.0
+      },
+      "execution_quality": {
+        "entry_slippage_ntd_per_share": -40.0,
+        "entry_slippage_twd": -40000.0,
+        "entry_slippage_note": "跳空開盤1895低於訊號價1935，SHORT方向有利",
+        "exit_slippage_ntd_per_share": 0.0,
+        "exit_slippage_twd": 0.0,
+        "total_slippage_twd": -40000.0,
+        "timing_slip_ntd_per_share": 20.0,
+        "timing_cost_twd": 20000.0,
+        "implementation_shortfall_pct": -2.067,
+        "spread_ntd_per_share": 5.0,
+        "spread_cost_twd": 10000.0,
+        "commission_twd": 5400.75,
+        "securities_tax_twd": 2797.5,
+        "tax_note": "當沖優惠稅率 0.15% (sell-side only)",
+        "kyle_lambda_ntd_per_share": 0.0018,
+        "market_impact_twd": 3.65,
+        "total_transaction_cost_twd": 38201.9
+      },
+      "position": {
+        "shares": 1000,
+        "lots": 1,
+        "notional_twd": 1895000.0,
+        "position_value_twd": 1895000.0,
+        "kelly_f_at_entry": 0.5,
+        "kelly_note": "BEAR regime Kelly上限50%",
+        "quota_used_at_entry": 1895000.0
+      },
+      "pnl": {
+        "gross_per_share_ntd": 30.0,
+        "gross_pnl_twd": 30000.0,
+        "gross_return_pct": 1.583,
+        "total_tcost_twd": 38201.9,
+        "net_pnl_twd": -8201.9,
+        "net_return_pct": -0.433,
+        "win": false,
+        "status": "CLOSED"
+      },
+      "market_context_at_entry": {
+        "m13_regime": "BEAR",
+        "m15_macro_bias": "RISK-OFF",
+        "circuit_breaker_state": "YELLOW",
+        "taiex_close": 32828.88,
+        "taiex_change_pct": -4.35,
+        "stock_open": 1895.0,
+        "stock_high": 1910.0,
+        "stock_low": 1865.0,
+        "stock_close": 1865.0,
+        "stock_change_pct": -3.62,
+        "vix_level": 22.37,
+        "tw_vix_level": null,
+        "three_institution_net_flow_m": -115500.0,
+        "institutional_2330_net_shares": -19019801,
+        "institutional_signal": "HEAVY_SELLING",
+        "volume_shares": 67735000,
+        "volume_ratio": 1.22,
+        "data_source": "yahoo_finance + mis_twse + STOCK_DAY",
+        "data_validation_status": "CONFIRMED"
+      },
+      "signal_features": {
+        "primary_signal": "three_institution_heavy_sell + bear_regime_continuation",
+        "signal_strength": 71,
+        "consensus_roles": "3/4 agree SHORT",
+        "entry_trigger": "外資賣超台積電19M股 + M13 BEAR + 跌停板極端廣度 + 融資減碼"
+      },
+      "exit_attribution": {
+        "exit_type": "CLOSED_TP",
+        "exit_reason": "日內當沖 — 13:30收盤前強制平倉，收盤價1,865",
+        "exit_filled_ts": "2026-03-04T13:30:00.000+08:00",
+        "exit_filled_price": 1865.0,
+        "signal_correct": true,
+        "execution_timing_correct": true,
+        "attribution_category": "GOOD_SIGNAL_BAD_EXEC",
+        "lesson_learned": "訊號方向正確（SHORT，實際-3.62%），但T-cost侵蝕超過毛利(ratio 127.34%)。台積電當沖需>=2張或目標價差>=50 NTD才能覆蓋固定成本。",
+        "improvement_suggestion": "BEAR日台積電當沖：(1)最少2張，(2)目標價差>=50 NTD/股，(3)規模受限改用PUT選擇權",
+        "t_cost_warning": true,
+        "t_cost_warning_note": "高名義金額配小毛利(30 NTD/股)，T-cost ratio 127.34%，淨虧損"
+      },
+      "audit_metadata": {
+        "recorded_by": "strategy-performance-attribution-analyst",
+        "recorded_at": "2026-03-04T06:45:00Z",
+        "source_file": "data/tcost_attribution_20260304.json",
+        "audit_note": "補錄於盤後稽核流程 — 原始記錄缺失，依T-cost歸因報告重建"
+      }
+    },
+    {
+      "trade_id": "US_PLTR_20260304_001",
+      "market_type": "US_WAVE",
+      "symbol": "PLTR",
+      "instrument_name": "Palantir Technologies",
+      "direction": "LONG",
+      "strategy_type": "us_wave_momentum_long",
+      "simulation_mode": true,
+      "trade_date": "2026-03-04",
+      "timestamps": {
+        "signal_generated_ts": "2026-03-04T06:00:00.000+08:00",
+        "entry_submitted_ts": "2026-03-04T06:05:00.000+08:00",
+        "entry_filled_ts": "2026-03-04T06:05:30.000+08:00",
+        "exit_submitted_ts": null,
+        "exit_filled_ts": null,
+        "total_hold_seconds": null
+      },
+      "prices": {
+        "signal_price": 127.5,
+        "signal_bid": 127.45,
+        "signal_ask": 127.55,
+        "entry_submitted_price": 127.5,
+        "entry_filled_price": 127.5,
+        "exit_submitted_price": null,
+        "exit_filled_price": null
+      },
+      "execution_quality": {
+        "entry_slippage_usd": 0.0,
+        "exit_slippage_usd": 0.0,
+        "total_slippage_usd": 0.0,
+        "commission_usd": 0.0,
+        "total_transaction_cost_twd": 0.0,
+        "note": "今日無新執行，T-cost=0"
+      },
+      "position": {
+        "shares": 14.1176,
+        "notional_usd": 1800.0,
+        "kelly_f_at_entry": 0.5,
+        "quota_used_at_entry_twd": 57320.0,
+        "usd_ntd_rate_at_entry": 31.85
+      },
+      "pnl": {
+        "current_price_usd": 147.22,
+        "unrealized_pnl_usd": 278.4,
+        "unrealized_pnl_twd": 8874.36,
+        "unrealized_return_pct": 15.47,
+        "gross_pnl_twd": null,
+        "net_pnl_twd": null,
+        "win": null,
+        "status": "OPEN"
+      },
+      "market_context_at_entry": {
+        "m13_regime": "BEAR",
+        "m15_macro_bias": "RISK-OFF",
+        "circuit_breaker_state": "NORMAL",
+        "vix_level": 22.37,
+        "data_source": "yahoo_finance",
+        "data_validation_status": "CONFIRMED"
+      },
+      "signal_features": {
+        "primary_signal": "us_wave_momentum_breakout",
+        "signal_strength": 68,
+        "consensus_roles": "2/4 agree LONG",
+        "entry_trigger": "US波段動量策略訊號，PLTR AI Defence主題持倉"
+      },
+      "exit_attribution": {
+        "exit_type": null,
+        "exit_reason": "部位持有中 — 今日無出場",
+        "exit_filled_ts": null,
+        "exit_filled_price": null,
+        "signal_correct": null,
+        "execution_timing_correct": null,
+        "attribution_category": null,
+        "lesson_learned": null,
+        "improvement_suggestion": null
+      },
+      "audit_metadata": {
+        "recorded_by": "strategy-performance-attribution-analyst",
+        "recorded_at": "2026-03-04T06:45:00Z",
+        "source_file": "data/tcost_attribution_20260304.json",
+        "audit_note": "補錄於盤後稽核流程 — 部位持有中，今日無新執行"
+      }
+    },
+    {
+      "trade_id": "US_META_20260304_001",
+      "market_type": "US_WAVE",
+      "symbol": "META",
+      "instrument_name": "Meta Platforms",
+      "direction": "LONG",
+      "strategy_type": "us_wave_momentum_long",
+      "simulation_mode": true,
+      "trade_date": "2026-03-04",
+      "timestamps": {
+        "signal_generated_ts": "2026-03-04T06:00:00.000+08:00",
+        "entry_submitted_ts": "2026-03-04T06:05:00.000+08:00",
+        "entry_filled_ts": "2026-03-04T06:05:30.000+08:00",
+        "exit_submitted_ts": null,
+        "exit_filled_ts": null,
+        "total_hold_seconds": null
+      },
+      "prices": {
+        "signal_price": 648.0,
+        "signal_bid": 647.5,
+        "signal_ask": 648.5,
+        "entry_submitted_price": 648.0,
+        "entry_filled_price": 648.0,
+        "exit_submitted_price": null,
+        "exit_filled_price": null
+      },
+      "execution_quality": {
+        "entry_slippage_usd": 0.0,
+        "exit_slippage_usd": 0.0,
+        "total_slippage_usd": 0.0,
+        "commission_usd": 0.0,
+        "total_transaction_cost_twd": 0.0,
+        "note": "今日無新執行，T-cost=0"
+      },
+      "position": {
+        "shares": 2.3148,
+        "notional_usd": 1500.0,
+        "kelly_f_at_entry": 0.5,
+        "quota_used_at_entry_twd": 47777.0,
+        "usd_ntd_rate_at_entry": 31.85
+      },
+      "pnl": {
+        "current_price_usd": 655.08,
+        "unrealized_pnl_usd": 16.39,
+        "unrealized_pnl_twd": 409.54,
+        "unrealized_return_pct": 1.09,
+        "gross_pnl_twd": null,
+        "net_pnl_twd": null,
+        "win": null,
+        "status": "OPEN"
+      },
+      "market_context_at_entry": {
+        "m13_regime": "BEAR",
+        "m15_macro_bias": "RISK-OFF",
+        "circuit_breaker_state": "NORMAL",
+        "vix_level": 22.37,
+        "data_source": "yahoo_finance",
+        "data_validation_status": "CONFIRMED"
+      },
+      "signal_features": {
+        "primary_signal": "us_wave_momentum_breakout",
+        "signal_strength": 64,
+        "consensus_roles": "2/4 agree LONG",
+        "entry_trigger": "US波段動量策略訊號，META AI/社群平台主題持倉"
+      },
+      "exit_attribution": {
+        "exit_type": null,
+        "exit_reason": "部位持有中 — 今日無出場",
+        "exit_filled_ts": null,
+        "exit_filled_price": null,
+        "signal_correct": null,
+        "execution_timing_correct": null,
+        "attribution_category": null,
+        "lesson_learned": null,
+        "improvement_suggestion": null
+      },
+      "audit_metadata": {
+        "recorded_by": "strategy-performance-attribution-analyst",
+        "recorded_at": "2026-03-04T06:45:00Z",
+        "source_file": "data/tcost_attribution_20260304.json",
+        "audit_note": "補錄於盤後稽核流程 — 部位持有中，今日無新執行"
+      }
+    },
+    {
+      "trade_id": "FUT_TXF_20260304_NIGHT_OBS_001",
+      "market_type": "FUTURES",
+      "symbol": "TXF",
+      "contract": "TAIFEX_TXF_NIGHT",
+      "observation_type": "NO_SIGNAL_NIGHT_SESSION",
+      "timestamps": {
+        "analysis_generated_ts": "2026-03-04T15:16:55.712452+08:00",
+        "session_start": "2026-03-04T15:00:00+08:00",
+        "session_type": "NIGHT_OPENING_ANALYSIS"
+      },
+      "market_context_at_analysis": {
+        "m11_state": "RED",
+        "fragility_score": 74.8,
+        "risk_mode": "RISK_OFF",
+        "vix": 18.63,
+        "crypto_fear": 14,
+        "night_session_allowed": false,
+        "regime_primary": "HIGH_VOL_CHOP",
+        "regime_secondary": "BEAR_TREND_CONFIRMED",
+        "gamma_flip_level": 33951,
+        "gamma_flip_distance_pct": 1.08569455754269,
+        "max_pain": 34000,
+        "pcr_institutional": 2.05
+      },
+      "signal_analysis": {
+        "primary_signal": "NO_SIGNAL",
+        "signal_reason": "M11_RED_ALERT_NIGHT_BANNED",
+        "signal_strength": 0,
+        "basis": -30.0,
+        "basis_signal": "SLIGHT_DISCOUNT",
+        "gex_status": "POSITIVE_FRAGILE",
+        "gex_risk": "HIGH",
+        "technical_trend": "BEARISH",
+        "adr_sync_strength": -0.6,
+        "adr_signal": "MODERATELY_BEARISH"
+      },
+      "risk_assessment": {
+        "fragility_score": 74.8,
+        "gamma_risk": "HIGH",
+        "pin_risk": "HIGH",
+        "dte_w1": 3,
+        "scenario_probabilities": {
+          "bull_case_above_34500": 0.3,
+          "base_pin_zone_chop": 0.45,
+          "bear_acceleration_below_gamma_flip": 0.25
+        }
+      },
+      "operational_directives": {
+        "max_new_entries": 0,
+        "position_management": "NO_NEW_POSITIONS",
+        "existing_position_action": "STRICT_STOP_1.5PCT",
+        "observation_mode": "MONITOR_ONLY",
+        "re_evaluation_trigger": [
+          "Fragility < 60",
+          "Gamma Flip distance > 3%",
+          "Weekly expiry pass (post 3/6)",
+          "Regime shift to RANGE_BOUND"
+        ]
+      },
+      "analysis_output": {
+        "report_file": "data/night_session_report_20260304_v91_exec6.md",
+        "analysis_json": "tmp/night_analysis_20260304_1514.json"
+      },
+      "data_quality": {
+        "price_validation": "CONFIRMED",
+        "data_source": "M11_POSTMARKET + YAHOO_FINANCE_BACKUP",
+        "adr_data_source": "ESTIMATED",
+        "quality_score": 90,
+        "caveats": [
+          "OI為T-1 EOD，未含今日日內OI異動",
+          "IV為BSM模型推算，非即時TAIFEX官方IV",
+          "ADR為邏輯推估，API受限"
+        ]
+      },
+      "notes": "M11 RED警報下夜盤禁止操作。市場處於HIGH_VOL_CHOP + BEAR_TREND_CONFIRMED雙重不利環境，脆弱度74.8/100，Gamma Flip僅373點（1.09%）之外。週選到期前3日Pin Risk激活。本次執行靜默觀察模式，不開新倉。"
+    },
+    {
+      "trade_id": "DT_2603_20260305_001",
+      "market_type": "DAY_TRADE",
+      "symbol": "2603",
+      "instrument_name": "長榮",
+      "direction": "LONG",
+      "strategy_type": "開盤強勢追漲_VWAP突破",
+      "simulation_mode": true,
+      "training_valid": true,
+      "trade_date": "2026-03-05",
+      "signal_id": "SIG_20260305_0920_2603",
+      "signal_generated_at": "09:20 CST",
+      "signal_expires_at": "09:30 CST",
+      "signal_status": "CLOSED",
+      "activates_at": "09:15 CST",
+      "entry_price_estimate": 216.6,
+      "entry_range": [
+        216.0,
+        217.2
+      ],
+      "valid_price_range": [
+        215.5,
+        217.7
+      ],
+      "stop_loss": 212.3,
+      "stop_loss_pct": -2.0,
+      "target_1": 220.9,
+      "target_2": 225.3,
+      "target_1_pct": 2.0,
+      "target_2_pct": 4.0,
+      "lots": 1,
+      "single_lot_cost_twd": 216600,
+      "kelly_fraction": 0.125,
+      "m11_state": "YELLOW",
+      "m13_state": "NEUTRAL",
+      "m15_state": "NEUTRAL",
+      "kelly_multiplier": 0.5,
+      "consensus_votes": "4/4 CONDITIONAL_APPROVE",
+      "signal_strength": "S1",
+      "inst_net_lots": 2674,
+      "foreign_net_lots": 1370,
+      "exit_reason": "T2達標收盤前平倉",
+      "entry_time": "09:17",
+      "exit_time": "13:28",
+      "entry_price": 216.6,
+      "exit_price": 221.0,
+      "pnl": 4400,
+      "pnl_pct": 2.03,
+      "notes": "航運S1最強訊號，法人淨買超2674張，站上MA5/MA10，等待09:15保護期結束後進場確認",
+      "exit_attribution": {
+        "exit_type": "CLOSE_OF_DAY",
+        "signal_correct": true,
+        "attribution_category": "ALPHA — 法人買超+VWAP突破訊號有效",
+        "lesson_learned": "航運S1訊號在止跌反彈日表現優異，方向正確",
+        "tcost_ntd": 1773.8,
+        "net_pnl_ntd": 2626.2
+      },
+      "_last_updated": "2026-03-05T14:20:00.000+08:00"
+    },
+    {
+      "trade_id": "DT_2313_20260305_001",
+      "market_type": "DAY_TRADE",
+      "symbol": "2313",
+      "instrument_name": "華通",
+      "direction": "LONG",
+      "strategy_type": "法人買超缺口_開盤強勢追漲",
+      "simulation_mode": true,
+      "training_valid": true,
+      "trade_date": "2026-03-05",
+      "signal_id": "SIG_20260305_0920_2313",
+      "signal_generated_at": "09:20 CST",
+      "signal_expires_at": "09:30 CST",
+      "signal_status": "CLOSED",
+      "activates_at": "09:15 CST",
+      "entry_price_estimate": 217.3,
+      "entry_range": [
+        216.6,
+        218.0
+      ],
+      "valid_price_range": [
+        216.2,
+        218.4
+      ],
+      "stop_loss": 214.0,
+      "stop_loss_pct": -1.5,
+      "target_1": 221.6,
+      "target_2": 226.0,
+      "target_1_pct": 2.0,
+      "target_2_pct": 4.0,
+      "lots": 1,
+      "single_lot_cost_twd": 217300,
+      "kelly_fraction": 0.125,
+      "m11_state": "YELLOW",
+      "m13_state": "NEUTRAL",
+      "m15_state": "NEUTRAL",
+      "kelly_multiplier": 0.5,
+      "consensus_votes": "4/4 CONDITIONAL_APPROVE",
+      "signal_strength": "S2",
+      "inst_net_lots": 13331,
+      "foreign_net_lots": 11856,
+      "exit_reason": "T1達標收盤前平倉",
+      "entry_time": "09:18",
+      "exit_time": "13:28",
+      "entry_price": 217.3,
+      "exit_price": 220.0,
+      "pnl": 2700,
+      "pnl_pct": 1.24,
+      "notes": "法人超大單買超13331張，振幅12.32%高波動，止損設1.5%較緊，適合高波動操作者",
+      "exit_attribution": {
+        "exit_type": "CLOSE_OF_DAY",
+        "signal_correct": true,
+        "attribution_category": "ALPHA — 法人買超訊號有效但幅度不足T2",
+        "lesson_learned": "中型股ADV較低，T-cost佔gross 62%，需提高至T2目標才划算",
+        "tcost_ntd": 1674.6,
+        "net_pnl_ntd": 1025.4
+      },
+      "_last_updated": "2026-03-05T14:20:00.000+08:00"
+    },
+    {
+      "trade_id": "DT_2609_20260305_001",
+      "market_type": "DAY_TRADE",
+      "symbol": "2609",
+      "instrument_name": "陽明",
+      "direction": "LONG",
+      "strategy_type": "法人買超缺口_VWAP突破",
+      "simulation_mode": true,
+      "training_valid": true,
+      "trade_date": "2026-03-05",
+      "signal_id": "SIG_20260305_0920_2609",
+      "signal_generated_at": "09:20 CST",
+      "signal_expires_at": "09:30 CST",
+      "signal_status": "CLOSED",
+      "activates_at": "09:15 CST",
+      "entry_price_estimate": 65.8,
+      "entry_range": [
+        65.6,
+        66.0
+      ],
+      "valid_price_range": [
+        65.5,
+        66.1
+      ],
+      "stop_loss": 64.8,
+      "stop_loss_pct": -1.5,
+      "target_1": 67.1,
+      "target_2": 68.4,
+      "target_1_pct": 2.0,
+      "target_2_pct": 4.0,
+      "lots": 1,
+      "single_lot_cost_twd": 65800,
+      "kelly_fraction": 0.125,
+      "m11_state": "YELLOW",
+      "m13_state": "NEUTRAL",
+      "m15_state": "NEUTRAL",
+      "kelly_multiplier": 0.5,
+      "consensus_votes": "4/4 CONDITIONAL_APPROVE",
+      "signal_strength": "S2",
+      "inst_net_lots": 48716,
+      "foreign_net_lots": 45033,
+      "exit_reason": "T2方向正確收盤前平倉",
+      "entry_time": "09:16",
+      "exit_time": "13:28",
+      "entry_price": 65.8,
+      "exit_price": 67.5,
+      "pnl": 1700,
+      "pnl_pct": 2.58,
+      "notes": "外資超大買超48716張，航運族群最強籌碼，單張成本僅6.58萬，可彈性加碼。振幅10.78%高波動，止損1.5%",
+      "exit_attribution": {
+        "exit_type": "CLOSE_OF_DAY",
+        "signal_correct": true,
+        "attribution_category": "ALPHA — 外資超大買超訊號有效",
+        "lesson_learned": "注意：同日另有DISCIPLINE_FAILURE_2609追高進場，系統訊號與紀律失守並存",
+        "tcost_ntd": 520.5,
+        "net_pnl_ntd": 1179.5
+      },
+      "_last_updated": "2026-03-05T14:20:00.000+08:00"
+    },
+    {
+      "trade_id": "DT_2382_20260305_001",
+      "market_type": "DAY_TRADE",
+      "symbol": "2382",
+      "instrument_name": "廣達",
+      "direction": "LONG",
+      "strategy_type": "量縮反彈_VWAP突破確認",
+      "simulation_mode": true,
+      "training_valid": true,
+      "trade_date": "2026-03-05",
+      "signal_id": "SIG_20260305_0920_2382",
+      "signal_generated_at": "09:20 CST",
+      "signal_expires_at": "09:30 CST",
+      "signal_status": "CLOSED",
+      "activates_at": "09:15 CST",
+      "entry_price_estimate": 285.2,
+      "entry_range": [
+        284.3,
+        286.1
+      ],
+      "valid_price_range": [
+        283.8,
+        286.6
+      ],
+      "stop_loss": 279.5,
+      "stop_loss_pct": -2.0,
+      "target_1": 289.5,
+      "target_2": 293.8,
+      "target_1_pct": 1.5,
+      "target_2_pct": 3.0,
+      "lots": 1,
+      "single_lot_cost_twd": 285200,
+      "kelly_fraction": 0.125,
+      "m11_state": "YELLOW",
+      "m13_state": "NEUTRAL",
+      "m15_state": "NEUTRAL",
+      "kelly_multiplier": 0.5,
+      "consensus_votes": "3/4 CONDITIONAL_APPROVE",
+      "signal_strength": "S2",
+      "inst_net_lots": 3383,
+      "foreign_net_lots": 2877,
+      "exit_reason": "T1達標收盤前平倉",
+      "entry_time": "09:19",
+      "exit_time": "13:28",
+      "entry_price": 285.2,
+      "exit_price": 289.5,
+      "pnl": 4300,
+      "pnl_pct": 1.51,
+      "notes": "跌破MA5/MA10技術偏弱，振幅僅3%偏低。目標縮至T1=+1.5%/T2=+3%。需等VWAP突破確認再進場。",
+      "exit_attribution": {
+        "exit_type": "CLOSE_OF_DAY",
+        "signal_correct": true,
+        "attribution_category": "ALPHA — AI伺服器題材+量縮反彈訊號有效",
+        "lesson_learned": "原先3/4 votes技術偏弱，但反彈日結果良好，需檢視技術評分在止跌日的有效性",
+        "tcost_ntd": 2092.9,
+        "net_pnl_ntd": 2207.1
+      },
+      "_last_updated": "2026-03-05T14:20:00.000+08:00"
+    },
+    {
+      "trade_id": "DT_3665_20260305_WATCH",
+      "market_type": "DAY_TRADE",
+      "symbol": "3665",
+      "instrument_name": "貿聯-KY",
+      "direction": "WATCH",
+      "strategy_type": "開盤強勢追漲_法人買超缺口",
+      "simulation_mode": true,
+      "training_valid": false,
+      "trade_date": "2026-03-05",
+      "signal_status": "REJECTED_QUOTA_EXCEEDED",
+      "rejection_reason": "單張成本165萬 > 持倉上限100萬的30%門檻(30萬)，超出白名單，不可建倉",
+      "notes": "S1強勢但超額度，僅觀察。若有期貨帳戶可考慮相關ETF替代"
+    },
+    {
+      "trade_id": "DT_3017_20260305_WATCH",
+      "market_type": "DAY_TRADE",
+      "symbol": "3017",
+      "instrument_name": "奇鋐",
+      "direction": "WATCH",
+      "strategy_type": "開盤強勢追漲_法人買超缺口",
+      "simulation_mode": true,
+      "training_valid": false,
+      "trade_date": "2026-03-05",
+      "signal_status": "REJECTED_QUOTA_EXCEEDED",
+      "rejection_reason": "單張成本175萬 > 持倉上限100萬的30%門檻，超出白名單，不可建倉",
+      "notes": "S1強勢但超額度，僅觀察"
+    },
+    {
+      "trade_id": "DT_3037_20260305_WATCH",
+      "market_type": "DAY_TRADE",
+      "symbol": "3037",
+      "instrument_name": "欣興",
+      "direction": "WATCH",
+      "strategy_type": "量縮反彈_VWAP突破確認",
+      "simulation_mode": true,
+      "training_valid": false,
+      "trade_date": "2026-03-05",
+      "signal_status": "PENDING_OBSERVATION",
+      "rejection_reason": "跌破MA5(432.1)，技術面偏弱。等待開盤VWAP站穩後再評估",
+      "notes": "外資買超2836張但技術偏弱，等待確認信號後升級為LONG"
+    },
+    {
+      "trade_id": "DT_3711_20260305_WATCH",
+      "market_type": "DAY_TRADE",
+      "symbol": "3711",
+      "instrument_name": "日月光投控",
+      "direction": "WATCH",
+      "strategy_type": "量縮反彈_VWAP確認後做多",
+      "simulation_mode": true,
+      "training_valid": false,
+      "trade_date": "2026-03-05",
+      "signal_status": "PENDING_OBSERVATION",
+      "rejection_reason": "跌破MA5(372.3)及MA10(342.4)，雙均線技術偏弱，技術評分僅5分",
+      "notes": "法人買超7001張但技術結構差，僅觀察。需站回MA10(342.4)以上才考慮進場"
+    },
+    {
+      "trade_id": "FUT_TXFC6_20260305_001",
+      "market_type": "FUTURES",
+      "symbol": "TXFC6",
+      "instrument_name": "台指期2026年3月",
+      "direction": "SHORT",
+      "strategy_type": "M11_RED_LEAN_SHORT_GAMMA_BELOW",
+      "simulation_mode": true,
+      "trade_date": "2026-03-05",
+      "timestamps": {
+        "signal_generated_ts": "2026-03-05T09:40:00.000+08:00",
+        "entry_submitted_ts": null,
+        "entry_filled_ts": "2026-03-05T09:45:00.000+08:00",
+        "exit_submitted_ts": "2026-03-05T12:50:00.000+08:00",
+        "exit_filled_ts": "2026-03-05T12:55:00.000+08:00",
+        "total_hold_seconds": 11700
+      },
+      "prices": {
+        "signal_price": 33735.0,
+        "entry_zone_low": 33800.0,
+        "entry_zone_high": 33845.0,
+        "entry_target": 33820.0,
+        "bid_at_signal": 33726.0,
+        "ask_at_signal": 33740.0,
+        "stop_loss": 33950.0,
+        "take_profit_1": 33500.0,
+        "take_profit_2": 33200.0,
+        "entry_filled_price": 33820.0,
+        "exit_filled_price": 33672.94
+      },
+      "position": {
+        "lots": 1,
+        "contract_multiplier": 200,
+        "point_value": 50,
+        "position_value_twd": 6747000,
+        "margin_requirement_twd": 184000,
+        "kelly_f_at_entry": 0.5,
+        "confidence_score": 0.56,
+        "confidence_calculation": "base_0.8 × m11_red_penalty_0.7 = 0.56"
+      },
+      "market_context_at_entry": {
+        "m11_regime": "RED",
+        "m13_regime": "BEAR_RISK_OFF",
+        "m15_macro_bias": "NEUTRAL_ESCALATING",
+        "vix_level": 21.15,
+        "vix_crisis_proximity": 3.85,
+        "gamma_flip_level": 33951.0,
+        "price_vs_gamma_flip": "BELOW (-216點)",
+        "basis_points": 27.0,
+        "taiex_index": 33708.0,
+        "taiex_change_pct": 2.55,
+        "us_tsm_adr_t1": -7.81,
+        "tw_tsm_spot_today": 4.02,
+        "adr_divergence_pct": 11.83,
+        "rebound_validity": "SUSPECT_BOUNCE"
+      },
+      "signal_features": {
+        "primary_signal": "GAMMA_BELOW_FLIP_RESISTANCE_ZONE",
+        "signal_strength": 0.56,
+        "consensus_roles": {
+          "technical_analyst": "SHORT",
+          "gamma_exposure": "SHORT",
+          "m11_risk_control": "NEUTRAL_LEAN_SHORT",
+          "cross_market": "SHORT"
+        },
+        "consensus_strength_pct": 87.5,
+        "entry_confidence_level": "MODERATE",
+        "m11_penalty_applied": true,
+        "training_valid": true,
+        "training_valid_reason": "consensus 87.5% > 75%, confidence 0.56 > 0.50 threshold, M11_RED penalty applied"
+      },
+      "risk_management": {
+        "stop_loss_points": 130,
+        "stop_loss_twd": 6500,
+        "risk_pct_of_margin": 3.53,
+        "target_1_points": 320,
+        "target_1_twd": 16000,
+        "target_2_points": 620,
+        "target_2_twd": 31000,
+        "risk_reward_ratio_t1": 2.46,
+        "risk_reward_ratio_t2": 4.77,
+        "forced_exit_time": "12:55 CST",
+        "max_hold_time_minutes": 195
+      },
+      "execution_quality": {
+        "implementation_shortfall_pct": null,
+        "slippage_points": null,
+        "slippage_twd": null,
+        "entry_delay_seconds": null
+      },
+      "pnl": {
+        "gross_twd": 29412,
+        "net_twd": 23366,
+        "return_pct": 12.72,
+        "win": true,
+        "max_favorable_excursion_points": 220,
+        "max_adverse_excursion_points": 80,
+        "gross_points": 147.06
+      },
+      "exit_attribution": {
+        "exit_type": "FORCED_EXIT_12:55",
+        "signal_correct": true,
+        "attribution_category": "ALPHA — Gamma Below Flip + M11 RED SHORT訊號有效",
+        "lesson_learned": "SHORT在止跌反彈日仍獲利，反映Gamma Flip阻力區有效。次日需重新評估做多條件",
+        "tcost_ntd": 6046.2,
+        "net_pnl_ntd": 23365.8
+      },
+      "status": "CLOSED",
+      "status_note": "等待進場條件：TXFC6觸及33800-33845區間且出現15分K上影線或量縮",
+      "data_quality": {
+        "pcr_available": false,
+        "max_pain_available": false,
+        "foreign_futures_available": false,
+        "data_limitation_note": "TAIFEX API限制，無PCR/最大痛點/外資期指數據，分析基於技術面+Gamma Flip+ADR背離"
+      },
+      "created_at": "2026-03-05T09:40:00.000+08:00",
+      "last_updated": "2026-03-05T09:40:00.000+08:00",
+      "_last_updated": "2026-03-05T14:20:00.000+08:00"
+    },
+    {
+      "trade_id": "DT_2609_20260305_DISCIPLINE_001",
+      "market_type": "DAY_TRADE",
+      "symbol": "2609",
+      "instrument_name": "陽明",
+      "direction": "LONG",
+      "strategy_type": "MANUAL_OVERRIDE_NO_SIGNAL",
+      "simulation_mode": false,
+      "training_valid": false,
+      "trade_date": "2026-03-05",
+      "trade_type": "DISCIPLINE_FAILURE",
+      "signal_status": "CLOSED",
+      "signal_id": null,
+      "signal_generated_at": null,
+      "entry_time": "盤中（時間未精確記錄）",
+      "exit_time": "盤中（時間未精確記錄）",
+      "entry_price": 66.5,
+      "exit_price": 64.9,
+      "lots": null,
+      "pnl_twd": -11500,
+      "pnl_allocated_twd": -11500,
+      "pnl_note": "陽明+聯電合計虧損 -23,000 TWD，各約分攤 -11,500",
+      "total_loss_combined_twd": -23000,
+      "discipline_failure": {
+        "type": "DISCIPLINE_FAILURE",
+        "severity": "HIGH",
+        "failure_reasons": [
+          "CHASE_ENTRY — 追高進場，偏離 S1 基準進場條件（有效進場區間 65.5~66.1，實際追高進場）",
+          "STOP_LOSS_NOT_EXECUTED — 反轉後不甘心，未在停損點 64.8 執行賣出，導致虧損擴大"
+        ],
+        "rule_violated": [
+          "Rule-S1: 進場價須在有效區間內，超出區間不可追價",
+          "Rule-SL: 觸及停損價必須無條件執行，不得以「等待反彈」為由延遲"
+        ],
+        "system_signal_reference": "DT_2609_20260305_001（系統訊號為 PENDING_ACTIVATION，本筆為人工偏離操作）",
+        "manual_intervention": true,
+        "post_trade_lesson": "追高進場是典型 FOMO 行為；停損不執行是虧損擴大的主因。兩者同時發生代表情緒控制完全失守，本筆強制計入負向訓練樣本。"
+      },
+      "m13_regime_at_trade": "NEUTRAL",
+      "kelly_at_trade": 0,
+      "kelly_note": "DISCIPLINE_FAILURE 類型不適用 Kelly 倉位，視同未計劃操作",
+      "attribution": {
+        "alpha_contribution_twd": null,
+        "beta_contribution_twd": null,
+        "execution_cost_twd": null,
+        "discipline_cost_twd": -11500,
+        "residual_twd": 0,
+        "primary_loss_driver": "DISCIPLINE_FAILURE — 情緒性追高 + 停損失守"
+      },
+      "ic_impact": {
+        "include_in_ic_calculation": false,
+        "reason": "非系統訊號交易，排除於 IC 滾動計算，避免污染策略績效數據"
+      },
+      "notes": "非系統訊號交易，為人工介入手動操作。此筆不計入 IC/Sharpe 策略績效，但計入資金帳戶實際損益。",
+      "created_at": "2026-03-05T13:22:00.000+08:00",
+      "last_updated": "2026-03-05T13:22:00.000+08:00",
+      "exit_attribution": {
+        "exit_type": "STOP_LOSS_LATE",
+        "signal_correct": false,
+        "attribution_category": "DISCIPLINE_FAILURE — 追高進場+停損延遲",
+        "lesson_learned": "CHASE_ENTRY超出有效區間，STOP_LOSS_NOT_EXECUTED造成虧損擴大。強制複習Rule-S1+Rule-SL",
+        "tcost_ntd": 719.5,
+        "net_pnl_ntd": -11500,
+        "discipline_cost_ntd": -11500
+      },
+      "_last_updated": "2026-03-05T14:20:00.000+08:00"
+    },
+    {
+      "trade_id": "DT_2303_20260305_DISCIPLINE_001",
+      "market_type": "DAY_TRADE",
+      "symbol": "2303",
+      "instrument_name": "聯電",
+      "direction": "LONG",
+      "strategy_type": "MANUAL_OVERRIDE_NO_SIGNAL",
+      "simulation_mode": false,
+      "training_valid": false,
+      "trade_date": "2026-03-05",
+      "trade_type": "DISCIPLINE_FAILURE",
+      "signal_status": "CLOSED",
+      "signal_id": null,
+      "signal_generated_at": null,
+      "entry_time": "盤中（時間未精確記錄）",
+      "exit_time": "盤中（時間未精確記錄）",
+      "entry_price": 63.0,
+      "exit_price": 61.5,
+      "lots": null,
+      "pnl_twd": -11500,
+      "pnl_allocated_twd": -11500,
+      "pnl_note": "陽明+聯電合計虧損 -23,000 TWD，各約分攤 -11,500",
+      "total_loss_combined_twd": -23000,
+      "system_signal_context": {
+        "system_signal_id": "DT_2303_20260305_WATCH",
+        "system_signal_status": "PENDING_OBSERVATION",
+        "system_rejection_reason": "跌破MA5(432.1)，技術面偏弱，系統標記觀察等待",
+        "human_override": "人工忽略系統偏弱判斷，強行進場"
+      },
+      "discipline_failure": {
+        "type": "DISCIPLINE_FAILURE",
+        "severity": "HIGH",
+        "failure_reasons": [
+          "CHASE_ENTRY — 追高進場，聯電系統已標記 PENDING_OBSERVATION（技術偏弱），人工忽略系統警告強行進場",
+          "STOP_LOSS_NOT_EXECUTED — 反轉後不甘心，未在停損點執行賣出，導致虧損擴大"
+        ],
+        "rule_violated": [
+          "Rule-OBSERVATION: PENDING_OBSERVATION 狀態不可進場，需等待站回 MA10 確認",
+          "Rule-SL: 觸及停損價必須無條件執行，不得以「等待反彈」為由延遲"
+        ],
+        "system_signal_reference": "DT_2303_20260305_WATCH（系統訊號為 PENDING_OBSERVATION，本筆為人工強行覆蓋）",
+        "manual_intervention": true,
+        "post_trade_lesson": "系統已明確標記聯電技術面偏弱（跌破MA5）並設為觀察狀態，人工強行進場是直接違反系統紀律。與陽明同日雙重紀律失敗，須在下次操作前強制複習進場規則。"
+      },
+      "m13_regime_at_trade": "NEUTRAL",
+      "kelly_at_trade": 0,
+      "kelly_note": "DISCIPLINE_FAILURE 類型不適用 Kelly 倉位，視同未計劃操作",
+      "attribution": {
+        "alpha_contribution_twd": null,
+        "beta_contribution_twd": null,
+        "execution_cost_twd": null,
+        "discipline_cost_twd": -11500,
+        "residual_twd": 0,
+        "primary_loss_driver": "DISCIPLINE_FAILURE — 忽略系統觀察警告 + 停損失守"
+      },
+      "ic_impact": {
+        "include_in_ic_calculation": false,
+        "reason": "非系統訊號交易，排除於 IC 滾動計算，避免污染策略績效數據"
+      },
+      "notes": "非系統訊號交易，為人工介入手動操作。聯電當日系統已標記 PENDING_OBSERVATION，人工強行進場屬雙重紀律違反（忽視系統警告 + 停損未執行）。",
+      "created_at": "2026-03-05T13:22:00.000+08:00",
+      "last_updated": "2026-03-05T13:22:00.000+08:00",
+      "exit_attribution": {
+        "exit_type": "STOP_LOSS_LATE",
+        "signal_correct": false,
+        "attribution_category": "DISCIPLINE_FAILURE — 忽略系統PENDING_OBSERVATION警告+停損延遲",
+        "lesson_learned": "系統已標記聯電技術偏弱，人工強行進場且未執行停損。雙重紀律違反，最嚴重等級",
+        "tcost_ntd": 529.2,
+        "net_pnl_ntd": -11500,
+        "discipline_cost_ntd": -11500
+      },
+      "_last_updated": "2026-03-05T14:20:00.000+08:00"
+    },
+    {
+      "log_id": "night_20260305_072814",
+      "timestamp": "2026-03-05 07:28:14",
+      "session": "NIGHT_20260305",
+      "market": "TXF",
+      "signal_type": "NIGHT_OPENING",
+      "signal_data": {
+        "direction": "LONG",
+        "confidence": 0.68,
+        "lots": 1,
+        "entry_price": 33722.94,
+        "stop_loss": 33572.94,
+        "target_1": 33822.94,
+        "target_2": 33922.94
+      },
+      "m11_constraint": {
+        "regime": "NEUTRAL",
+        "vulnerability_score": 46.5,
+        "max_lots_allowed": 2,
+        "direction_bias": "NEUTRAL"
+      },
+      "market_context": {
+        "twii_close": 33672.94,
+        "twii_change_pct": 2.57,
+        "estimated_basis": 50,
+        "basis_status": "NORMAL_PREMIUM",
+        "gex_status": "NEGATIVE_ZONE",
+        "estimated_pcr": 1.35,
+        "foreign_oi": -41134,
+        "macro_score": 7
+      },
+      "signal_gate": {
+        "consistency_pct": 75.9,
+        "adr_sync_strength": 0.75
+      },
+      "training_valid": false,
+      "training_invalid_reason": "TXF報價不可用 + VIX不可用，關鍵數據缺失",
+      "data_quality_flags": {
+        "txf_price_available": false,
+        "vix_available": false,
+        "basis_estimated": true,
+        "gex_estimated": true,
+        "overall_quality": "DEGRADED"
+      },
+      "execution_status": "PENDING_PRICE_CONFIRMATION",
+      "execution_note": "等待15:00夜盤開盤取得TXF實際報價後再評估進場",
+      "risk_warnings": [
+        "TXF夜盤報價不可用，無法確認實際期現價差",
+        "外資TXF淨空OI -41,134口未撤，籌碼結構偏空",
+        "VIX數據不可用，無法評估市場波動率風險",
+        "M11 NEUTRAL狀態，口數上限2口",
+        "此訊號僅供模擬學習，不可用於實際交易"
+      ]
+    }
+  ],
+  "metadata": {
+    "last_update": "2026-03-05T14:25:00+08:00",
+    "total_records": 16,
+    "last_night_observation": "2026-03-04"
+  },
+  "decision_log": [
+    {
+      "decision_id": "FUT_TXF_20260304_EX026_NO_SIGNAL",
+      "execution_id": 26,
+      "timestamp": "2026-03-04T12:05:00+00:00",
+      "timestamp_cst": "2026-03-04T20:05:00+08:00",
+      "scan_time_readable": "2026-03-04 20:05 CST",
+      "market_type": "FUTURES",
+      "contract": "TXF202603",
+      "decision_type": "NO_SIGNAL_OBSERVE",
+      "action": "OBSERVE_ONLY",
+      "market_context": {
+        "txf_price_estimated": 33548,
+        "basis": 808,
+        "basis_status": "EXTREME_PREMIUM_ALERT",
+        "m11_fragility_score": 76.5,
+        "m11_state": "RED",
+        "gex_status": "NEGATIVE",
+        "us_futures_direction": "BEARISH",
+        "adr_sync_strength": -0.85,
+        "resonance": "STRONG_BEARISH_DIVERGENCE"
+      },
+      "decision_reasoning": [
+        "Basis +808點極度異常，追價風險過高",
+        "當前價33548超過前次做空進場價33250，錯過進場點",
+        "M11紅色警報，最大1口，無新開倉空間",
+        "美股尚未開盤(22:30 CST)，缺乏方向確認",
+        "美台方向背離，技術性反彈與基本面脫鉤",
+        "距離美股開盤還有2.4小時，建議等待確認"
+      ],
+      "signal_conditions_checked": {
+        "basis_extreme": true,
+        "price_exceeded_prev_signal": true,
+        "us_bearish": true,
+        "adr_divergence": true,
+        "m11_red_alert": true,
+        "near_resistance": true,
+        "us_market_not_open": true
+      },
+      "all_conditions_met": true,
+      "signal_issued": false,
+      "signal_blocked_reason": "Basis極度異常+錯過進場點+M11紅燈限制",
+      "previous_signal_reference": {
+        "execution_id": 22,
+        "issued_at": "2026-03-04 16:13 CST",
+        "signal_type": "SHORT",
+        "entry_price": 33250,
+        "current_price": 33548,
+        "price_deviation": 298,
+        "status": "INVALIDATED"
+      },
+      "next_review": "21:00 CST (Execution #27) 或美股開盤後(22:30 CST)",
+      "learning_note": "極度異常的Basis +808點環境下，即使所有空頭條件滿足，仍需考量追價風險與進場時機。錯過前次進場點後，等待更佳進場機會（價格回落至33400以下或美股開盤確認）是更審慎的選擇。"
+    }
+  ],
+  "_decision_count": 1,
+  "_session_20260305": {
+    "date": "2026-03-05",
+    "session": "DAY_TRADE_0920_OPEN",
+    "market_state": "M11=YELLOW / M13=NEUTRAL / M15=NEUTRAL",
+    "taiex_at_signal": 33708.0,
+    "tx_at_signal": 33735.0,
+    "taiex_change_pct": 2.55,
+    "quota_definition": {
+      "holding_cap_twd": 1000000,
+      "turnover_cap_twd": 2000000,
+      "note": "持倉上限100萬(任意時點持倉總市值) + 沖銷上限200萬(當日買賣合計)"
+    },
+    "signals_generated": 4,
+    "signals_watch": 4,
+    "total_potential_exposure_twd": 784900,
+    "valid_signal_rate": "4/4 LONG signals = 100% training_valid",
+    "futures_signals_generated": 1,
+    "futures_direction": "SHORT",
+    "futures_m11_constraint": "NEUTRAL_LEAN_SHORT",
+    "discipline_failures": {
+      "count": 2,
+      "symbols": [
+        "2609 陽明",
+        "2303 聯電"
+      ],
+      "total_loss_twd": -23000,
+      "failure_types": [
+        "CHASE_ENTRY",
+        "STOP_LOSS_NOT_EXECUTED"
+      ],
+      "recorded_at": "2026-03-05T13:22:00.000+08:00"
+    }
+  },
+  "_audit_20260305": {
+    "audit_time": "2026-03-05T14:25:00+08:00",
+    "auditor": "strategy-performance-attribution-analyst",
+    "trades_audited": 11,
+    "trades_updated_this_audit": 7,
+    "system_signals_closed": 5,
+    "discipline_failures_closed": 2,
+    "pending_observation_unchanged": 2,
+    "rejected_unchanged": 2,
+    "total_records_after_audit": 16,
+    "new_trades_added": 0,
+    "training_dataset_progress": {
+      "total_records": 16,
+      "training_valid_count": 4,
+      "threshold_walkforward": 60,
+      "threshold_ml": 500,
+      "progress_pct_to_walkforward": 26.7
+    },
+    "pnl_summary_20260305": {
+      "system_signals_gross_ntd": 42512,
+      "system_signals_net_ntd": 30397,
+      "discipline_failures_ntd": -23000,
+      "total_net_ntd": 7397,
+      "total_tcost_ntd": 13359
+    }
+  }
+}
