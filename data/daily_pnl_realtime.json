@@ -1,0 +1,47 @@
+{
+  "_schema_version": "1.0",
+  "_description": "每日即時損益追蹤檔 — 每筆交易出場後即時更新，供熔斷守門員讀取。每日開盤前重置。",
+  "_update_rule": "每次出場成交後立即 append realized_trades，重算 realized_loss_twd。禁止跨日保留，每日 08:00 CST 重置。",
+  "_fuse_rule": "realized_loss_twd <= -15000 → 全系統熔斷，禁止新倉，推 Telegram 告警。realized_loss_twd <= -25000 → 觸發提前 13:00 清倉流程。",
+  "date": "2026-03-05",
+  "reset_at": "2026-03-05T08:00:00.000+08:00",
+  "last_updated": "2026-03-05T20:14:00.000+08:00",
+  "realized_pnl_twd": -23000,
+  "realized_loss_twd": -23000,
+  "realized_profit_twd": 0,
+  "unrealized_pnl_twd": 0,
+  "total_pnl_twd": -23000,
+  "trade_count_today": 2,
+  "win_count": 0,
+  "loss_count": 2,
+  "fuse_status": {
+    "level": "FUSED",
+    "triggered": true,
+    "trigger_threshold_twd": -15000,
+    "hard_close_threshold_twd": -25000,
+    "triggered_at": "2026-03-05T13:22:00.000+08:00",
+    "message": "今日已實現虧損 -23,000 TWD，超過 -15,000 熔斷線，禁止新倉"
+  },
+  "realized_trades": [
+    {
+      "trade_id": "DT_2609_20260305_DISCIPLINE_001",
+      "symbol": "2609",
+      "name": "陽明",
+      "direction": "LONG",
+      "pnl_twd": -11500,
+      "exit_time_cst": "盤中",
+      "trade_type": "DISCIPLINE_FAILURE"
+    },
+    {
+      "trade_id": "DT_2303_20260305_DISCIPLINE_001",
+      "symbol": "2303",
+      "name": "聯電",
+      "direction": "LONG",
+      "pnl_twd": -11500,
+      "exit_time_cst": "盤中",
+      "trade_type": "DISCIPLINE_FAILURE"
+    }
+  ],
+  "open_positions": [],
+  "_reset_instructions": "每個交易日 08:00 CST 由 08:15 選股 recipe 執行前，將此檔重置為空白模板：realized_pnl_twd=0, realized_loss_twd=0, trade_count_today=0, fuse_status.triggered=false, realized_trades=[], open_positions=[]"
+}
