@@ -1,0 +1,478 @@
+{
+  "positions": [
+    {
+      "position_id": "PLTR_W8_004",
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "market_type": "US_WAVE",
+      "status": "ACTIVE_TRAIL",
+      "signal_source": "US Equity Wave Commander W8",
+      "entry_date": "2026-02-24",
+      "entry_price": 127.5,
+      "target_price": 140.0,
+      "trailing_stop": 147.06,
+      "stop_loss": 120.0,
+      "predicted_direction": "LONG",
+      "predicted_return_pct": 9.8,
+      "hold_days": 9,
+      "last_close": 153.19,
+      "unrealized_pnl_usd": 362.68,
+      "unrealized_pnl_twd": 11750.83,
+      "unrealized_return_pct": 20.15,
+      "position_usd": 1800.0,
+      "position_twd": 58320.0,
+      "kelly_f": 0.195,
+      "m11_signal": "GREEN(70)",
+      "shares": 14.117647058823529,
+      "daily_pnl_log": [
+        {
+          "date": "2026-03-03",
+          "close": 147.22,
+          "pnl_usd": 141.6
+        },
+        {
+          "date": "2026-03-04",
+          "close": 153.11,
+          "pnl_usd": 83.15
+        },
+        {
+          "date": "2026-03-05",
+          "close": 153.19,
+          "pnl_usd": 1.13
+        }
+      ],
+      "trailing_stop": 147.06,
+      "notes": "hold_days 9日（2026-03-05 14:00盤後結算）。Trailing stop $147.06 未觸發（close $153.19 >> stop）。止損 $120 未觸發（unrealized +20.15%）。到期：9/30日，未到期。今日 +$1.13 USD。"
+    },
+    {
+      "position_id": "META_W8_005",
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "market_type": "US_WAVE",
+      "status": "TP_TRIGGERED",
+      "signal_source": "US Equity Wave Commander W8",
+      "entry_date": "2026-02-26",
+      "entry_price": 648.0,
+      "target_price": 660.0,
+      "stop_loss": 610.0,
+      "tight_stop": 645.0,
+      "trailing_stop": 641.02,
+      "predicted_direction": "LONG",
+      "predicted_return_pct": 1.85,
+      "hold_days": 7,
+      "last_close": 667.73,
+      "unrealized_pnl_usd": 45.67,
+      "unrealized_pnl_twd": 1479.71,
+      "unrealized_return_pct": 3.04,
+      "position_usd": 1500.0,
+      "position_twd": 48600.0,
+      "kelly_f": 0.155,
+      "m11_signal": "YELLOW(52)",
+      "geopolitical_flag": true,
+      "shares": 2.314814814814815,
+      "daily_pnl_log": [
+        {
+          "date": "2026-03-03",
+          "close": 655.08,
+          "pnl_usd": 15.97
+        },
+        {
+          "date": "2026-03-04",
+          "close": 667.73,
+          "pnl_usd": 29.28
+        },
+        {
+          "date": "2026-03-05",
+          "close": 667.73,
+          "pnl_usd": 0.0
+        }
+      ],
+      "tp_triggered_at": "2026-03-04",
+      "tp_triggered_price": 667.73,
+      "tp_excess_pct": 1.17,
+      "notes": "hold_days 7日（2026-03-05 14:00盤後結算）。TP_TRIGGERED 狀態維持，等待 Commander 指令（平倉 or 轉 TRAIL $641.02）。trailing_stop $641.02 未觸發（close $667.73 >> stop）。到期：7/30日，未到期。今日平盤 $0.00 USD。"
+    }
+  ],
+  "_circuit_breaker": {
+    "state": "NORMAL",
+    "consecutive_losses": 0,
+    "data_quality_warning": false,
+    "data_quality_pct": 100.0,
+    "data_quality_timestamp": "2026-03-05 14:00 CST",
+    "warning_reason": "CLEARED: quality_pct=100.0% at 2026-03-05 14:00 CST",
+    "us_wave_circuit_state": "GREEN",
+    "us_wave_quota_used_twd": 106920,
+    "us_wave_quota_limit_twd": 500000,
+    "us_wave_quota_used_pct": 21.4,
+    "us_wave_quota_remaining_twd": 393080
+  },
+  "_quota_status": {
+    "TW_WAVE": {
+      "quota_twd": 0,
+      "used_twd": 0,
+      "available_twd": 0,
+      "status": "CLEARED — 禁止新增持倉"
+    },
+    "US_WAVE": {
+      "quota_twd": 500000,
+      "used_twd": 106920,
+      "available_twd": 393080,
+      "utilization_pct": 21.4,
+      "status": "OK",
+      "active_positions": [
+        "PLTR_W8_004",
+        "META_W8_005"
+      ]
+    },
+    "FUTURES": {
+      "quota_twd": 500000,
+      "used_twd": 0,
+      "available_twd": 500000,
+      "utilization_pct": 0.0,
+      "status": "FLAT"
+    },
+    "DAY_TRADE": {
+      "quota_daily_twd": 1000000,
+      "max_turnover_twd": 2000000,
+      "status": "MANAGED_BY_COMMANDER"
+    }
+  },
+  "_ic_tracker": {
+    "us_wave": {
+      "ic_rolling_w8": 0.9915,
+      "ic_today": 1.0,
+      "ic_quality_label": "STRONG",
+      "n_trades_evaluated": 8,
+      "consecutive_ic_negative_days": 0,
+      "suspend_new_signals": false,
+      "trend": "STRONG (8/8 方向正確累計)",
+      "last_updated": "2026-03-05"
+    },
+    "tw_swing": {
+      "ic_mean": null,
+      "trend": "N/A — TW_WAVE CLEARED"
+    },
+    "futures": {
+      "ic_mean": null,
+      "trend": "N/A — 無 FUTURES 持倉歷史"
+    },
+    "day_trade": {
+      "ic_mean": null,
+      "trend": "N/A — 當沖獨立管理"
+    }
+  },
+  "_kelly_status": {
+    "us_wave": {
+      "rolling_win_rate": 0.9915,
+      "kelly_f_half": 0.4958,
+      "next_signal_suggested_usd": 3608.69,
+      "next_signal_suggested_twd": 116921.65,
+      "available_quota_usd": 12132.1,
+      "available_quota_twd": 393080,
+      "geo_critical_multiplier": 0.6,
+      "effective_kelly": 0.2974,
+      "note": "地緣政治CRITICAL × Half Kelly × 0.6 = 有效Kelly 0.2974",
+      "last_updated": "2026-03-05"
+    }
+  },
+  "_summary": {
+    "as_of": "2026-03-05 14:00 CST (盤後結算 Step1完整結算)",
+    "total_positions": 2,
+    "tw_wave_count": 0,
+    "us_wave_count": 2,
+    "futures_count": 0,
+    "day_trade_count": 0,
+    "total_unrealized_pnl_usd": 408.35,
+    "total_unrealized_pnl_twd": 13230.54,
+    "today_pnl_usd": 1.13,
+    "today_pnl_twd": 36.61,
+    "usd_twd_rate": 32.4,
+    "regime": "BLACK_SWAN_BEARISH — DEFENSIVE_HOLD",
+    "geopolitical_level": "CRITICAL",
+    "new_pending_signals": 0,
+    "stop_loss_triggered": [],
+    "tp_triggered": [
+      "META_W8_005"
+    ],
+    "expired_positions": [],
+    "force_exit_positions": [],
+    "tw_wave_violations": 0,
+    "hold_days_updated": [
+      "PLTR_W8_004: 9日（維持）",
+      "META_W8_005: 7日（維持）"
+    ],
+    "trailing_stop_updates": {
+      "PLTR_W8_004": "$147.06（維持，close $153.19 × 0.96）",
+      "META_W8_005": "$641.02（TP_TRIGGERED 狀態維持）"
+    },
+    "ic_update": "ic_today=1.0 STRONG，n_trades=8，rolling_W8=0.9915",
+    "kelly_update": "effective_kelly=0.2974，next_signal_twd=116,922",
+    "circuit_breaker": "NORMAL/GREEN，consecutive_losses=0，data_quality=100%",
+    "closed_loop_verification": "PASS — 2026-03-05 14:04 CST (19/19項通過，無違規無超額)",
+    "alerts": [
+      "⚠️ META_W8_005 TP $660 已觸發 (close $667.73, +1.17% 超過)。需 Commander 確認：平倉 or 轉 TRAIL ($641.02)。",
+      "✅ PLTR_W8_004 trailing stop $147.06 持續有效（close $153.19）",
+      "✅ 今日 P&L +$1.13 USD / +$36.61 TWD",
+      "✅ IC STRONG 8/8 方向正確",
+      "📋 TW_WAVE=0持倉，無違規"
+    ]
+  },
+  "audit_log": [
+    {
+      "timestamp": "2026-03-04 08:20:00 CST",
+      "agent": "nebula / 0820-step1",
+      "action": "PRE_MARKET_UPDATE_0820",
+      "tw_wave_violations": 0,
+      "hold_days_updated": {
+        "PLTR_W8_004": "5 → 6",
+        "META_W8_005": "3 → 4"
+      },
+      "stop_loss_triggered": [],
+      "expired_positions": [],
+      "new_pending_signals": 0,
+      "new_pending_reason": "DEFENSIVE_HOLD — 地緣政治CRITICAL，無新訊號寫入",
+      "quota_status": {
+        "TW_WAVE": "quota=0 CLEARED",
+        "US_WAVE": "used=106,920/500,000 TWD (21.4%) OK",
+        "FUTURES": "used=0/500,000 TWD FLAT",
+        "DAY_TRADE": "MANAGED_BY_COMMANDER"
+      },
+      "circuit_breaker_state": "NORMAL (consecutive_losses=0, data_quality=100%)",
+      "us_wave_circuit_state": "GREEN",
+      "ic_snapshot": {
+        "us_wave_ic_today": 1.0,
+        "us_wave_ic_label": "STRONG"
+      },
+      "notes": "盤前更新完成。PLTR hold_days 5→6日。META hold_days 3→4日。無止損/到期事件。DEFENSIVE_HOLD政策維持。"
+    },
+    {
+      "timestamp": "2026-03-04 14:55:00 CST",
+      "agent": "portfolio-strategy-commander",
+      "action": "daily_telegram_report_push",
+      "notes": "盤後彙整完成。BEAR regime confirmed. Net alpha +5.16% vs benchmark -4.35%."
+    },
+    {
+      "timestamp": "2026-03-04 15:10:23 CST",
+      "agent": "market-data-validation-gatekeeper",
+      "quality_pct": 100.0,
+      "event": "data_quality_cleared_100pct",
+      "notes": "CLEARED: quality_pct=100.0%"
+    },
+    {
+      "timestamp": "2026-03-04 22:05 CST",
+      "agent": "nebula / 1400-post-market-execution2",
+      "action": "POST_MARKET_SETTLEMENT_1400",
+      "hold_days_updated": {
+        "PLTR_W8_004": "6 → 7",
+        "META_W8_005": "4 → 5"
+      },
+      "today_pnl_usd": 32.46,
+      "today_pnl_twd": 1051.7,
+      "stop_loss_triggered": [],
+      "tp_triggered": [],
+      "expired_positions": [],
+      "circuit_breaker_state": "NORMAL",
+      "us_wave_circuit_state": "GREEN",
+      "notes": "盤後完整結算。PLTR +1.41% unrealized +15.47%，trailing stop $141.33 未觸發。META +0.23% unrealized +1.09%，距TP $660 僅0.75%。今日合計 +$32.46。IC STRONG。"
+    },
+    {
+      "timestamp": "2026-03-05 06:00 CST",
+      "agent": "market-data-validation-gatekeeper",
+      "action": "NIGHT_SESSION_SETTLEMENT_2230CST_EX3",
+      "tw_wave_violations": 0,
+      "hold_days_updated": {
+        "PLTR_W8_004": "7 → 8",
+        "META_W8_005": "5 → 6"
+      },
+      "stop_loss_triggered": [],
+      "tp_triggered": [
+        "META_W8_005 — close $667.73 > TP $660.00 (+1.17%)"
+      ],
+      "expired_positions": [],
+      "prices_fetched": {
+        "PLTR": {
+          "close": 153.11,
+          "change_pct": 3.15,
+          "source": "FMP_EOD"
+        },
+        "META": {
+          "close": 667.73,
+          "change_pct": 1.48,
+          "source": "FMP_EOD"
+        },
+        "TSM": {
+          "close": 357.44,
+          "change_pct": 1.22,
+          "source": "FMP_EOD"
+        },
+        "AMD": {
+          "close": 202.07,
+          "change_pct": 5.18,
+          "source": "FMP_EOD"
+        },
+        "NVDA": {
+          "close": 183.04,
+          "change_pct": 1.44,
+          "source": "FMP_EOD"
+        },
+        "UMC": {
+          "close": null,
+          "change_pct": null,
+          "source": "UNAVAILABLE_402"
+        }
+      },
+      "today_pnl_usd": 112.43,
+      "today_pnl_twd": 3642.89,
+      "total_unrealized_pnl_usd": 407.22,
+      "trailing_stop_updates": {
+        "PLTR_W8_004": "$141.33 → $146.99 (153.11×0.96)"
+      },
+      "circuit_breaker_state": "NORMAL / GREEN",
+      "quality_pct": 83.3,
+      "notes": "夜盤盤後結算完成。META TP 觸發！PLTR trailing stop 更新。AMD+5.18% 強勁反彈。無 TW_WAVE 違規。需 Commander 確認 META 處置方案。"
+    },
+    {
+      "timestamp": "2026-03-05 11:05 CST",
+      "agent": "portfolio-strategy-commander",
+      "action": "INTRADAY_MIDDAY_SCAN_V91_EXECUTION5",
+      "positions_affected": [
+        "PLTR_W8_004",
+        "META_W8_005"
+      ],
+      "quota_status_snapshot": {
+        "TW_WAVE": "quota=0 CLEARED",
+        "US_WAVE": "used=106,920/500,000 TWD (21.4%) OK",
+        "FUTURES": "used=0/500,000 TWD FLAT",
+        "DAY_TRADE": "MANAGED_BY_COMMANDER"
+      },
+      "circuit_breaker_state": "NORMAL (consecutive_losses=0, data_quality=100%)",
+      "notes": "盤中中場彙整完成(v9.1 Execution#5)。TAIEX +2.82% 反彈動能遞減。M11由RED改善至ORANGE(58分)。記憶體三雄+研華+明泰為最強飆股族群。Circuit Breaker NORMAL。TW_WAVE CLEARED無新台股波段訊號。US_WAVE持倉PLTR/META維持監控。"
+    },
+    {
+      "timestamp": "2026-03-05 08:20:00 CST",
+      "agent": "nebula / 0820-step1",
+      "action": "PRE_MARKET_UPDATE_0820_EX3",
+      "tw_wave_violations": 0,
+      "hold_days_updated": {
+        "PLTR_W8_004": "8 → 9",
+        "META_W8_005": "6 → 7"
+      },
+      "stop_loss_triggered": [],
+      "tp_triggered_existing": [
+        "META_W8_005 — 維持 TP_TRIGGERED 狀態，等待 Commander 指令"
+      ],
+      "trailing_stop_check": {
+        "PLTR_W8_004": "trailing=$146.99 vs close=$153.11 → 未觸發",
+        "META_W8_005": "trailing=$641.02 vs close=$667.73 → 未觸發"
+      },
+      "expiry_check": {
+        "PLTR_W8_004": "9/30日 → 未到期",
+        "META_W8_005": "7/30日 → 未到期"
+      },
+      "new_pending_signals": 0,
+      "new_pending_reason": "daily_watchlist_20260305 為 DAY_TRADE 當沖標的，非 US_WAVE/FUTURES 波段訊號；DEFENSIVE_HOLD 政策維持，無新波段訊號",
+      "quota_status": {
+        "TW_WAVE": "quota=0 CLEARED（0持倉）",
+        "US_WAVE": "used=106,920/500,000 TWD (21.4%) OK",
+        "FUTURES": "used=0/500,000 TWD FLAT",
+        "DAY_TRADE": "MANAGED_BY_COMMANDER（持倉上限100萬，買賣合計≤200萬/日）"
+      },
+      "circuit_breaker_state": "NORMAL (consecutive_losses=0, data_quality=100%)",
+      "us_wave_circuit_state": "GREEN",
+      "ic_snapshot": {
+        "us_wave_ic_rolling_w8": 0.9915,
+        "us_wave_ic_label": "STRONG",
+        "tw_swing": "N/A",
+        "futures": "N/A",
+        "day_trade": "N/A — 獨立管理"
+      },
+      "health_check": "NORMAL",
+      "abort": false,
+      "restrict_new_signals": false,
+      "notes": "2026-03-05 盤前更新完成。PLTR hold_days 8→9日，trailing stop $146.99 有效。META hold_days 6→7日，TP_TRIGGERED 狀態維持等待 Commander。無止損/到期/違規事件。今日 DAY_TRADE 標的：2603長榮(rank1)/2609陽明(rank2)，M11 RED下限2筆新倉，Kelly×0.3。"
+    },
+    {
+      "timestamp": "2026-03-05 14:04 CST",
+      "agent": "nebula / 1400-post-market-step1",
+      "action": "POST_MARKET_SETTLEMENT_1400_STEP1",
+      "tw_wave_violations": 0,
+      "hold_days": {
+        "PLTR_W8_004": "9日（維持）",
+        "META_W8_005": "7日（維持）"
+      },
+      "prices": {
+        "PLTR": {"close": 153.19, "change_pct": 3.21},
+        "META": {"close": 667.73, "change_pct": 0.0}
+      },
+      "trailing_stop_updates": {
+        "PLTR_W8_004": "$147.06（close $153.19 × 0.96）",
+        "META_W8_005": "$641.02（TP_TRIGGERED 維持）"
+      },
+      "stop_loss_triggered": [],
+      "tp_triggered": ["META_W8_005 — TP_TRIGGERED 狀態持續，等待 Commander"],
+      "expired_positions": [],
+      "force_exit_positions": [],
+      "today_pnl_usd": 1.13,
+      "today_pnl_twd": 36.61,
+      "total_unrealized_pnl_usd": 408.35,
+      "total_unrealized_pnl_twd": 13230.54,
+      "ic_update": {
+        "ic_today": 1.0,
+        "ic_quality_label": "STRONG",
+        "n_trades_evaluated": 8,
+        "ic_rolling_w8": 0.9915,
+        "trend": "STRONG (8/8 方向正確累計)"
+      },
+      "kelly_update": {
+        "effective_kelly": 0.2974,
+        "next_signal_suggested_usd": 3608.69,
+        "next_signal_suggested_twd": 116921.65
+      },
+      "circuit_breaker_state": "NORMAL",
+      "us_wave_circuit_state": "GREEN",
+      "consecutive_losses": 0,
+      "data_quality_pct": 100.0,
+      "quota_status": {
+        "TW_WAVE": "quota=0 CLEARED（0持倉）",
+        "US_WAVE": "used=106,920/500,000 TWD (21.4%) OK",
+        "FUTURES": "used=0/500,000 TWD FLAT",
+        "DAY_TRADE": "MANAGED_BY_COMMANDER"
+      },
+      "notes": "14:00 盤後完整結算 Step1 完成。PLTR close $153.19(+3.21%) trailing $147.06，今日 +$1.13 USD。META close $667.73(平盤) TP_TRIGGERED 維持等待 Commander。IC STRONG 8/8，Kelly 有效 0.2974。Circuit Breaker NORMAL/GREEN。無止損/到期/超額事件。"
+    },
+    {
+      "timestamp": "2026-03-05 14:00 CST",
+      "agent": "market-data-validation-gatekeeper",
+      "action": "STEP0_HEALTH_CHECK_TW_WAVE_SCAN_CB_VERIFICATION",
+      "tw_wave_violations": 0,
+      "tw_wave_blocked": [],
+      "prices_fetched": {
+        "PLTR": {
+          "close": 153.19,
+          "change_pct": 3.21,
+          "source": "FMP_EOD",
+          "validation": "CONFIRMED"
+        },
+        "META": {
+          "close": 667.73,
+          "change_pct": 1.48,
+          "source": "FMP_EOD",
+          "validation": "CONFIRMED"
+        }
+      },
+      "blocked_tickers": [],
+      "quality_pct": 100.0,
+      "circuit_breaker_state": "NORMAL",
+      "us_wave_circuit_state": "GREEN",
+      "today_pnl_usd": 1.13,
+      "today_pnl_twd": 36.61,
+      "total_unrealized_pnl_usd": 408.35,
+      "trailing_stop_check": {
+        "PLTR_W8_004": "trailing=$147.06 vs close=$153.19 → 未觸發",
+        "META_W8_005": "trailing=$641.02 vs close=$667.73 → 未觸發"
+      },
+      "abort": false,
+      "notes": "Step0 系統健康檢查完成。TW_WAVE=0違規（CLEAR）。PLTR close $153.19(+3.21%) CONFIRMED，trailing stop 更新。META close $667.73(+1.48%) CONFIRMED，TP_TRIGGERED 維持等待Commander。Circuit Breaker NORMAL/GREEN。data_quality=100%。"
+    }
+  ]
+}
