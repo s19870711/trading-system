@@ -296,15 +296,37 @@ def market_snapshot():
 def market_snapshot_var():
     return market_snapshot()
 
+def get_near_month_contract() -> str:
+    """動態計算台指期近月合約代碼（TXFX0 格式，X=月份字母A-L，0=年份末位）"""
+    from datetime import date, timedelta
+    now = date.today()
+    # 找當月第三個週三（結算日）
+    first_day = now.replace(day=1)
+    first_weekday = first_day.weekday()  # 0=Monday
+    days_to_wed = (2 - first_weekday) % 7
+    first_wed = first_day + timedelta(days=days_to_wed)
+    third_wed = first_wed + timedelta(weeks=2)
+    # 若今天已過結算日，用下個月
+    if now > third_wed:
+        if now.month == 12:
+            target = now.replace(year=now.year + 1, month=1, day=1)
+        else:
+            target = now.replace(month=now.month + 1, day=1)
+    else:
+        target = now
+    month_code = chr(ord('A') + target.month - 1)  # A=1月, B=2月, ..., L=12月
+    year_digit = str(target.year)[-1]
+    return f"TXF{month_code}{year_digit}"
+
 @app.get("/market/futures/taifex")
 def futures_taifex():
     require_sdk()
     try:
-        symbol = "TXFC6"
+        symbol = get_near_month_contract()
         r = sdk.marketdata.rest_client.futopt.intraday.quote(symbol)
         return {"ok": True, "symbol": symbol, "price": getattr(r, "closePrice", None) or getattr(r, "lastPrice", None), "data": str(r), "source": "fubon_sdk_futopt", "timestamp": ts()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"TXFC6 query failed: {e}")
+        raise HTTPException(status_code=500, detail=f"{symbol} query failed: {e}")
 
 if __name__ == "__main__":
     import uvicorn
