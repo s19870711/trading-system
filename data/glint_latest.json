@@ -1,1 +1,68 @@
-ewogICJndHNfY3VycmVudCI6IDEwMCwKICAiZ3RzX2RlbHRhIjogMCwKICAic2V2ZXJpdHkiOiAiQ1JJVElDQUwiLAogICJzY2FuX3RpbWVzdGFtcF9jc3QiOiAiMjAyNi0wMy0wOSAyMjowNyBDU1QiLAogICJ0b3Bfc2lnbmFscyI6IFsKICAgIHsKICAgICAgInNldmVyaXR5IjogIkNSSVRJQ0FMIiwKICAgICAgImNhdGVnb3J5IjogIumHkeiejeW4guWgtCIsCiAgICAgICJoZWFkbGluZSI6ICLoga/mupbmnIPlrpjlk6Hph4vlh7rnt4rmgKXliKnnjofoqr/mlbToqIromZ/vvIzlm6DlnLDnt6PmlL/msrvnt4rlvLXlsYDli6LmjIHnuozljYfmuqsiLAogICAgICAic291cmNlIjogIkZpcnN0IFNxdWF3ayIsCiAgICAgICJyZWdpb24iOiAiVFdFRVQiCiAgICB9LAogICAgewogICAgICAic2V2ZXJpdHkiOiAiSElHSCIsCiAgICAgICJjYXRlZ29yeSI6ICLou43kuovooZ3nqoEiLAogICAgICAiaGVhZGxpbmUiOiAi6KGh5pif5b2x5YOP6aGv56S6576O5ZyL5Zyo5Lit5p2x5Y+K5q2Q5rSy6YOo572y5aSn6YeP56m65Lit5Yqb6YePIiwKICAgICAgInNvdXJjZSI6ICJERCBHZW9wb2xpdGljcyIsCiAgICAgICJyZWdpb24iOiAiVEVMRUdSQU0iCiAgICB9LAogICAgewogICAgICAic2V2ZXJpdHkiOiAiSElHSCIsCiAgICAgICJjYXRlZ29yeSI6ICLou43kuovooZ3nqoEiLAogICAgICAiaGVhZGxpbmUiOiAi576O5Lul6IGv5ZCI5bCN5LyK5pyX5omT5pOK6KGM5YuV5bCH5piv6b6Q5aSn44CB6ZW35pyf5LiU5q+A5ruF5oCn55qEIiwKICAgICAgInNvdXJjZSI6ICJUaGUgSXNsYW5kZXIiLAogICAgICAicmVnaW9uIjogIlRFTEVHUkFNIgogICAgfSwKICAgIHsKICAgICAgInNldmVyaXR5IjogIkhJR0giLAogICAgICAiY2F0ZWdvcnkiOiAi6IO95rqQ5biC5aC0IiwKICAgICAgImhlYWRsaW5lIjogIumcjeeIvuacqOiMsua1t+Wzvee3iuW8teWxgOWLouaMgee6jO+8jOayueWDueWboOa1t+i7jea8lOe/kuaTtOWkp+WGjea8sjQuMiUiLAogICAgICAic291cmNlIjogIlJldXRlcnMiLAogICAgICAicmVnaW9uIjogIk5FV1MiCiAgICB9LAogICAgewogICAgICAic2V2ZXJpdHkiOiAiSElHSCIsCiAgICAgICJjYXRlZ29yeSI6ICLou43kuovooZ3nqoEiLAogICAgICAiaGVhZGxpbmUiOiAi54aN5YWL6Jit5Zub5ZCN6aOb6KGM5ZOh5pa8TWktMjToiIdHZXJhbueEoeS6uuapn+ebuOaSnuS6i+aVheS4reWWqueUnyIsCiAgICAgICJzb3VyY2UiOiAiQVNUUkEiLAogICAgICAicmVnaW9uIjogIlRFTEVHUkFNIgogICAgfQogIF0sCiAgInJpc2tfbXVsdGlwbGllcnMiOiB7CiAgICAidGFpd2FuX3N0b2NrcyI6IDEuNSwKICAgICJ0YWlleF9mdXR1cmVzIjogMS41LAogICAgImNyeXB0byI6IDEuNQogIH0sCiAgImNhdGVnb3JpZXMiOiB7CiAgICAi6LuN5LqL6KGd56qBIjogIkNSSVRJQ0FMIiwKICAgICLog73mupDluILloLQiOiAiQ1JJVElDQUwiLAogICAgIumHkeiejeW4guWgtCI6ICJDUklUSUNBTCIsCiAgICAi5aSW5Lqk6Zec5L+CIjogIkhJR0giLAogICAgIuaUv+ayu+mgmOWwjiI6ICJISUdIIiwKICAgICLmoLjmrablqIHohIUiOiAiTU9ERVJBVEUiLAogICAgIuS6uumBk+WNseapnyI6ICJNT0RFUkFURSIsCiAgICAi57ay6Lev5pS75pOKIjogIkxPVyIsCiAgICAi57Oh6aOf5a6J5YWoIjogIkxPVyIsCiAgICAi5rCj5YCZ55Kw5aKDIjogIkxPVyIsCiAgICAi5aSq56m656u254itIjogIkxPVyIsCiAgICAi55ar5oOF5YGl5bq3IjogIkxPVyIKICB9LAogICJzaWduYWxfY291bnRzIjogewogICAgImZlZWQiOiAxMiwKICAgICJ3aGFsZSI6IDQsCiAgICAiZmxpZ2h0cyI6IDcsCiAgICAiY3JpdGljYWwiOiAxLAogICAgImhpZ2giOiA0CiAgfSwKICAiZGVkdXBfZGVjaXNpb24iOiAiU0lMRU5UIiwKICAiZGVkdXBfcmVhc29uIjogImRlbHRhPTAsIGhhc2g9NDM2OTE2YzQzNDAxNjcxYyAodW5jaGFuZ2VkKSIsCiAgIndyaXRlX3RpbWVzdGFtcF9jc3QiOiAiMjAyNi0wMy0wOSAyMjowOSBDU1QiCn0=
+{
+  "gts_current": 100,
+  "gts_delta": 0,
+  "severity": "CRITICAL",
+  "scan_timestamp_cst": "2026-03-09 23:05 CST",
+  "top_signals": [
+    {
+      "severity": "CRITICAL",
+      "category": "金融市場",
+      "headline": "聯準會官員釋出緊急利率調整訊號,因地緣政治緊張局勢持續升溫",
+      "source": "First Squawk",
+      "region": "TWEET"
+    },
+    {
+      "severity": "HIGH",
+      "category": "軍事衝突",
+      "headline": "衛星影像顯示美國在中東及歐洲部署大量空中力量",
+      "source": "DD Geopolitics",
+      "region": "TELEGRAM"
+    },
+    {
+      "severity": "HIGH",
+      "category": "能源市場",
+      "headline": "霍爾木茲海峽緊張局勢升溫,油價因海軍演習擴大再漲4.2%",
+      "source": "Reuters",
+      "region": "NEWS"
+    },
+    {
+      "severity": "HIGH",
+      "category": "軍事衝突",
+      "headline": "烏克蘭四名飛行員於Mi-24與Geran無人機相撞事故中喪生",
+      "source": "ASTRA",
+      "region": "TELEGRAM"
+    }
+  ],
+  "risk_multipliers": {
+    "taiwan_stocks": 1.5,
+    "taiex_futures": 1.5,
+    "crypto": 1.5
+  },
+  "categories": {
+    "軍事衝突": "CRITICAL",
+    "能源市場": "CRITICAL",
+    "金融市場": "CRITICAL",
+    "外交關係": "HIGH",
+    "政治領導": "HIGH",
+    "核武威脅": "MODERATE",
+    "人道危機": "MODERATE",
+    "網路攻擊": "LOW",
+    "糧食安全": "LOW",
+    "氣候環境": "LOW",
+    "太空競爭": "LOW",
+    "疫情健康": "LOW"
+  },
+  "signal_counts": {
+    "feed": 13,
+    "whale": 4,
+    "flights": 7,
+    "critical": 1,
+    "high": 3
+  },
+  "dedup_decision": "SILENT",
+  "dedup_reason": "三重靜默：delta=0, hash=86a684607d1b5e0f (unchanged)",
+  "prev_gts": 100,
+  "prev_severity": "CRITICAL",
+  "gts_score": 100,
+  "write_timestamp_cst": "2026-03-09 23:07 CST"
+}
