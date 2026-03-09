@@ -1,1 +1,41 @@
-ewogICJfc2NoZW1hX3ZlcnNpb24iOiAiMTAuMCIsCiAgInNlc3Npb24iOiAibmlnaHQiLAogICJmZXRjaF90aW1lc3RhbXBfY3N0IjogIjIwMjYtMDMtMDlUMjI6MTM6MjMuMTM3MTQwKzA4OjAwIiwKICAidHRsX21pbnV0ZXMiOiAxNSwKICAidmFsaWRfdW50aWxfY3N0IjogIjIwMjYtMDMtMDlUMjI6Mjg6MjMuMTM3MTQwKzA4OjAwIiwKICAicXVhbGl0eV9wY3QiOiA4MC4wLAogICJxdWFsaXR5X25vdGUiOiAiTklHSFRfRVhFTVBUIOaooeW8j++8muWknOebpOWWrua6kOWxrOmgkOacn+ihjOeCuuOAglRYRkM25Zau5rqQVEFJRkVYX01JUz1QUk9YWe+8jOespuWQiOWknOebpOimj+evhOOAgiIsCiAgIm92ZXJhbGxfc3RhdHVzIjogIk9LIiwKICAiaW5zdHJ1bWVudHMiOiB7CiAgICAiVFhGQzYiOiB7CiAgICAgICJzeW1ib2wiOiAiVFhGQzYiLAogICAgICAicHJpY2VfcmVhbHRpbWUiOiAzMTc4Ni4wLAogICAgICAicHJpY2Vfc291cmNlIjogIlRBSUZFWF9NSVMiLAogICAgICAidmFsaWRhdGlvbl9zdGF0dXMiOiAiUFJPWFkiLAogICAgICAicHJpY2Vfbm90ZSI6ICLllq7mupBUQUlGRVhfTUlT77ybVk0gQnJpZGdl6LaF5pmC77ybWWFob28gVFhGPUYgNDA05aSx5pWX77yb5aSc55ukUFJPWFnkuI3lkYroraYiLAogICAgICAiYmlkIjogMzE3ODEuMCwKICAgICAgImFzayI6IDMxNzg2LjAsCiAgICAgICJjaGFuZ2UiOiAtMTkxNy4wLAogICAgICAiY2hhbmdlX3BjdCI6IC01LjY5LAogICAgICAib3BlbiI6IDMxNzMwLjAsCiAgICAgICJoaWdoIjogMzIxMTEuMCwKICAgICAgImxvdyI6IDMxMTI0LjAsCiAgICAgICJ2b2x1bWUiOiAyMzYxMzQsCiAgICAgICJ2b2x1bWVfcmF0aW8iOiBudWxsLAogICAgICAic2V0dGxlbWVudF9wcmljZSI6IDMxOTAyLjAsCiAgICAgICJvcGVuX2ludGVyZXN0IjogNzM3NjMsCiAgICAgICJyZWZfcHJpY2UiOiAzMzcwMy4wLAogICAgICAiZmV0Y2hfdGltZXN0YW1wX2NzdCI6ICIyMDI2LTAzLTA5VDIyOjEzOjIzLjEzNzE0MCswODowMCIKICAgIH0KICB9LAogICJmeF9yYXRlcyI6IHsKICAgICJVU0RfVFdEIjogewogICAgICAicmF0ZSI6IDMxLjg5MywKICAgICAgInNvdXJjZSI6ICJ5ZmluYW5jZSIsCiAgICAgICJ0aWVyIjogMSwKICAgICAgImNvbmZpcm1lZCI6IHRydWUsCiAgICAgICJmZXRjaF90aW1lc3RhbXBfY3N0IjogIjIwMjYtMDMtMDlUMjI6MTM6MjMuMTM3MTQwKzA4OjAwIgogICAgfQogIH0sCiAgInByZV9yZWZyZXNoX3N1bW1hcnkiOiB7CiAgICAidm1fYnJpZGdlX3N0YXR1cyI6ICJUSU1FT1VUIiwKICAgICJ0YWlmZXhfbWlzX3N0YXR1cyI6ICJPSyIsCiAgICAieWFob29fdHhmZl9zdGF0dXMiOiAiNDA0X05PVF9GT1VORCIsCiAgICAidHhmYzZfc291cmNlX3VzZWQiOiAiVEFJRkVYX01JUyIsCiAgICAidXNkX3R3ZF90aWVyX3VzZWQiOiAxLAogICAgInJlZnJlc2hfdGltZXN0YW1wX2NzdCI6ICIyMDI2LTAzLTA5VDIyOjEzOjIzLjEzNzE0MCswODowMCIKICB9Cn0=
+{
+  "_schema_version": "7.0",
+  "session": "NIGHT",
+  "fetch_timestamp_cst": "2026-03-09T23:15:19+08:00",
+  "ttl_minutes": 15,
+  "valid_until_cst": "2026-03-09T23:30:19+08:00",
+  "quality_pct": 80.0,
+  "quality_note": "NIGHT_EXEMPT模式：夜盤單源PROXY屬預期行為；VM Bridge超時；Yahoo Finance 429",
+  "overall_status": "OK",
+  "futures": {
+    "TXFC6": {
+      "symbol": "TXFC6",
+      "price_realtime": 31786.0,
+      "price_source": "TAIFEX_MIS",
+      "validation_status": "PROXY",
+      "price_note": "單源TAIFEX_MIS；VM Bridge超時；Yahoo Finance 429/404",
+      "bid": 31781.0,
+      "ask": 31786.0,
+      "change": -1917.0,
+      "change_pct": -5.69,
+      "open": 31730.0,
+      "high": 32111.0,
+      "low": 31124.0,
+      "volume": 236134,
+      "prev_close": 33703.0,
+      "settlement_price": 31902.0,
+      "open_interest": 73763,
+      "data_time": "2026-03-09T13:44:59+08:00",
+      "fetch_timestamp_cst": "2026-03-09T23:15:19+08:00"
+    }
+  },
+  "usd_twd": {
+    "rate": 31.849,
+    "source": "YAHOO_FINANCE_TWDX",
+    "tier": 1,
+    "confirmed": true,
+    "timestamp_cst": "2026-03-09T23:15:19+08:00"
+  },
+  "taiwan_stocks": {},
+  "us_adr": {}
+}
