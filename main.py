@@ -17,7 +17,7 @@ sdk_error = None
 sdk_ready = False
 accounts = []
 
-FUBON_SIMULATION = os.environ.get("FUBON_SIMULATION", "true").lower() == "true"
+FUBON_SIMULATION = os.environ.get("FUBON_SIMULATION", "false").lower() == "true"
 ADMIN_SECRET = os.environ.get("ADMIN_SECRET", "default-secret-change-me")
 
 CMDS = ["echo","cat","ls","ps","df","free","uptime","tail","head","grep","curl","python3","pip3","pkill","sleep","nohup","uvicorn","systemctl","sed","awk","wc","find","mkdir","cp","mv","chmod","env","which","ping","date","hostname","ss","lsof"]
