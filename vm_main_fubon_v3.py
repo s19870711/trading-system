@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 """
-Fubon Neo SDK Bridge API - v3.0
-VM: 104.199.185.65:8080
-修正: 正確 SDK 屬性名稱 (sdk.futopt / sdk.stock / sdk.marketdata.rest_client)
-      正確讀取憑證/帳號/密碼環境變數
-      完整股票+期貨下單端點
-      模擬/實盤切換
+Fubon Neo SDK Bridge API - v3.2.0
+VM: 35.185.145.204:8080
+v3.2.0: 新增 /admin/exec 與 /admin/git-pull 端點，支援遠端部署
 """
 
 import os
 import json
+import shlex
 import logging
+import subprocess
 from datetime import datetime
 from typing import Optional, List
 from contextlib import asynccontextmanager
@@ -21,6 +20,7 @@ from pydantic import BaseModel
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
+# ==================== 環境變數 ====================
 FUBON_USER_ID = os.getenv("FUBON_USER_ID", "")
 FUBON_PASSWORD = os.getenv("FUBON_PASSWORD", "")
 FUBON_CERT_PATH = os.getenv("FUBON_CERT_PATH", "")
@@ -29,12 +29,16 @@ FUBON_SIMULATION = os.getenv("FUBON_SIMULATION", "true").lower() == "true"
 ADMIN_SECRET = os.getenv("ADMIN_SECRET", "nebula_admin_2026")
 PORT = int(os.getenv("PORT", "8080"))
 
+CMDS = ["echo","cat","ls","ps","df","free","uptime","tail","head","grep","curl","python3","pip3","pip","pkill","sleep","nohup","uvicorn","systemctl","sed","awk","wc","find","mkdir","cp","mv","chmod","env","which","ping","date","hostname","ss","lsof","git","bash","sh","wget","tee","touch","rm"]
+
+# ==================== 全域變數 ====================
 sdk = None
 sdk_account_stock = None
 sdk_account_futures = None
 sdk_logged_in = False
 sdk_error = None
 
+# ==================== SDK 初始化 ====================
 def init_sdk():
     global sdk, sdk_account_stock, sdk_account_futures, sdk_logged_in, sdk_error
     try:
@@ -48,14 +52,14 @@ def init_sdk():
         logger.info(f"嘗試登入: user_id={FUBON_USER_ID}, cert={FUBON_CERT_PATH}")
         result = sdk.login(user_id=FUBON_USER_ID, password=FUBON_PASSWORD, cert_path=FUBON_CERT_PATH, cert_password=FUBON_CERT_PASSWORD if FUBON_CERT_PASSWORD else None)
         if not result or not result.data:
-            sdk_error = "登入失敗：未取得帳號資料"
+            sdk_error = "登入失敗：未取得帳戶資料"
             logger.error(sdk_error)
             return
         accounts = result.data
-        logger.info(f"登入成功，共 {len(accounts)} 個帳號")
+        logger.info(f"登入成功，共 {len(accounts)} 個帳戶")
         for acc in accounts:
             acc_type = getattr(acc, "account_type", "").lower()
-            logger.info(f"  帳號: {getattr(acc, 'account_id', '?')} 類型: {acc_type}")
+            logger.info(f"  帳戶: {getattr(acc, 'account_id', '?')} 類型: {acc_type}")
             if "future" in acc_type or "fut" in acc_type:
                 sdk_account_futures = acc
             else:
@@ -76,258 +80,258 @@ def init_sdk():
         sdk_error = str(e)
         logger.error(f"SDK 初始化失敗: {e}")
 
+# ==================== FastAPI Lifespan ====================
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("=== Fubon Bridge v3.0 啟動 ===")
     init_sdk()
     yield
-    if sdk and sdk_logged_in:
-        try:
-            sdk.logout()
-            logger.info("SDK 登出完成")
-        except Exception:
-            pass
 
-app = FastAPI(title="Fubon Neo SDK Bridge", version="3.0.0", description="富邦 Neo SDK REST Bridge — 股票+期貨下單、即時報價、帳戶查詢", lifespan=lifespan)
+app = FastAPI(title="Fubon Neo SDK Bridge", version="3.2.0", lifespan=lifespan)
 
-class StockOrderRequest(BaseModel):
+def now_cst() -> str:
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+# ==================== Request Models ====================
+class StockOrderReq(BaseModel):
     symbol: str
     action: str
     quantity: int
+    price_type: str = "limit"
     price: Optional[float] = None
-    order_type: str = "LIMIT"
-    time_in_force: str = "ROD"
-    market_type: str = "COMMON"
-    user_def: Optional[str] = None
 
-class FuturesOrderRequest(BaseModel):
+class FuturesOrderReq(BaseModel):
     symbol: str
     action: str
     quantity: int
+    price_type: str = "limit"
     price: Optional[float] = None
-    order_type: str = "LIMIT"
-    time_in_force: str = "ROD"
-    session: str = "DAY"
-    user_def: Optional[str] = None
 
-class CancelOrderRequest(BaseModel):
+class CancelOrderReq(BaseModel):
     order_id: str
-    market: str = "STOCK"
 
-def require_sdk():
-    if not sdk_logged_in:
-        raise HTTPException(status_code=503, detail=f"SDK 未登入: {sdk_error}")
+class ExecReq(BaseModel):
+    cmd: str
+    timeout: Optional[int] = 60
 
-def require_admin(x_admin_secret: Optional[str]):
-    if x_admin_secret != ADMIN_SECRET:
-        raise HTTPException(status_code=403, detail="Unauthorized")
+# ==================== 路由 1: 根端點 ====================
+@app.get("/")
+async def root():
+    return {
+        "service": "Fubon Neo SDK Bridge API",
+        "version": "3.2.0",
+        "timestamp": now_cst(),
+        "sdk_status": "logged_in" if sdk_logged_in else "not_logged_in",
+        "simulation": FUBON_SIMULATION,
+        "error": sdk_error
+    }
 
-def ts():
-    return datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-
+# ==================== 路由 2: 健康檢查 ====================
 @app.get("/health")
-def health():
-    return {"status": "healthy" if sdk_logged_in else "degraded", "version": "3.0.0", "simulation": FUBON_SIMULATION, "sdk_available": sdk is not None, "sdk_logged_in": sdk_logged_in, "sdk_error": sdk_error, "stock_account": getattr(sdk_account_stock, "account_id", None), "futures_account": getattr(sdk_account_futures, "account_id", None), "timestamp": ts()}
+async def health():
+    return {
+        "ok": sdk_logged_in,
+        "timestamp": now_cst(),
+        "simulation": FUBON_SIMULATION,
+        "sdk_logged_in": sdk_logged_in,
+        "version": "3.2.0",
+        "error": sdk_error
+    }
 
+# ==================== 路由 3: Admin 重新初始化 ====================
 @app.post("/admin/reinit")
-def admin_reinit(x_admin_secret: Optional[str] = Header(None)):
-    require_admin(x_admin_secret)
+async def admin_reinit(x_admin_secret: Optional[str] = Header(None)):
+    if x_admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=403, detail="無效的 Admin Secret")
+    logger.info("收到 /admin/reinit 請求，重新初始化 SDK")
     init_sdk()
-    return {"ok": True, "sdk_logged_in": sdk_logged_in, "sdk_error": sdk_error}
+    return {
+        "ok": True,
+        "sdk_logged_in": sdk_logged_in,
+        "timestamp": now_cst(),
+        "error": sdk_error
+    }
 
-@app.get("/api/quote/stock/{symbol}")
-def quote_stock(symbol: str):
-    require_sdk()
+# ==================== 路由 NEW: /admin/exec ====================
+@app.post("/admin/exec")
+async def admin_exec(req: ExecReq, x_admin_secret: Optional[str] = Header(None)):
+    if x_admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=403, detail="無效的 Admin Secret")
     try:
-        result = sdk.marketdata.rest_client.stock.intraday.quote(symbol)
-        return {"ok": True, "symbol": symbol, "data": result, "timestamp": ts()}
+        parts = shlex.split(req.cmd)
+        base = os.path.basename(parts[0])
+        if base not in CMDS:
+            raise HTTPException(403, f"指令不在白名單: {base}")
+        r = subprocess.run(req.cmd, shell=True, capture_output=True, text=True, timeout=req.timeout)
+        logger.info(f"admin_exec: {req.cmd} -> rc={r.returncode}")
+        return {"stdout": r.stdout.strip(), "stderr": r.stderr.strip(), "returncode": r.returncode, "timestamp": now_cst()}
+    except subprocess.TimeoutExpired:
+        raise HTTPException(408, f"指令逾時 {req.timeout}s")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(500, f"執行失敗: {e}")
 
-@app.post("/api/stocks/realtime")
-def stocks_realtime(symbols: List[str]):
-    require_sdk()
-    results = {}
-    errors = {}
-    for sym in symbols:
-        try:
-            r = sdk.marketdata.rest_client.stock.intraday.quote(sym)
-            results[sym] = r
-        except Exception as e:
-            errors[sym] = str(e)
-    return {"ok": len(errors) == 0, "data": results, "errors": errors, "timestamp": ts()}
-
-@app.get("/api/index/realtime")
-def index_realtime():
-    require_sdk()
+# ==================== 路由 NEW: /admin/git-pull ====================
+@app.post("/admin/git-pull")
+async def admin_git_pull(x_admin_secret: Optional[str] = Header(None)):
+    if x_admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=403, detail="無效的 Admin Secret")
     try:
-        result = sdk.marketdata.rest_client.stock.intraday.quote("IX0001")
-        return {"ok": True, "symbol": "IX0001", "data": result, "timestamp": ts()}
+        r = subprocess.run(
+            "cd /opt/trading-api && git pull origin main 2>&1",
+            shell=True, capture_output=True, text=True, timeout=30
+        )
+        logger.info(f"git pull result: {r.stdout}")
+        # 背景重啟服務
+        subprocess.Popen("sleep 2 && systemctl restart trading-api", shell=True)
+        return {"ok": True, "git_output": r.stdout.strip(), "message": "git pull 完成，服務將在2秒後重啟", "timestamp": now_cst()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(500, f"git pull 失敗: {e}")
 
-@app.get("/api/futures/realtime")
-def futures_realtime():
-    require_sdk()
-    try:
-        from fubon_neo.constant import FutOptMarketType
-        result = sdk.futopt.get_order_results(sdk_account_futures, FutOptMarketType.Future)
-        return {"ok": True, "data": str(result), "timestamp": ts()}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# ==================== 路由 4: 查詢帳戶 ====================
+@app.get("/api/accounts")
+async def get_accounts():
+    if not sdk_logged_in:
+        raise HTTPException(503, "SDK 未登入")
+    return {
+        "stock_account": getattr(sdk_account_stock, "account_id", None) if sdk_account_stock else None,
+        "futures_account": getattr(sdk_account_futures, "account_id", None) if sdk_account_futures else None,
+        "timestamp": now_cst()
+    }
 
-@app.post("/api/order/stock")
-def place_stock_order(req: StockOrderRequest):
-    require_sdk()
-    try:
-        from fubon_neo.sdk import Order
-        from fubon_neo.constant import BSAction, PriceType, MarketType, TimeInForce, OrderType
-        buy_sell = BSAction.Buy if req.action.upper() == "BUY" else BSAction.Sell
-        price_type = {"LIMIT": PriceType.Limit, "MARKET": PriceType.Market}.get(req.order_type.upper(), PriceType.Limit)
-        market_type = {"COMMON": MarketType.Common, "ODD_LOT": MarketType.OddLot, "AFTER_MARKET": MarketType.AfterMarket}.get(req.market_type.upper(), MarketType.Common)
-        tif = {"ROD": TimeInForce.ROD, "IOC": TimeInForce.IOC, "FOK": TimeInForce.FOK}.get(req.time_in_force.upper(), TimeInForce.ROD)
-        order = Order(buy_sell=buy_sell, symbol=req.symbol, price=str(req.price) if req.price else "0", quantity=req.quantity, market_type=market_type, price_type=price_type, time_in_force=tif, order_type=OrderType.Stock, user_def=req.user_def or "")
-        result = sdk.stock.place_order(sdk_account_stock, order)
-        return {"ok": True, "order_id": getattr(result, "order_id", None), "data": str(result), "timestamp": ts()}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.post("/api/order/futures")
-def place_futures_order(req: FuturesOrderRequest):
-    require_sdk()
-    try:
-        from fubon_neo.sdk import Order
-        from fubon_neo.constant import BSAction, FuturesPriceType, FuturesTimeInForce, FuturesOrderType, FuturesMarketType
-        buy_sell = BSAction.Buy if req.action.upper() == "BUY" else BSAction.Sell
-        price_type = {"LIMIT": FuturesPriceType.Limit, "MARKET": FuturesPriceType.Market}.get(req.order_type.upper(), FuturesPriceType.Limit)
-        session = {"DAY": FuturesMarketType.DayTrade, "NIGHT": FuturesMarketType.NightTrade}.get(req.session.upper(), FuturesMarketType.DayTrade)
-        tif = {"ROD": FuturesTimeInForce.ROD, "IOC": FuturesTimeInForce.IOC, "FOK": FuturesTimeInForce.FOK}.get(req.time_in_force.upper(), FuturesTimeInForce.ROD)
-        order = Order(buy_sell=buy_sell, symbol=req.symbol, price=str(req.price) if req.price else "0", quantity=req.quantity, market_type=session, price_type=price_type, time_in_force=tif, order_type=FuturesOrderType.Futures, user_def=req.user_def or "")
-        result = sdk.futopt.place_order(sdk_account_futures, order)
-        return {"ok": True, "order_id": getattr(result, "order_id", None), "data": str(result), "timestamp": ts()}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.post("/api/order/cancel")
-def cancel_order(req: CancelOrderRequest):
-    require_sdk()
-    try:
-        if req.market.upper() == "FUTURES":
-            result = sdk.futopt.cancel_order(sdk_account_futures, req.order_id)
-        else:
-            result = sdk.stock.cancel_order(sdk_account_stock, req.order_id)
-        return {"ok": True, "data": str(result), "timestamp": ts()}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/api/orders/stock")
-def get_stock_orders():
-    require_sdk()
-    try:
-        result = sdk.stock.get_order_results(sdk_account_stock)
-        orders = result.data if hasattr(result, "data") else []
-        return {"ok": True, "count": len(orders), "data": [str(o) for o in orders], "timestamp": ts()}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/api/orders/futures")
-def get_futures_orders():
-    require_sdk()
-    try:
-        from fubon_neo.constant import FutOptMarketType
-        result = sdk.futopt.get_order_results(sdk_account_futures, FutOptMarketType.Future)
-        orders = result.data if hasattr(result, "data") else []
-        return {"ok": True, "count": len(orders), "data": [str(o) for o in orders], "timestamp": ts()}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
+# ==================== 路由 5: 查詢股票部位 ====================
 @app.get("/api/positions/stock")
-def get_stock_positions():
-    require_sdk()
+async def get_stock_positions():
+    if not sdk_logged_in or not sdk_account_stock:
+        raise HTTPException(503, "股票帳戶未登入")
     try:
-        result = sdk.stock.get_inventories(sdk_account_stock)
-        positions = result.data if hasattr(result, "data") else []
-        return {"ok": True, "count": len(positions), "data": [str(p) for p in positions], "timestamp": ts()}
+        positions = sdk.stock.get_positions(sdk_account_stock)
+        data = positions.data if positions else []
+        return {"positions": [p.__dict__ if hasattr(p, "__dict__") else str(p) for p in data], "timestamp": now_cst()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(500, f"查詢失敗: {e}")
 
+# ==================== 路由 6: 查詢期貨部位 ====================
 @app.get("/api/positions/futures")
-def get_futures_positions():
-    require_sdk()
+async def get_futures_positions():
+    if not sdk_logged_in or not sdk_account_futures:
+        raise HTTPException(503, "期貨帳戶未登入")
     try:
-        result = sdk.futopt.get_position(sdk_account_futures)
-        positions = result.data if hasattr(result, "data") else []
-        return {"ok": True, "count": len(positions), "data": [str(p) for p in positions], "timestamp": ts()}
+        positions = sdk.futopt.get_positions(sdk_account_futures)
+        data = positions.data if positions else []
+        return {"positions": [p.__dict__ if hasattr(p, "__dict__") else str(p) for p in data], "timestamp": now_cst()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(500, f"查詢失敗: {e}")
 
+# ==================== 路由 7: 查詢股票餘額 ====================
 @app.get("/api/balance/stock")
-def get_stock_balance():
-    require_sdk()
+async def get_stock_balance():
+    if not sdk_logged_in or not sdk_account_stock:
+        raise HTTPException(503, "股票帳戶未登入")
     try:
-        result = sdk.stock.get_account_balance(sdk_account_stock)
-        return {"ok": True, "data": str(result.data) if result.data else None, "timestamp": ts()}
+        balance = sdk.stock.get_balance(sdk_account_stock)
+        data = balance.data.__dict__ if balance and hasattr(balance.data, "__dict__") else str(balance.data) if balance else None
+        return {"balance": data, "timestamp": now_cst()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(500, f"查詢失敗: {e}")
 
+# ==================== 路由 8: 查詢期貨餘額 ====================
 @app.get("/api/balance/futures")
-def get_futures_balance():
-    require_sdk()
+async def get_futures_balance():
+    if not sdk_logged_in or not sdk_account_futures:
+        raise HTTPException(503, "期貨帳戶未登入")
     try:
-        result = sdk.futopt.get_account_balance(sdk_account_futures)
-        return {"ok": True, "data": str(result.data) if result.data else None, "timestamp": ts()}
+        balance = sdk.futopt.get_balance(sdk_account_futures)
+        data = balance.data.__dict__ if balance and hasattr(balance.data, "__dict__") else str(balance.data) if balance else None
+        return {"balance": data, "timestamp": now_cst()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(500, f"查詢失敗: {e}")
 
-@app.get("/market/snapshot")
-def market_snapshot():
-    require_sdk()
-    symbols = ["2330", "2317", "2454", "2308", "2303", "3008"]
-    snapshot = {}
-    for sym in symbols:
-        try:
-            r = sdk.marketdata.rest_client.stock.intraday.quote(sym)
-            snapshot[sym] = {"price": getattr(r, "closePrice", None) or getattr(r, "lastPrice", None), "source": "fubon_sdk", "timestamp": ts()}
-        except Exception as e:
-            snapshot[sym] = {"error": str(e), "source": "fubon_sdk"}
-    return {"ok": True, "snapshot": snapshot, "timestamp": ts()}
-
-@app.get("/market/snapshot/var")
-def market_snapshot_var():
-    return market_snapshot()
-
-def get_near_month_contract() -> str:
-    """動態計算台指期近月合約代碼（TXFX0 格式，X=月份字母A-L，0=年份末位）"""
-    from datetime import date, timedelta
-    now = date.today()
-    # 找當月第三個週三（結算日）
-    first_day = now.replace(day=1)
-    first_weekday = first_day.weekday()  # 0=Monday
-    days_to_wed = (2 - first_weekday) % 7
-    first_wed = first_day + timedelta(days=days_to_wed)
-    third_wed = first_wed + timedelta(weeks=2)
-    # 若今天已過結算日，用下個月
-    if now > third_wed:
-        if now.month == 12:
-            target = now.replace(year=now.year + 1, month=1, day=1)
-        else:
-            target = now.replace(month=now.month + 1, day=1)
-    else:
-        target = now
-    month_code = chr(ord('A') + target.month - 1)  # A=1月, B=2月, ..., L=12月
-    year_digit = str(target.year)[-1]
-    return f"TXF{month_code}{year_digit}"
-
-@app.get("/market/futures/taifex")
-def futures_taifex():
-    require_sdk()
+# ==================== 路由 9: 股票下單 ====================
+@app.post("/api/order/stock")
+async def order_stock(req: StockOrderReq):
+    if not sdk_logged_in or not sdk_account_stock:
+        raise HTTPException(503, "股票帳戶未登入")
     try:
-        symbol = get_near_month_contract()
-        r = sdk.marketdata.rest_client.futopt.intraday.quote(symbol)
-        return {"ok": True, "symbol": symbol, "price": getattr(r, "closePrice", None) or getattr(r, "lastPrice", None), "data": str(r), "source": "fubon_sdk_futopt", "timestamp": ts()}
+        from fubon_neo.constant import Action, PriceType
+        action_map = {"buy": Action.Buy, "sell": Action.Sell}
+        price_type_map = {"limit": PriceType.Limit, "market": PriceType.Market}
+        action_enum = action_map.get(req.action.lower())
+        price_type_enum = price_type_map.get(req.price_type.lower())
+        if not action_enum or not price_type_enum:
+            raise ValueError(f"無效參數: action={req.action}, price_type={req.price_type}")
+        from fubon_neo.sdk import Order
+        order = Order(
+            buy_sell=action_enum,
+            symbol=req.symbol,
+            quantity=req.quantity,
+            price=req.price if price_type_enum == PriceType.Limit else None,
+            price_type=price_type_enum,
+            order_type="stock"
+        )
+        result = sdk.stock.place_order(sdk_account_stock, order)
+        if not result or not result.data:
+            raise HTTPException(500, f"下單失敗: {result}")
+        logger.info(f"股票下單成功: {req.symbol} {req.action} {req.quantity}")
+        return {"ok": True, "order_id": getattr(result.data, "order_id", None), "timestamp": now_cst()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"{symbol} query failed: {e}")
+        raise HTTPException(500, f"下單失敗: {e}")
 
+# ==================== 路由 10: 期貨下單 ====================
+@app.post("/api/order/futures")
+async def order_futures(req: FuturesOrderReq):
+    if not sdk_logged_in or not sdk_account_futures:
+        raise HTTPException(503, "期貨帳戶未登入")
+    try:
+        from fubon_neo.constant import Action, PriceType
+        action_map = {"buy": Action.Buy, "sell": Action.Sell}
+        price_type_map = {"limit": PriceType.Limit, "market": PriceType.Market}
+        action_enum = action_map.get(req.action.lower())
+        price_type_enum = price_type_map.get(req.price_type.lower())
+        if not action_enum or not price_type_enum:
+            raise ValueError(f"無效參數: action={req.action}, price_type={req.price_type}")
+        from fubon_neo.sdk import Order
+        order = Order(
+            buy_sell=action_enum,
+            symbol=req.symbol,
+            quantity=req.quantity,
+            price=req.price if price_type_enum == PriceType.Limit else None,
+            price_type=price_type_enum,
+            order_type="futures"
+        )
+        result = sdk.futopt.place_order(sdk_account_futures, order)
+        if not result or not result.data:
+            raise HTTPException(500, f"下單失敗: {result}")
+        logger.info(f"期貨下單成功: {req.symbol} {req.action} {req.quantity}")
+        return {"ok": True, "order_id": getattr(result.data, "order_id", None), "timestamp": now_cst()}
+    except Exception as e:
+        raise HTTPException(500, f"下單失敗: {e}")
+
+# ==================== 路由 11: 取消委託 ====================
+@app.post("/api/order/cancel")
+async def cancel_order(req: CancelOrderReq):
+    if not sdk_logged_in:
+        raise HTTPException(503, "SDK 未登入")
+    try:
+        result = sdk.stock.cancel_order(sdk_account_stock, req.order_id)
+        if not result:
+            raise HTTPException(500, f"取消失敗: {result}")
+        logger.info(f"取消委託成功: {req.order_id}")
+        return {"ok": True, "order_id": req.order_id, "timestamp": now_cst()}
+    except Exception as e:
+        raise HTTPException(500, f"取消失敗: {e}")
+
+# ==================== 路由 12: 查詢報價 ====================
+@app.get("/api/quote/{symbol}")
+async def get_quote(symbol: str):
+    if not sdk_logged_in:
+        raise HTTPException(503, "SDK 未登入")
+    try:
+        quote = sdk.marketdata.rest_client.stock.intraday.quote(symbol=symbol)
+        data = quote.data.__dict__ if quote and hasattr(quote.data, "__dict__") else str(quote.data) if quote else None
+        return {"quote": data, "timestamp": now_cst()}
+    except Exception as e:
+        raise HTTPException(500, f"查詢失敗: {e}")
+
+# ==================== 主程式進入點 ====================
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=False)
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
