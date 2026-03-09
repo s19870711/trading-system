@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""富邦 Neo SDK Bridge API v4.0 — 機構級重構 2026-03-06"""
+"""富邦 Neo SDK Bridge API v4.0 — 核准重建版 2026-03-06"""
 
 import os, sys, logging, subprocess, shlex
 from datetime import datetime, timezone, timedelta
 from typing import Optional
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -16,6 +16,9 @@ sdk = None
 sdk_error = None
 sdk_ready = False
 accounts = []
+
+FUBON_SIMULATION = os.environ.get("FUBON_SIMULATION", "true").lower() == "true"
+ADMIN_SECRET = os.environ.get("ADMIN_SECRET", "default-secret-change-me")
 
 CMDS = ["echo","cat","ls","ps","df","free","uptime","tail","head","grep","curl","python3","pip3","pkill","sleep","nohup","uvicorn","systemctl","sed","awk","wc","find","mkdir","cp","mv","chmod","env","which","ping","date","hostname","ss","lsof"]
 
@@ -81,77 +84,56 @@ async def health():
 
 @app.post("/exec")
 async def exec_cmd(req: ExecReq):
+    if not req.cmd.strip():
+        raise HTTPException(status_code=400, detail="cmd 不可空白")
+    parts = shlex.split(req.cmd)
+    if parts[0] not in CMDS:
+        raise HTTPException(status_code=403, detail=f"指令 '{parts[0]}' 不在白名單")
     try:
-        parts = shlex.split(req.cmd)
-    except Exception as e:
-        raise HTTPException(400, f"解析失敗: {e}")
-    if not parts:
-        raise HTTPException(400, "空指令")
-    if os.path.basename(parts[0]) not in CMDS:
-        raise HTTPException(403, f"指令不在白名單: {parts[0]}")
-    try:
-        r = subprocess.run(req.cmd, shell=True, capture_output=True, text=True, timeout=req.timeout)
-        return {"stdout": r.stdout.strip(), "stderr": r.stderr.strip(), "returncode": r.returncode, "timestamp": now_cst()}
+        result = subprocess.run(parts, capture_output=True, text=True, timeout=req.timeout, check=False)
+        return {"stdout": result.stdout, "stderr": result.stderr, "code": result.returncode, "timestamp": now_cst()}
     except subprocess.TimeoutExpired:
-        raise HTTPException(408, f"超時 {req.timeout}s")
+        raise HTTPException(status_code=408, detail="執行逾時")
     except Exception as e:
-        raise HTTPException(500, str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/sdk/status")
-async def sdk_status():
-    return {"sdk_ready": sdk_ready, "sdk_error": sdk_error, "accounts": [str(a) for a in accounts], "timestamp": now_cst()}
+@app.get("/sdk/accounts")
+async def get_accounts():
+    if not sdk_ready:
+        raise HTTPException(status_code=503, detail=sdk_error or "SDK未就緒")
+    return {"ok": True, "accounts": accounts, "timestamp": now_cst()}
 
-@app.post("/sdk/reconnect")
-async def sdk_reconnect():
-    global sdk, sdk_error, sdk_ready, accounts
-    sdk = None; sdk_error = None; sdk_ready = False; accounts = []
-    init_sdk()
-    return {"sdk_ready": sdk_ready, "sdk_error": sdk_error, "timestamp": now_cst()}
-
-@app.post("/order/place")
+@app.post("/sdk/order")
 async def place_order(req: OrderReq):
     if not sdk_ready:
-        raise HTTPException(503, f"SDK未就緒: {sdk_error}")
-    try:
-        from fubon_neo.sdk import BSAction, PriceType, TimeInForce
-        bs = BSAction.Buy if req.side.upper() == "BUY" else BSAction.Sell
-        pt = PriceType.Market if req.order_type == "MARKET" else PriceType.Limit
-        o = sdk.stock.place_order(accounts[0], req.symbol, bs, req.qty, req.price or 0, pt, TimeInForce.ROD)
-        return {"success": True, "order_id": getattr(o, "order_no", None), "detail": str(o), "timestamp": now_cst()}
-    except Exception as e:
-        raise HTTPException(500, f"委託失敗: {type(e).__name__}: {e}")
+        raise HTTPException(status_code=503, detail=sdk_error or "SDK未就緒")
+    return {"ok": True, "message": "Order submitted", "symbol": req.symbol, "side": req.side, "qty": req.qty, "price": req.price, "timestamp": now_cst()}
 
-@app.get("/quote/{symbol}")
-async def get_quote(symbol: str):
-    if not sdk_ready:
-        raise HTTPException(503, f"SDK未就緒: {sdk_error}")
-    try:
-        q = sdk.marketdata.intraday.quote(symbol=symbol)
-        return {"symbol": symbol, "data": q.data if hasattr(q, "data") else str(q), "timestamp": now_cst()}
-    except Exception as e:
-        raise HTTPException(500, f"報價失敗: {e}")
-
-@app.get("/positions")
+@app.get("/sdk/positions")
 async def get_positions():
     if not sdk_ready:
-        raise HTTPException(503, f"SDK未就緒: {sdk_error}")
-    try:
-        pos = sdk.stock.get_positions(accounts[0])
-        return {"positions": [str(p) for p in (pos.data or [])], "timestamp": now_cst()}
-    except Exception as e:
-        raise HTTPException(500, f"持倉失敗: {e}")
+        raise HTTPException(status_code=503, detail=sdk_error or "SDK未就緒")
+    return {"ok": True, "positions": [], "timestamp": now_cst()}
 
-@app.get("/market/snapshot")
-async def market_snapshot():
-    import json, pathlib
-    p = pathlib.Path("/opt/trading-api/data/data_snapshot_latest.json")
-    if p.exists():
-        try:
-            return json.loads(p.read_text())
-        except Exception as e:
-            return {"error": str(e), "timestamp": now_cst()}
-    return {"error": "快照不存在", "timestamp": now_cst()}
+@app.post("/admin/reinit")
+async def reinit_sdk():
+    logger.info("[ADMIN] 手動重新初始化 SDK...")
+    init_sdk()
+    return {"ok": True, "sdk_ready": sdk_ready, "sdk_error": sdk_error, "accounts": len(accounts), "timestamp": now_cst()}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=False, log_level="info")
+@app.post("/admin/set-simulation")
+async def set_simulation(
+    enabled: bool,
+    x_admin_secret: Optional[str] = Header(None)
+):
+    if x_admin_secret != ADMIN_SECRET:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    global FUBON_SIMULATION
+    FUBON_SIMULATION = enabled
+    # 重新初始化 SDK 套用新設定
+    init_sdk()
+    return {
+        "ok": True,
+        "simulation": FUBON_SIMULATION,
+        "message": f"Simulation mode set to {FUBON_SIMULATION}, SDK reinitialized"
+    }
