@@ -1,1 +1,19 @@
-ewogICJfc2NoZW1hX3ZlcnNpb24iOiAiNC4wIiwKICAiX2xhc3Rfc3luYyI6ICIyMDI2LTAzLTA5IDIxOjEzIENTVCIsCiAgIl9zb3VyY2VfZmlsZSI6ICJkYXRhL3Zhcl9wbmxfYXR0cmlidXRpb24vc3RhZ2luZy91bnZlcmlmaWVkL3Zhcl8yMDI2MDMwOV9leDcxX3N0YWdpbmcuanNvbiIsCiAgImFsZXJ0X2xldmVsIjogIllFTExPVyIsCiAgImRhdGFfcXVhbGl0eSI6ICJQQVJUSUFMIiwKICAicG9ydGZvbGlvX3Zhcl85NV90d2QiOiA0Mzk5LjAxLAogICJwb3J0Zm9saW9fdmFyXzk5X3R3ZCI6IDYyODAuNTgsCiAgInBvcnRmb2xpb19jdmFyXzk1X3R3ZCI6IDIwODE1LjAsCiAgInZhcl9jYXBpdGFsX3JhdGlvX3BjdCI6IDUuODcsCiAgInVzZF90d2RfcmF0ZSI6IDMxLjkyLAogICJ0eGZjNl9wcmljZSI6IDMxNzg2LjAsCiAgInRvdGFsX25vdGlvbmFsX3R3ZCI6IDEwNjkyMCwKICAiZ2VvcG9saXRpY2FsX2xldmVsIjogIkNSSVRJQ0FMIiwKICAiZ2VvcG9saXRpY2FsX211bHRpcGxpZXIiOiAwLjQsCiAgImNhbGN1bGF0aW9uX3RpbWVzdGFtcF9jc3QiOiAiMjAyNi0wMy0wOSAyMToxMDozNyBDU1QiLAogICJwb3NpdGlvbnNfY291bnQiOiAyLAogICJyZWNvbW1lbmRhdGlvbiI6ICJWYVLpu4PoibLorabmiJLvvIzlnLDnt6PmlL/msrtDUklUSUNBTChHVFM9MTAwKe+8jOW7uuitsOWjk+e4ruaMgeWAieiHszQwJSIKfQo=
+{
+  "_schema_version": "4.0",
+  "_last_sync": "2026-03-09T23:22:30+08:00",
+  "_source_file": "data/var_pnl_attribution/staging/unverified/var_20260309_ex73_staging.json",
+  "alert_level": "GREEN",
+  "data_quality": "PARTIAL",
+  "portfolio_var_95_twd": 2097.13,
+  "portfolio_var_99_twd": 3075.88,
+  "portfolio_cvar_95_twd": 2636.78,
+  "var_capital_ratio_pct": 1.44,
+  "usd_twd_rate": 31.849,
+  "txfc6_price": 31786.0,
+  "total_notional_twd": 42768.0,
+  "geopolitical_level": "CRITICAL",
+  "geopolitical_multiplier": 0.4,
+  "calculation_timestamp_cst": "2026-03-09T23:22:21+08:00",
+  "positions_count": 2,
+  "recommendation": "\u2705 \u7d44\u5408 VaR 95% \u4f4e\u65bc\u9ec3\u8272\u8b66\u6212\u7dda 120,000 TWD\uff0c\u98a8\u96aa\u53ef\u63a7\u3002\u5730\u7de3\u653f\u6cbb CRITICAL \u7b49\u7d1a\u5df2\u5f37\u5236\u524a\u6e1b\u6301\u5009\u81f3 40%\uff0c\u7576\u524d\u914d\u7f6e\u4fdd\u5b88\u3002\u6301\u7e8c\u76e3\u63a7\u5730\u7de3\u653f\u6cbb\u60c5\u52e2\u8b8a\u5316\u3002"
+}
