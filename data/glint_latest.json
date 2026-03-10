@@ -2,35 +2,42 @@
   "gts_current": 100,
   "gts_delta": 0,
   "severity": "CRITICAL",
-  "scan_timestamp_cst": "2026-03-09 23:05 CST",
+  "scan_timestamp_cst": "2026-03-10 21:09 CST",
   "top_signals": [
     {
       "severity": "CRITICAL",
-      "category": "金融市場",
-      "headline": "聯準會官員釋出緊急利率調整訊號,因地緣政治緊張局勢持續升溫",
+      "category": "Financial Markets",
+      "headline": "【突發】聯準會官員因地緣政治緊張局勢急劇升溫,發出潛在緊急利率調整信號",
       "source": "First Squawk",
-      "region": "TWEET"
+      "region": "USA/Global"
     },
     {
       "severity": "HIGH",
-      "category": "軍事衝突",
-      "headline": "衛星影像顯示美國在中東及歐洲部署大量空中力量",
+      "category": "Military Conflict",
+      "headline": "中國Mizarvision衛星圖像顯示美軍在中東與歐洲大範圍空中部署",
       "source": "DD Geopolitics",
-      "region": "TELEGRAM"
+      "region": "Middle East/Europe"
     },
     {
       "severity": "HIGH",
-      "category": "能源市場",
-      "headline": "霍爾木茲海峽緊張局勢升溫,油價因海軍演習擴大再漲4.2%",
+      "category": "Energy Markets",
+      "headline": "霍爾木茲海峽緊張局勢升溫並擴大海上演習,油價飆升4.2%",
       "source": "Reuters",
-      "region": "NEWS"
+      "region": "Middle East"
     },
     {
       "severity": "HIGH",
-      "category": "軍事衝突",
-      "headline": "烏克蘭四名飛行員於Mi-24與Geran無人機相撞事故中喪生",
+      "category": "Military Conflict",
+      "headline": "四名烏克蘭飛行員去年12月在米-24直升機與Geran無人機相撞後殉職",
       "source": "ASTRA",
-      "region": "TELEGRAM"
+      "region": "Ukraine"
+    },
+    {
+      "severity": "HIGH",
+      "category": "Military Conflict",
+      "headline": "美以對伊打擊行動可能規模龐大、持久且具毀滅性,官員警告其規模將超越6月12天戰爭",
+      "source": "The Islander",
+      "region": "Middle East"
     }
   ],
   "risk_multipliers": {
@@ -38,31 +45,57 @@
     "taiex_futures": 1.5,
     "crypto": 1.5
   },
+  "commodity_signals": [
+    {
+      "asset": "原油",
+      "direction": "極度看漲",
+      "confidence": "極高",
+      "trigger": "霍爾木茲海峽緊張+美以對伊可能大規模打擊+油價已飆升4.2%"
+    },
+    {
+      "asset": "黃金",
+      "direction": "看漲",
+      "confidence": "高",
+      "trigger": "全球避險需求+Fed緊急利率調整訊號+地緣政治不確定性"
+    },
+    {
+      "asset": "美元",
+      "direction": "震盪偏跌",
+      "confidence": "中",
+      "trigger": "Fed緊急利率調整信號+市場不確定性升高"
+    },
+    {
+      "asset": "天然氣",
+      "direction": "看漲",
+      "confidence": "高",
+      "trigger": "中東能源供應風險+霍爾木茲海峽海上演習擴大"
+    }
+  ],
   "categories": {
-    "軍事衝突": "CRITICAL",
-    "能源市場": "CRITICAL",
-    "金融市場": "CRITICAL",
-    "外交關係": "HIGH",
-    "政治領導": "HIGH",
-    "核武威脅": "MODERATE",
-    "人道危機": "MODERATE",
-    "網路攻擊": "LOW",
-    "糧食安全": "LOW",
-    "氣候環境": "LOW",
-    "太空競爭": "LOW",
-    "疫情健康": "LOW"
+    "Military Conflict": 3,
+    "Financial Markets": 1,
+    "Energy Markets": 1,
+    "Geopolitical Tension": 0,
+    "Cyber Security": 0,
+    "Nuclear": 0,
+    "Sanctions": 0,
+    "Trade War": 0,
+    "Terrorism": 0,
+    "Pandemic": 0,
+    "Climate": 0,
+    "Space": 0
   },
-  "signal_counts": {
-    "feed": 13,
-    "whale": 4,
-    "flights": 7,
-    "critical": 1,
-    "high": 3
+  "signal_summary": {
+    "feed_count": 12,
+    "whale_count": 4,
+    "flights_count": 7,
+    "critical_count": 1,
+    "high_count": 4,
+    "critical_hash": "4acf9150bba323ce",
+    "prev_critical_hash": "4acf9150bba323ce",
+    "alert_suppressed": true,
+    "suppression_reason": "三重靜默：GTS無變化(delta=0) + severity相同(CRITICAL) + Critical訊號集合相同(hash一致：4acf9150bba323ce)"
   },
-  "dedup_decision": "SILENT",
-  "dedup_reason": "三重靜默：delta=0, hash=86a684607d1b5e0f (unchanged)",
-  "prev_gts": 100,
-  "prev_severity": "CRITICAL",
-  "gts_score": 100,
-  "write_timestamp_cst": "2026-03-09 23:07 CST"
+  "daily_summary_sent_date": "2026-03-10",
+  "write_timestamp_cst": "2026-03-10 21:11 CST"
 }
