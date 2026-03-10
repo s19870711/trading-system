@@ -1,1 +1,41 @@
-{"status":"SILENT","generated_at_cst":"2026-03-09T23:01:00+08:00","expires_at_cst":"2026-03-10T00:31:00+08:00","ttl_minutes":90,"crypto":{"BTC":{"instId":"BTC-USDT-SWAP","fundingRate":-0.0000299030238291,"fundingRate_pct":-0.00299,"annualized_pct":-3.2744,"threshold_pct":0.03,"above_threshold":false,"signal":"NEGATIVE"},"ETH":{"instId":"ETH-USDT-SWAP","fundingRate":-0.0000122654191361,"fundingRate_pct":-0.001227,"annualized_pct":-1.3431,"threshold_pct":0.03,"above_threshold":false,"signal":"NEGATIVE"},"SOL":{"instId":"SOL-USDT-SWAP","fundingRate":-0.0000349578144063,"fundingRate_pct":-0.003496,"annualized_pct":-3.8279,"threshold_pct":0.03,"above_threshold":false,"signal":"NEGATIVE"}},"has_opportunity":false,"signals":[],"decision":"SILENT - 三幣種費率全為負值，無套利窗口","telegram_sent":false,"files_written":["data/okx_funding_snapshot.json","data/okx_funding_latest.json"],"write_verified":true}
+{
+  "version": "2.0",
+  "status": "FRESH",
+  "fetch_timestamp_cst": "2026-03-10T21:49:13+08:00",
+  "fetch_timestamp_unix_ms": 1773150553267,
+  "ttl_minutes": 480,
+  "scan_id": 69,
+  "rates": {
+    "BTC": {
+      "instId": "BTC-USDT-SWAP",
+      "rate_raw": -0.0000124732517677,
+      "rate_pct_8h": -0.001247,
+      "annualized_pct": -1.3658,
+      "next_funding_time": "2026-03-11T08:00:00+08:00",
+      "signal": "NEGATIVE"
+    },
+    "ETH": {
+      "instId": "ETH-USDT-SWAP",
+      "rate_raw": 0.0000085124411036,
+      "rate_pct_8h": 0.000851,
+      "annualized_pct": 0.9321,
+      "next_funding_time": "2026-03-11T08:00:00+08:00",
+      "signal": "BELOW_MIN"
+    },
+    "SOL": {
+      "instId": "SOL-USDT-SWAP",
+      "rate_raw": 0.0000827363167530,
+      "rate_pct_8h": 0.008274,
+      "annualized_pct": 9.0596,
+      "next_funding_time": "2026-03-11T08:00:00+08:00",
+      "signal": "BELOW_MIN"
+    }
+  },
+  "strategy_decision": {
+    "has_opportunity": false,
+    "open_candidates": [],
+    "decision": "SILENT",
+    "threshold_open_pct": 0.03,
+    "threshold_close_pct": 0.01
+  }
+}
