@@ -1,203 +1,164 @@
 {
-  "schema_version": "2.0",
-  "market_regime": "CRISIS",
-  "write_timestamp_cst": "2026-03-09 23:06:00 CST",
+  "schema_version": "1.0",
+  "generated_at": "2026-03-10T21:06:00+08:00",
+  "generated_by": "M13",
+  "trade_date": "2026-03-10",
+  "write_timestamp_cst": "2026-03-10 21:06:00 CST",
   "ttl_minutes": 60,
   "execution_status": "PARTIAL",
-  "generated_by": "M13",
-  "trade_date": "2026-03-09",
-  "data_session": "夜盤",
-  "execution_note": "tw_vix 為估算值（富邦橋接超時），其餘數據來自 Yahoo Finance 網頁抓取",
+  "execution_note": "TW-VIX 為估算值（美VIX×1.05），夜盤無TAIFEX直連數據",
+  "files_written": [
+    "data/m13_regime_state.json",
+    "data/m13_latest.json"
+  ],
+  "market_regime": "BEAR",
+  "regime_zh": "空頭",
+  "confidence": 0.33,
+  "vix_level": 25.0,
+  "risk_mode": "風險規避",
   "regime": {
-    "state": "CRISIS",
-    "state_code": 4,
-    "state_zh": "危機",
-    "confidence": 0.565,
+    "state": "BEAR",
+    "state_zh": "空頭",
+    "state_code": 2,
+    "confidence": 0.33,
     "prev_state": "BEAR",
-    "state_change": true,
-    "crisis_trigger_count": 6,
-    "crisis_triggers_fired": [
-      "vix_day_high_gt35",
-      "vix_current_gt30",
-      "oil_shock_gt20pct_5d",
-      "tw_vix_estimated_gt35",
-      "asia_equity_crash",
-      "dxy_up_tlt_down"
-    ]
+    "state_change": false,
+    "consecutive_days_in_state": 1,
+    "scores": {
+      "BULL": 0.0,
+      "BEAR": 0.5,
+      "SIDEWAYS": 0.5,
+      "CRISIS": 0.5
+    },
+    "winning_margin": 0.0
   },
   "system_directive": {
-    "new_positions_allowed": false,
-    "freeze_reason": "危機狀態：原油+43.96%（突破$100）+ VIX 35.30 + 亞太股市全面崩跌 + 伊朗戰爭衝擊",
-    "risk_multiplier": 0.0,
-    "leverage_cap": 0.0,
-    "alert_level": "RED",
-    "risk_mode": "風險規避"
+    "new_positions_allowed": true,
+    "freeze_reason": null,
+    "risk_multiplier": 0.5,
+    "leverage_cap": 1.0,
+    "alert_level": "YELLOW",
+    "alert_level_zh": "黃色警戒",
+    "note": "空頭機制：新倉位允許但規模減半，槓桿上限1x"
   },
   "vix_signals": {
     "cboe_vix": {
-      "value": 32.34,
-      "prev_close": 29.49,
-      "open": 35.12,
-      "day_high": 35.3,
-      "change_pct": 9.67,
-      "zone": "BEAR_CRISIS",
-      "zone_code": 3,
-      "zone_zh": "空頭/危機",
-      "crisis_threshold_35_breached": true,
-      "source": "Yahoo Finance 網頁抓取",
-      "data_quality": "已確認"
+      "value": 25.0,
+      "zone": "BEAR",
+      "zone_zh": "空頭",
+      "zone_code": 2,
+      "return_5d": 0.0607,
+      "return_20d": 0.4401,
+      "note": "VIX 5日+6.1%，20日+44.0%，波動率顯著攀升"
     },
     "taiwan_vix": {
-      "value": 38.0,
-      "zone": "CRISIS_ESTIMATED",
-      "zone_zh": "危機（估算）",
-      "crisis_threshold_40_breached": false,
-      "source": "代理估算（富邦橋接超時）",
+      "value": 26.2,
+      "zone": "NEUTRAL",
+      "zone_zh": "中性",
+      "zone_code": 1,
+      "source": "估算（美VIX×1.05）",
       "available": false,
-      "data_quality": "未驗證",
-      "proxy_basis": "台灣加權指數 -4.43%，韓國 -5.96%，日本 -5.20%，亞太恐慌傳導推算"
+      "note": "夜盤無TAIFEX直連，以美VIX代理估算"
     }
+  },
+  "hmm_signals": {
+    "current_state": "BEAR",
+    "current_state_zh": "空頭",
+    "state_probability": 0.33,
+    "note": "夜盤無HMM模型更新，基於跨資產信號推斷",
+    "model_available": false
   },
   "cross_asset_signals": {
     "TLT": {
       "ticker": "TLT",
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "price": 88.46,
-      "prev_close": 88.46,
-      "open": 88.29,
-      "return_1d": -0.0037,
-      "momentum_signal": -1,
-      "regime_implication": "空頭確認（油價通脹壓制避險需求）",
-      "data_quality": "已確認",
-      "anomaly_note": "戰爭期間TLT未上漲，反映市場擔憂油價推高通脹→利率預期上升→債券賣壓"
+      "price": 89.23,
+      "return_5d": -0.0042,
+      "return_20d": 0.0227,
+      "momentum_signal": 0,
+      "regime_implication": "中性"
     },
     "GLD": {
       "ticker": "GLD",
       "name": "SPDR Gold Shares",
-      "price": 468.51,
-      "prev_close": 473.51,
-      "return_1d": -0.0461,
+      "price": 472.53,
+      "return_5d": -0.0357,
+      "return_20d": 0.0375,
       "momentum_signal": -1,
-      "regime_implication": "空頭確認（油價上漲→通脹→利率上升→黃金承壓）",
-      "data_quality": "已確認"
+      "regime_implication": "多頭確認（黃金短期回調）"
     },
     "DXY": {
       "ticker": "DX-Y.NYB",
       "name": "US Dollar Index",
-      "price": 99.18,
-      "prev_close": 98.99,
-      "day_high": 99.69,
-      "return_1d": 0.0023,
-      "momentum_signal": 1,
-      "regime_implication": "空頭確認（美元避險需求上升，風險資產承壓）",
-      "data_quality": "已確認"
+      "price": 98.684,
+      "return_5d": -0.0037,
+      "return_20d": 0.0193,
+      "momentum_signal": 0,
+      "regime_implication": "中性"
     },
     "CL": {
       "ticker": "CL=F",
-      "name": "WTI Crude Oil Futures (Apr 2026)",
-      "price": 102.47,
-      "open": 98.0,
-      "day_high": 119.48,
-      "day_low": 96.29,
-      "return_5d": 0.4396,
-      "momentum_signal": 2,
-      "regime_implication": "危機確認（供給衝擊：伊朗戰爭，突破$100，日高$119.48）",
-      "data_quality": "已確認",
-      "crisis_trigger": true,
-      "oil_above_100": true
+      "name": "WTI Crude Oil Futures",
+      "price": 89.27,
+      "return_5d": 0.1973,
+      "return_20d": 0.387,
+      "momentum_signal": 1,
+      "regime_implication": "原油衝擊警告（5日+19.7%，接近危機閾值）"
     },
     "cross_asset_summary": {
-      "bull_signals": 0,
-      "bear_signals": 5,
-      "neutral_signals": 0,
+      "bull_signals": 1,
+      "bear_signals": 1,
+      "neutral_signals": 2,
+      "oil_shock_flag": true,
       "dominant_theme": "風險規避",
-      "crisis_signals": 2
+      "note": "原油5日+19.7% 接近危機觸發閾值(+20%)，需持續監控"
     }
   },
-  "global_equity_context": {
-    "SP500_SPY": {
-      "level": 672.38,
-      "ret_1d": -0.0131
-    },
-    "NASDAQ_QQQ": {
-      "level": 599.75,
-      "ret_1d": -0.015
-    },
-    "TWII": {
-      "level": 32110.42,
-      "ret_1d": -0.0443
-    },
-    "N225": {
-      "level": 52728.72,
-      "ret_1d": -0.052
-    },
-    "KS11": {
-      "level": 5251.87,
-      "ret_1d": -0.0596
-    },
-    "HSI": {
-      "level": 25408.46,
-      "ret_1d": -0.0135
-    },
-    "note": "全球股市同步崩跌，亞太區跌幅尤深（伊朗戰爭第七天）"
-  },
   "regime_scoring": {
-    "CRISIS": 3.25,
-    "BEAR": 2.5,
     "BULL": 0.0,
-    "SIDEWAYS": 0.0,
-    "winning_margin": 0.75,
+    "BEAR": 0.5,
+    "SIDEWAYS": 0.5,
+    "CRISIS": 0.5,
+    "winning_margin": 0.0,
     "components": {
-      "vix_score": "空頭（32.34）+ 危機加成（日高35.30）",
-      "taiwan_vix_score": "危機（估算38.0）",
-      "hmm_score": "危機（跨資產推斷）",
-      "cross_asset_score": "空頭（5/5 空頭信號）",
-      "oil_shock_bonus": "危機（+43.96% 五日，突破$100）",
-      "crisis_escalation": "觸發（BEAR>=3 且 VIX>30）"
+      "vix_score": "空頭（VIX=25.0 臨界）",
+      "taiwan_vix_score": "中性（估算26.2）",
+      "hmm_score": "未可用",
+      "cross_asset_score": "混合（原油衝擊+19.7%）"
     }
   },
   "hard_triggers_checked": {
     "vix_above_40": false,
-    "vix_day_high_above_35": true,
-    "taiwan_vix_above_40_estimated": false,
-    "taiwan_vix_above_35_estimated": true,
-    "oil_shock_above_20pct_5d": true,
-    "hmm_crisis_plus_bear_signals_4": true,
-    "asia_equity_crash_multi_market": true,
-    "any_hard_trigger_fired": true,
-    "hard_trigger_source": "原油衝擊+43.96% + VIX日高35.30 + 台VIX估算38.0 + 亞太崩跌"
+    "taiwan_vix_above_40": false,
+    "oil_shock_above_20pct": false,
+    "oil_shock_5d": 0.1973,
+    "oil_shock_note": "CL 5日+19.7%，距危機閾值+20% 僅剩0.3%，高度警戒",
+    "any_hard_trigger_fired": false
   },
   "data_quality": {
-    "overall_status": "降級",
     "all_sources_available": false,
     "missing_sources": [
-      "fubon_bridge_tw_vix",
-      "fubon_bridge_taiex_realtime"
+      "TAIFEX TW-VIX（夜盤）",
+      "HMM模型"
     ],
     "taiwan_vix_available": false,
     "taiwan_vix_estimated": true,
-    "yahoo_finance_scrape_used": true,
     "hmm_model_fresh": false,
-    "hmm_estimated": true,
     "fallback_used": true,
-    "data_timestamp_cst": "2026-03-09 23:06:00 CST",
-    "sources_used": [
-      "Yahoo Finance 網頁抓取（備援）"
-    ],
-    "sources_failed": [
-      "Yahoo Finance API（429）",
-      "FMP API（402/404）",
-      "Fubon Bridge（超時）"
-    ]
+    "data_source": "yfinance（Yahoo Finance）",
+    "data_status_zh": "已確認（跨資產）/ 估算（台VIX）",
+    "data_timestamp": "2026-03-10T21:06:00+08:00"
   },
   "next_review": {
-    "scheduled_cst": "2026-03-10 01:06:00 CST",
+    "scheduled": "2026-03-10T22:06:00+08:00",
     "intraday_monitoring": true,
-    "intraday_interval_hours": 2,
-    "crisis_review_note": "危機狀態：每2小時強制重算"
+    "intraday_interval_hours": 1,
+    "note": "原油接近危機閾值，下次重算重點監控CL漲幅"
   },
-  "files_written": [
-    "data/m13_regime_state.json",
-    "data/m13_latest.json"
-  ]
+  "recovery_info": {
+    "is_recovery_run": true,
+    "retry_count": 1,
+    "trigger_reason": "Step 2 驗證發現雙路徑檔案MISSING",
+    "recovery_timestamp_cst": "2026-03-10 21:06:00 CST"
+  }
 }
