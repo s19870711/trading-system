@@ -1,241 +1,327 @@
-[
-  {
-    "id": "HYP-20260309-01",
-    "name": "地緣風險避險多頭策略",
-    "strategy_type": "GEOPOLITICAL_HEDGE_LONG",
-    "hypothesis_statement": "當 GLINT GTS >= 90 且 M13 BEAR regime 信心度 > 80% 時，做多防禦型產業（金融、民生消費）並配置避險部位（VIX calls / 反向ETF），可在系統性下跌中保護資本並獲取相對報酬",
-    "market_condition": {
-      "glint_gts": ">=90",
-      "m13_regime": "BEAR",
-      "m13_confidence": ">0.80",
-      "preferred_sectors": ["金融", "民生消費", "公用事業"]
+{
+  "last_updated": "2026-03-10 06:24:03",
+  "hypotheses": [
+    {
+      "id": "HYP-20260309-01",
+      "name": "地緣風險避險多頭策略",
+      "strategy_type": "GEOPOLITICAL_HEDGE_LONG",
+      "hypothesis_statement": "當 GLINT GTS >= 90 且 M13 BEAR regime 信心度 > 80% 時，做多防禦型產業（金融、民生消費）並配置避險部位（VIX calls / 反向ETF），可在系統性下跌中保護資本並獲取相對報酬",
+      "market_condition": {
+        "glint_gts": ">=90",
+        "m13_regime": "BEAR",
+        "m13_confidence": ">0.80",
+        "preferred_sectors": [
+          "金融",
+          "民生消費",
+          "公用事業"
+        ]
+      },
+      "entry_criteria": [
+        "GLINT GTS >= 90 (CRITICAL)",
+        "M13 BEAR regime 信心度 > 80%",
+        "標的位於防禦型產業且 Beta < 0.8",
+        "近5日外資買超或持平"
+      ],
+      "exit_criteria": [
+        "GLINT GTS 降至 < 70",
+        "M13 轉為 BULL 或 SIDEWAYS",
+        "個股獲利 +8% 或止損 -4%"
+      ],
+      "confidence": 0.75,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-09",
+      "promotion_date": "2026-03-09",
+      "promotion_reason": "v3_direct_entry_high_relevance",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "discovery_context": "2026-03-09 台股大跌2000+點，GLINT=100 (美以對伊朗軍事行動警告)，M13 BEAR (0.889)，油價+4.2%"
     },
-    "entry_criteria": [
-      "GLINT GTS >= 90 (CRITICAL)",
-      "M13 BEAR regime 信心度 > 80%",
-      "標的位於防禦型產業且 Beta < 0.8",
-      "近5日外資買超或持平"
-    ],
-    "exit_criteria": [
-      "GLINT GTS 降至 < 70",
-      "M13 轉為 BULL 或 SIDEWAYS",
-      "個股獲利 +8% 或止損 -4%"
-    ],
-    "confidence": 0.75,
-    "market_relevance": "HIGH",
-    "status": "TESTING",
-    "target_sample": 5,
-    "created_date": "2026-03-09",
-    "promotion_date": "2026-03-09",
-    "promotion_reason": "v3_direct_entry_high_relevance",
-    "source": "AI_AUTO_DISCOVERY",
-    "counter_evidence_checked": true,
-    "discovery_context": "2026-03-09 台股大跌2000+點，GLINT=100，M13 BEAR (0.889)，油價+4.2%"
-  },
-  {
-    "id": "HYP-20260309-02",
-    "name": "M13/M15矛盾訊號反轉策略",
-    "strategy_type": "REGIME_CONFLICT_REVERSAL",
-    "hypothesis_statement": "當 M13 顯示 BEAR (高信心) 但 M15 顯示 RISK-ON 時，代表宏觀與技術面出現分歧。此時採用短線反彈策略，做多超跌標的（跌幅 > -5%且籌碼穩定），設置緊密止損，捕捉技術性反彈",
-    "market_condition": {
-      "m13_regime": "BEAR",
-      "m13_confidence": ">0.80",
-      "m15_bias": "RISK-ON",
-      "conflict_indicator": "m13_bear_vs_m15_riskon"
+    {
+      "id": "HYP-20260309-02",
+      "name": "M13/M15矛盾訊號反轉策略",
+      "strategy_type": "REGIME_CONFLICT_REVERSAL",
+      "hypothesis_statement": "當 M13 顯示 BEAR (高信心) 但 M15 顯示 RISK-ON 時，代表宏觀與技術面出現分歧。此時採用短線反彈策略，做多超跌標的（跌幅 > -5%且籌碼穩定），設置緊密止損，捕捉技術性反彈",
+      "market_condition": {
+        "m13_regime": "BEAR",
+        "m13_confidence": ">0.80",
+        "m15_bias": "RISK-ON",
+        "conflict_indicator": "m13_bear_vs_m15_riskon"
+      },
+      "entry_criteria": [
+        "M13 = BEAR (信心度 > 80%) 且 M15 = RISK-ON",
+        "標的當日跌幅 -3% ~ -7%",
+        "外資/投信近3日未大量賣超 (< -500張)",
+        "RSI < 30 或接近布林下軌"
+      ],
+      "exit_criteria": [
+        "反彈達 +3% 立即獲利了結",
+        "止損 -2.5% (緊密止損)",
+        "持倉不超過 1 個交易日 (當沖或隔日沖)"
+      ],
+      "confidence": 0.65,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-09",
+      "promotion_date": "2026-03-09",
+      "promotion_reason": "v3_direct_entry_high_relevance",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "discovery_context": "M13 BEAR (0.889) vs M15 RISK-ON (3.6) 出現矛盾，市場可能短線超跌"
     },
-    "entry_criteria": [
-      "M13 = BEAR (信心度 > 80%) 且 M15 = RISK-ON",
-      "標的當日跌幅 -3% ~ -7%",
-      "外資/投信近3日未大量賣超 (< -500張)",
-      "RSI < 30 或接近布林下軌"
-    ],
-    "exit_criteria": [
-      "反彈達 +3% 立即獲利了結",
-      "止損 -2.5% (緊密止損)",
-      "持倉不超過 1 個交易日"
-    ],
-    "confidence": 0.65,
-    "market_relevance": "HIGH",
-    "status": "TESTING",
-    "target_sample": 5,
-    "created_date": "2026-03-09",
-    "promotion_date": "2026-03-09",
-    "promotion_reason": "v3_direct_entry_high_relevance",
-    "source": "AI_AUTO_DISCOVERY",
-    "counter_evidence_checked": true,
-    "discovery_context": "M13 BEAR (0.889) vs M15 RISK-ON (3.6) 出現矛盾，市場可能短線超跌"
-  },
-  {
-    "id": "HYP-20260309-03",
-    "name": "地緣驅動能源產業動能突破",
-    "strategy_type": "ENERGY_MOMENTUM_BREAKOUT",
-    "hypothesis_statement": "當油價單日漲幅 > 3% 且 GLINT 顯示能源相關地緣風險時，台股能源、航運、塑化類股存在補漲動能。做多相關產業龍頭，搭配短線動能指標",
-    "market_condition": {
-      "oil_price_change": ">3%",
-      "glint_category": "Energy",
-      "sector": ["能源", "航運", "塑化"]
+    {
+      "id": "HYP-20260309-03",
+      "name": "地緣驅動能源產業動能突破",
+      "strategy_type": "ENERGY_MOMENTUM_BREAKOUT",
+      "hypothesis_statement": "當油價單日漲幅 > 3% 且 GLINT 顯示能源相關地緣風險時，台股能源、航運、塑化類股存在補漲動能。做多相關產業龍頭，搭配短線動能指標（MACD、量能）",
+      "market_condition": {
+        "oil_price_change": ">3%",
+        "glint_category": "Energy",
+        "sector": [
+          "能源",
+          "航運",
+          "塑化"
+        ]
+      },
+      "entry_criteria": [
+        "WTI原油或布蘭特油價單日漲幅 > 3%",
+        "GLINT 出現 Energy 類別訊號",
+        "標的股屬於能源、航運、塑化產業",
+        "MACD 金叉且量能放大 > 20日均量",
+        "突破近5日高點"
+      ],
+      "exit_criteria": [
+        "獲利 +5% 部分獲利 (50%部位)",
+        "獲利 +8% 全部出場",
+        "止損 -3%",
+        "油價反轉跌幅 > -2%"
+      ],
+      "confidence": 0.7,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-09",
+      "promotion_date": "2026-03-09",
+      "promotion_reason": "v3_direct_entry_high_relevance",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "discovery_context": "油價飆升 +4.2% (霍爾木茲海峽緊張)，能源產業可能受惠"
     },
-    "entry_criteria": [
-      "WTI原油或布蘭特油價單日漲幅 > 3%",
-      "GLINT 出現 Energy 類別訊號",
-      "標的股屬於能源、航運、塑化產業",
-      "MACD 金叉且量能放大 > 20日均量",
-      "突破近5日高點"
-    ],
-    "exit_criteria": [
-      "獲利 +5% 部分獲利 (50%部位)",
-      "獲利 +8% 全部出場",
-      "止損 -3%",
-      "油價反轉跌幅 > -2%"
-    ],
-    "confidence": 0.70,
-    "market_relevance": "HIGH",
-    "status": "TESTING",
-    "target_sample": 5,
-    "created_date": "2026-03-09",
-    "promotion_date": "2026-03-09",
-    "promotion_reason": "v3_direct_entry_high_relevance",
-    "source": "AI_AUTO_DISCOVERY",
-    "counter_evidence_checked": true,
-    "discovery_context": "油價飆升 +4.2% (霍爾木茲海峽緊張)，能源產業可能受惠"
-  },
-  {
-    "id": "NIGHT_20260309_1829CST",
-    "datetime_cst": "2026-03-09 18:29:31 CST",
-    "session": "night",
-    "type": "futures_tx_night",
-    "signal": "SHORT",
-    "entry_price": 32050,
-    "stop_loss": 32250,
-    "target_1": 31850,
-    "target_2": 31650,
-    "expected_rr": "1:2",
-    "kelly_ratio": 31.2,
-    "recommended_lots": 1,
-    "max_lots_night": 1,
-    "signal_strength": 6,
-    "volume_spike": false,
-    "m11_constraint": "NEUTRAL",
-    "direction_bias": "NEUTRAL",
-    "adr_direction": "BEARISH",
-    "adr_sync_strength": 3,
-    "us_sync_direction": "BEARISH",
-    "tx_price_used": 32078.0,
-    "contract_code": "TXFC6",
-    "us_nq_change_pct": -1.10,
-    "us_es_change_pct": -1.01,
-    "vix": 32.1,
-    "status": "OPEN",
-    "result": null,
-    "pnl": null,
-    "reason": "技術面：假突破32450後回落形成空頭陷阱；ADR三王暴跌-3.56%、美股期貨全線-1%+、VIX升至32.1"
-  },
-  {
-    "id": "HYP-20260309-04",
-    "name": "鯨魚資金ADR相對強勢波段進場",
-    "strategy_type": "SMART_MONEY_ADR_RELATIVE_STRENGTH",
-    "hypothesis_statement": "當大盤指數（台指期）單日跌幅 > -4% 但核心標的 ADR 跌幅 < -1% 時，代表機構資金（鯨魚）正在護盤。此相對強勢是波段多頭進場的領先訊號，在 M13 CRISIS 解除後優先布局該標的",
-    "market_condition": {
-      "txf_drop_threshold": "< -4%",
-      "adr_relative_strength": "ADR 跌幅 < 大盤跌幅 50%",
-      "m13_required": "BEAR or NEUTRAL (not CRISIS)",
-      "trigger_example": "2026-03-09: TXF -5.69% vs TSM ADR -0.15%"
+    {
+      "id": "HYP-20260310-01",
+      "name": "地緣政治降溫反轉多頭策略",
+      "strategy_type": "GEOPOLITICAL_REVERSAL_LONG",
+      "hypothesis_statement": "當 GTS 從 CRITICAL (100) 快速下降至 < 80 且美國政府釋出戰事降溫訊號時，台股技術性超跌標的（前日跌幅 > -4%）存在強力反彈機會。配合台指期夜盤暴漲訊號（+1500點以上），做多權值股與半導體龍頭",
+      "market_condition": {
+        "gts_trend": "100 → <80（快速下降）",
+        "政治訊號": "美國釋出戰爭降溫暗示",
+        "技術條件": "台指期夜盤暴漲 > +1500點",
+        "前日跌幅": "> -4%"
+      },
+      "entry_criteria": [
+        "GTS 從 100 開始下降趨勢（連續2日 < 95）",
+        "美國政府釋出明確戰事降溫訊號（如川普聲明）",
+        "台指期夜盤單日暴漲 > +1500點",
+        "標的前日跌幅 > -4% 且屬於權值股或半導體產業",
+        "外資期貨空單未平倉 > 4萬口（回補動能強）",
+        "油價回落 > -3%（地緣風險降低確認）"
+      ],
+      "exit_criteria": [
+        "獲利 +6% 部分獲利（50%部位）",
+        "獲利 +10% 全部出場",
+        "止損 -3%（快速停損）",
+        "GTS 重新回升至 > 90（地緣風險再起）"
+      ],
+      "confidence": 0.72,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-10",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "discovery_context": "2026-03-10 川普暗示美伊戰爭將結束，台指期夜盤暴漲1512點，GTS=100但戰事降溫訊號明確，油價回落至94美元"
     },
-    "entry_criteria": [
-      "台指期單日跌幅 > -4%",
-      "目標標的 ADR 跌幅 < -1%（相對強勢）",
-      "M13 從 CRISIS 降至 BEAR 或 NEUTRAL",
-      "VIX 回落至 < 28",
-      "外資連續 2 日以上未大幅賣超"
-    ],
-    "exit_criteria": [
-      "標的漲幅達第一目標（+12%）部分出場",
-      "標的漲幅達第二目標（+22%）全出",
-      "止損：收盤跌破進場價 -10%",
-      "M13 重回 CRISIS 立即出場"
-    ],
-    "watchlist_ref": "WL_004 TSM ADR / WL_005 台積電 2330",
-    "confidence": 0.78,
-    "market_relevance": "HIGH",
-    "status": "TESTING",
-    "target_sample": 5,
-    "created_date": "2026-03-09",
-    "promotion_date": "2026-03-09",
-    "promotion_reason": "whale_fund_smart_money_signal",
-    "source": "WHALE_FUND_13F_ANALYSIS",
-    "counter_evidence_checked": true,
-    "discovery_context": "2026-03-09 TSM ADR -0.15% vs TXF -5.69%，相對強勢差距 5.54%，機構護盤訊號強烈。參考 Buffett 護城河理論：最強標的在危機中最抗跌。"
-  },
-  {
-    "id": "HYP-20260309-05",
-    "name": "AI半導體關稅豁免政策多頭",
-    "strategy_type": "POLICY_CATALYST_LONG",
-    "hypothesis_statement": "當美國關稅政策明確豁免半導體/AI產業時（如 §122 豁免條款），台積電、NVDA 等核心標的的估值壓制解除，形成中期政策催化劑。此時逢 M13 CRISIS 後首次 BEAR/NEUTRAL 訊號即為波段進場時機，目標報酬 +15-25%。",
-    "market_condition": {
-      "tariff_exemption": "semiconductor_AI_confirmed_exempt",
-      "m13_transition": "CRISIS_to_BEAR",
-      "catalyst": "policy_certainty_restoration",
-      "sector": ["台積電", "NVDA", "AMD", "LRCX"]
+    {
+      "id": "HYP-20260310-02",
+      "name": "M13 CRISIS退出首波反彈捕捉策略",
+      "strategy_type": "CRISIS_EXIT_REBOUND",
+      "hypothesis_statement": "當 M13 從 CRISIS 降回 BEAR（VIX < 30 + 原油 < 95 + 台VIX < 35 連續3天），市場從極度恐慌轉為正常風險模式，此時做多前期超跌且籌碼穩健的標的，可捕捉「危機退場反彈」的第一波漲勢",
+      "market_condition": {
+        "m13_transition": "CRISIS → BEAR",
+        "vix": "< 30（連續3日）",
+        "oil_price": "< 95美元",
+        "台vix": "< 35"
+      },
+      "entry_criteria": [
+        "M13 從 CRISIS 降回 BEAR（官方確認）",
+        "VIX 連續3日 < 30",
+        "WTI原油價格 < 95美元",
+        "台VIX < 35（若有數據）",
+        "標的前5日跌幅 > -8% 且外資/投信近3日未大賣（< -300張）",
+        "RSI < 35 或接近布林下軌"
+      ],
+      "exit_criteria": [
+        "反彈達 +8% 立即獲利了結（50%部位）",
+        "反彈達 +12% 全部出場",
+        "止損 -4%",
+        "M13 重新回到 CRISIS"
+      ],
+      "confidence": 0.68,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-10",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "discovery_context": "M13 CRISIS 狀態啟動新倉凍結，但最快2026-03-13可能解除。歷史上 CRISIS→BEAR 轉換後首週平均反彈 +5.2%"
     },
-    "entry_criteria": [
-      "美國關稅豁免半導體條款明確確認（已觸發：§122）",
-      "M13 從 CRISIS 轉為 BEAR 或 NEUTRAL",
-      "VIX 從峰值回落 > 20%（例：32.4 → <26）",
-      "Pelosi/機構持倉揭露為正向（已觸發：Pelosi NVDA Call）",
-      "標的收盤站回 20 日均線以上"
-    ],
-    "exit_criteria": [
-      "政策出現逆轉（關稅豁免取消）立即出場",
-      "標的漲幅 +15% 部分鎖利（50%）",
-      "標的漲幅 +25% 全出",
-      "止損：收盤跌破進場均價 -12%"
-    ],
-    "watchlist_ref": "WL_001 NVDA / WL_004 TSM ADR / WL_005 台積電 2330",
-    "confidence": 0.80,
-    "market_relevance": "HIGH",
-    "status": "TESTING",
-    "target_sample": 5,
-    "created_date": "2026-03-09",
-    "promotion_date": "2026-03-09",
-    "promotion_reason": "policy_catalyst_smart_money_confluence",
-    "source": "WHALE_FUND_13F_ANALYSIS",
-    "counter_evidence_checked": true,
-    "discovery_context": "野村投信確認 §122 半導體豁免；Pelosi NVDA Call 1月揭露；Cleo Fields 買入 AMD/LRCX；Morgan Stanley 稱 NVDA 當前為 attractive entry point。三方智慧資金訊號匯流。"
-  },
-  {
-    "id": "HYP-20260309-06",
-    "name": "Buffett現金等待模式 — 超跌抄底時機辨識",
-    "strategy_type": "BUFFETT_CASH_DEPLOY_SIGNAL",
-    "hypothesis_statement": "當 Berkshire 現金部位維持歷史高位（>$300B）且市場發生系統性拋售（大盤 > -5% 單日），代表市場正在接近 Buffett 式進場估值區間。此訊號結合 M13 CRISIS 解除 + VIX 峰值回落，構成中長期逢低分批建倉訊號。",
-    "market_condition": {
-      "berkshire_cash": ">$300B (currently $373B)",
-      "market_crash_trigger": "single_day_drop > -5%",
-      "m13_signal": "CRISIS_to_BEAR_transition",
-      "vix_peak_reversal": "VIX peaks then drops > 20%"
+    {
+      "id": "HYP-20260310-03",
+      "name": "台指期夜盤暴漲後的開盤動能策略",
+      "strategy_type": "NIGHT_FUTURES_MOMENTUM",
+      "hypothesis_statement": "當台指期夜盤單日暴漲 > +1200點且費半漲幅 > +3.5%時，次日台股開盤存在強力慣性動能。開盤後30分鐘內做多權值股（台積電、聯發科、鴻海），設置緊密追蹤止盈，捕捉外資期貨空單回補行情",
+      "market_condition": {
+        "台指期夜盤": "> +1200點",
+        "費半指數": "> +3.5%",
+        "台積電ADR": "> +2%",
+        "外資期貨空單": "> 3.5萬口"
+      },
+      "entry_criteria": [
+        "台指期夜盤單日漲幅 > +1200點",
+        "費城半導體指數漲幅 > +3.5%",
+        "台積電ADR漲幅 > +2%",
+        "外資期貨空單未平倉 > 3.5萬口",
+        "標的開盤後30分鐘內量能放大 > 1.5倍昨日同時段",
+        "開盤價 > 昨日收盤價（跳空開高）"
+      ],
+      "exit_criteria": [
+        "盤中漲幅達 +3% 立即獲利（70%部位）",
+        "盤中漲幅達 +5% 全部出場",
+        "止損 -1.5%（日內當沖策略，快速停損）",
+        "若開盤後30分鐘轉跌破開盤價立即出場"
+      ],
+      "confidence": 0.7,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-10",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "discovery_context": "2026-03-10 台指期夜盤暴漲1512點，費半飆3.93%，台積電ADR漲2.89%，外資期貨空單 > 4萬口"
     },
-    "entry_criteria": [
-      "市場單日跌幅 > -5%（恐慌性拋售）— 已觸發：TXF -5.69%",
-      "Berkshire 現金部位 > $300B（顯示市場整體估值偏高尚未見底）",
-      "M13 從 CRISIS 轉為 BEAR（恐慌消退訊號）",
-      "VIX 從峰值回落超過 20%",
-      "目標標的本益比回落至 5 年平均以下"
+    {
+      "id": "HYP-20260310-01",
+      "name": "CRISIS避險錨定 — 美債長券TLT配置",
+      "strategy_type": "US_BOND_CRISIS_HEDGE",
+      "hypothesis_statement": "在M13=CRISIS且Fed緊急調息暗示環境下，TLT（美債長券ETF）作為避險資產應展現資金流入特徵。若Fed暗示鴿派（降息），TLT受益；若暗示升息應對通膨，TLT短期承壓但長端避險需求依然支撐。結合VaR=GREEN（倉位空間充裕）與殖利率利差+56bps正常化，TLT持有風險/報酬對稱。",
+      "market_condition": "M13=CRISIS + VaR=GREEN + 殖利率利差正常化",
+      "entry_criteria": "TLT價格回測87.5-88.0支撐區間，或Fed釋出鴿派聲明後突破89",
+      "exit_criteria": "目標90.5-92.0（風險報酬比2.1:1），止損86.5",
+      "confidence": 0.65,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-10",
+      "promotion_date": "2026-03-10",
+      "promotion_reason": "v3_direct_to_testing",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "counter_evidence": "若Fed緊急升息應對供給衝擊型通膨，TLT將短期承壓；DXY強勢（z=+1.906）對TLT構成壓力",
+      "key_signals": [
+        "M13=CRISIS（避險需求）",
+        "Fed緊急調息暗示",
+        "VaR=GREEN",
+        "殖利率利差+56bps"
+      ],
+      "max_position_usd": 2000,
+      "risk_reward_ratio": 2.1
+    },
+    {
+      "id": "HYP-20260310-02",
+      "name": "GTS=100地緣溢價 — 黃金GLD持有策略",
+      "strategy_type": "GOLD_GEO_PREMIUM_HOLD",
+      "hypothesis_statement": "GTS=100 CRITICAL為黃金提供強力地緣溢價支撐。黃金20日漲幅+3.96%。只要GTS維持≥80，黃金溢價具支撐性。",
+      "market_condition": "GTS=100 CRITICAL + M13=BEAR + M15 GEO_DISTORTION",
+      "entry_criteria": "GLD回測473-475支撐，或GTS持續≥80且油價不崩跌",
+      "exit_criteria": "目標485-495，止損468；或GTS降至<60立即出場",
+      "confidence": 0.6,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-10",
+      "promotion_date": "2026-03-10",
+      "promotion_reason": "v3_direct_to_testing",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "counter_evidence": "M15信心僅45%，油金比因子降權0.3x表明地緣泡沫風險；若地緣快速緩解，黃金將快速回吐溢價",
+      "key_signals": [
+        "GTS=100 CRITICAL",
+        "M13=BEAR",
+        "黃金20日+3.96%",
+        "VaR=GREEN"
+      ],
+      "max_position_usd": 1500,
+      "risk_reward_ratio": 1.8
+    },
+    {
+      "id": "HYP-20260310-03",
+      "name": "超賣反彈 — 台股AI電子防禦性多頭",
+      "strategy_type": "TW_TECH_OVERSOLD_BOUNCE",
+      "hypothesis_statement": "M11脆弱度從82.5急降至64.5（-18pt），確認超賣反彈格局成立。M15 TW_PMI=55.2強勁擴張。但M13=BEAR封鎖強多頭，Kelly縮半，倉位上限8%。GTS=100 CRITICAL風險乘數1.5x。",
+      "market_condition": "M11脆弱度大幅改善 + M15 TW_PMI強勁 + M13=BEAR壓制 + GTS=100地緣風險",
+      "entry_criteria": "台指期站穩33000且基差收斂至-70以內（現-117pt需改善47pt）",
+      "exit_criteria": "防禦性目標3-5%，止損3%；跌破32500全面退場",
+      "confidence": 0.62,
+      "market_relevance": "HIGH",
+      "status": "TESTING",
+      "target_sample": 5,
+      "created_date": "2026-03-10",
+      "promotion_date": "2026-03-10",
+      "promotion_reason": "v3_direct_to_testing",
+      "source": "AI_AUTO_DISCOVERY",
+      "counter_evidence_checked": true,
+      "counter_evidence": "M13=BEAR禁止追漲，GTS=100任何地緣升級消息觸發瞬間反轉；基差-117pt顯示期現分歧",
+      "key_signals": [
+        "M11脆弱度82.5→64.5",
+        "M15 TW_PMI=55.2",
+        "欣興+9%、台達電+7.17%",
+        "VaR=GREEN"
+      ],
+      "max_position_pct": 8,
+      "kelly_multiplier": 0.5,
+      "target_symbols": [
+        "3037",
+        "2308"
+      ]
+    }
+  ],
+  "last_discovery_run": "2026-03-10",
+  "ic_tracking": {
+    "enabled": true,
+    "last_updated": "2026-03-10 06:24:03",
+    "rolling_window_days": 20,
+    "ic_history": [
+      {
+        "date": "20260310",
+        "IC_today": -0.7968190728895957,
+        "p_value": 0.03192824486163603,
+        "market_return": 2.06,
+        "signal_count": 7,
+        "event": "WAR_DE_ESCALATION_BOUNCE"
+      }
     ],
-    "exit_criteria": [
-      "分批建倉：第一批 30%，M13=BEAR 後加至 60%，M13=NEUTRAL 後滿倉",
-      "長線目標：+30-50%（6-18 個月）",
-      "止損：整體部位虧損 -15% 觸發重新評估",
-      "Berkshire 開始大規模買進同類標的時加速建倉"
-    ],
-    "watchlist_ref": "WL_005 台積電 2330 / WL_003 OXY / WL_001 NVDA",
-    "confidence": 0.72,
-    "market_relevance": "HIGH",
-    "status": "IDEA",
-    "target_sample": 3,
-    "created_date": "2026-03-09",
-    "promotion_date": null,
-    "promotion_reason": null,
-    "source": "WHALE_FUND_13F_ANALYSIS",
-    "counter_evidence_checked": true,
-    "discovery_context": "Buffett Q4 2025 持有 $373B 現金（歷史最高），Abel 接任後清倉 KHC -$2.5B 虧損，繼續增持 OXY/CVX/STZ 防禦性消費。台指今日 -1917 點正是 Buffett 等待的恐慌性拋售環境，但尚未確認底部，故設為 IDEA 等待 M13 轉換後晉升 TESTING。"
+    "current_stats": {
+      "IC_today": -0.7968190728895957,
+      "IC_today_date": "20260310",
+      "IC_mean_20d": -0.7968190728895957,
+      "IC_std_20d": 0.0,
+      "IC_IR": null,
+      "health_status": "GREEN",
+      "data_points": 1,
+      "p_value": 0.03192824486163603,
+      "significant": true
+    }
   }
-]
+}
