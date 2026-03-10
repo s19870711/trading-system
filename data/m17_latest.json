@@ -1,0 +1,22 @@
+{
+  "scan_timestamp_cst": "2026-03-10 17:23:33 CST",
+  "trade_date": "2026-03-10",
+  "session": "盤前掃描 09:05 CST",
+  "data_source": "yfinance 90日日K + data_snapshot_latest.json",
+  "usd_twd_rate": 31.784,
+  "cointegration_filter_summary": {
+    "total_pairs_tested": 9,
+    "passed_pvalue_filter": 1,
+    "rejected_pvalue_filter": 8,
+    "filter_threshold": "EG p-value < 0.05 AND ADF spread p-value < 0.05"
+  },
+  "pairs": [
+    {
+      "pair_name": "ADR套利: 台積電(2330) vs TSM ADR",
+      "ticker_a": "2330.TW",
+      "ticker_b": "TSM",
+      "n_obs": 53,
+      "eg_pvalue": 0.0001,
+      "adf_pvalue": 0.0001,
+      "cointegration_status": "已確認",
+      "cointegrated": 
