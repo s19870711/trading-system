@@ -1,35 +1,53 @@
 {
-  "date": "2026-03-09",
-  "scan_timestamp_cst": "2026-03-09 23:07 CST",
-  "health_score": 99,
+  "date": "2026-03-10",
+  "scan_timestamp_cst": "2026-03-10 22:07 CST",
+  "health_score": 98.8,
   "snapshot_score": 40,
   "error_score": 30,
-  "trigger_score": 29,
-  "trigger_active": 48,
-  "trigger_total": 50,
-  "stale_count": 0,
+  "trigger_score": 28.8,
+  "grade": "EXCELLENT",
+  "action_taken": "SILENT_WRITE",
   "stale_modules": [],
   "fresh_modules": [
-    {"module": "M13", "file": "data/m13_regime_state.json", "age_minutes": 116, "ttl_minutes": 180},
-    {"module": "M15", "file": "data/m15_macro_state.json", "age_minutes": 169, "ttl_minutes": 180},
-    {"module": "DATA_SNAPSHOT", "file": "data/data_snapshot_latest.json", "age_minutes": 43, "ttl_minutes": 480},
-    {"module": "OKX_FUNDING", "file": "data/okx_funding_snapshot.json", "age_minutes": 6, "ttl_minutes": 120},
-    {"module": "GLINT", "file": "data/glint_report_latest.json", "age_minutes": 2, "ttl_minutes": 90}
+    {"module": "M13", "file": "data/m13_regime_state.json", "age_minutes": 61, "ttl_minutes": 120},
+    {"module": "M15", "file": "data/m15_macro_state.json", "age_minutes": 59, "ttl_minutes": 180},
+    {"module": "DataSnapshot", "file": "data/data_snapshot_latest.json", "age_minutes": 6, "ttl_minutes": 480},
+    {"module": "OKX_Funding", "file": "data/okx_funding_snapshot.json", "age_minutes": 18, "ttl_minutes": 480},
+    {"module": "Glint", "file": "data/glint_report_latest.json", "age_minutes": 56, "ttl_minutes": 90}
   ],
+  "stale_count": 0,
+  "fresh_count": 5,
   "error_analysis": {
     "period_hours": 24,
     "total_blocks": 0,
-    "by_root_cause": {"STALE": 0, "CONFLICT": 0, "NETWORK": 0, "NULL_DATA": 0, "EXCHANGE_OUTAGE": 0},
+    "by_root_cause": {
+      "STALE": 0,
+      "CONFLICT": 0,
+      "NETWORK": 0,
+      "NULL_DATA": 0,
+      "EXCHANGE_OUTAGE": 0
+    },
     "top_offender": null,
-    "repeat_failures": [],
-    "repair_recommendations": []
+    "repeat_failures": []
   },
-  "paused_triggers": [
-    "binance-funding-rate-executor-check",
-    "apify-web-scraper-agent-check"
-  ],
+  "trigger_analysis": {
+    "total": 50,
+    "active": 48,
+    "paused": 2,
+    "paused_list": ["-5", "okx-m17-z-score"],
+    "active_ratio": 0.96,
+    "trigger_score": 28.8
+  },
+  "repair_recommendations": [],
   "top_issues": [],
-  "repair_log": [],
-  "action_taken": "SILENT - health_score=99 >= 70, no alert required",
-  "system_status": "HEALTHY"
+  "repair_log": {
+    "actions_taken": [],
+    "note": "All modules FRESH, zero errors in 24h. No repair required."
+  },
+  "score_breakdown": {
+    "snapshot_freshness": "40/40 (stale_count=0)",
+    "error_events": "30/30 (total_blocks=0)",
+    "trigger_uptime": "28.8/30 (active 48/50 = 96%)",
+    "total": "98.8/100"
+  }
 }
